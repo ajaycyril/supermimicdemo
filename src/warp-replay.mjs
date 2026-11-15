@@ -1,4 +1,5 @@
 const colors = ['#5947a4', '#116d79', '#b84d23'];
+const formatGap = cm => cm > 0 && cm < .001 ? cm.toExponential(2) : cm.toFixed(3);
 const labels = ['MuJoCo Warp', 'Native MuJoCo WASM', 'Community world model'];
 const panel = document.getElementById('warp-replay');
 if (panel) loadReplay().catch(() => {
@@ -25,7 +26,7 @@ async function loadReplay() {
   }
   for (const [i, value] of median.entries()) {
     const numbers = i % 2 === 0 ? data.medianOneStep : data.medianOneSecond;
-    value.textContent = numbers[Math.floor(i / 2)].toFixed(3);
+    value.textContent = formatGap(numbers[Math.floor(i / 2)]);
   }
 
   function draw() {
@@ -33,6 +34,7 @@ async function loadReplay() {
     const frame = run.frames[Number(scrub.value)];
     c.fillStyle = '#f8f7f3';
     c.fillRect(0, 0, canvas.width, canvas.height);
+    const [originX, originY] = run.frames[0].bodies[0].slice(3, 5);
     for (const [side, positions] of frame.bodies.entries()) {
       const center = 180 + side * 360;
       c.strokeStyle = '#dbe3df';
@@ -50,7 +52,7 @@ async function loadReplay() {
       c.lineCap = 'round';
       const point = i => {
         const [x,y,z] = positions.slice(i * 3, i * 3 + 3);
-        return [center + 205 * (y + .65 * x), 298 - 220 * z];
+        return [center + 180 * (y - originY + .65 * (x - originX)), 298 - 220 * z];
       };
       for (const [i, parent] of data.parents.entries()) {
         if (!i || !parent) continue;
@@ -61,7 +63,7 @@ async function loadReplay() {
       }
     }
     time.value = `${frame.t.toFixed(2)} s`;
-    for (const [i, value] of values.entries()) value.textContent = frame.gaps[i].toFixed(3);
+    for (const [i, value] of values.entries()) value.textContent = formatGap(frame.gaps[i]);
   }
 
   function stop() {

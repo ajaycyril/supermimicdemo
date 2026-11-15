@@ -28,6 +28,7 @@ def render(case, i):
     label(draw, (25, 19), "Same commands. Three predictions.", 33, 1)
     label(draw, (25, 66), f"Recorded G1 models   |   Warp starting state at {case['anchor'] * data['timestep']:.2f} s", 17, 2)
     label(draw, (875, 68), f"{frame['t']:.2f} s", 19, 1, "ra")
+    origin_x, origin_y = case["frames"][0]["bodies"][0][3:5]
     for side, bodies in enumerate(frame["bodies"]):
         center = 150 + 300 * side
         color = 4 + side
@@ -35,7 +36,7 @@ def render(case, i):
         draw.line((center-120, 330, center+120, 330), fill=3, width=2)
         def point(j):
             x, y, z = bodies[j*3:j*3+3]
-            return center + 180 * (y + .65*x), 330 - 180*z
+            return center + 150 * (y-origin_y + .65*(x-origin_x)), 330 - 180*z
         for j, parent in enumerate(data["parents"]):
             if j and parent:
                 a, b = point(parent), point(j)
@@ -52,10 +53,13 @@ def render(case, i):
     label(draw, (25, 375), "Root-position gap (cm)", 19, 1)
     for j, (pair, color) in enumerate(zip(pairs, (6, 5, 4))):
         points = [(86 + 421*k/50, bottom-(bottom-top)*f["gaps"][j]/scale) for k, f in enumerate(case["frames"][:i+1])]
-        if len(points) > 1:
+        if j == 1:
+            for k in range(0, len(points)-1, 4):
+                draw.line(points[k:k+3], fill=color, width=2)
+        elif len(points) > 1:
             draw.line(points, fill=color, width=3)
         label(draw, (543, 408+j*35), pair, 17, color)
-        label(draw, (875, 408+j*35), f"{frame['gaps'][j]:.2f} cm", 17, color, "ra")
+        label(draw, (875, 408+j*35), f"{frame['gaps'][j]:.{4 if frame['gaps'][j] < .01 else 2}f} cm", 17, color, "ra")
     label(draw, (25, 531), "Numerical comparison. Physical G1 measurements would provide a real-world reference.", 15, 2)
     return image
 

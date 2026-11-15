@@ -3,7 +3,7 @@
 ## Passed
 
 - Six math tests: feature layout, heading invariance, body-frame quaternion integration, semi-implicit integration order, quaternion sign equivalence, deterministic command noise.
-- Export from the exact 223,470,223-byte released checkpoint, checked against its published SHA-256.
+- Export from the exact 223,470,223-byte released checkpoint, checked against the SHA-256 pinned in this project's exporter.
 - Three ONNX Runtime WASM output comparisons against independent scalar evaluation of the original float32 layer weights. Maximum absolute difference: **0.0000052452**. This is not a claim of running the original PyTorch training code.
 - MuJoCo WASM 3.16: expected state dimensions 36 / 35 and 29 position actuators; finite simulated states.
 - Six four-second desktop Chrome experiments, each 200 transitions plus its initial frame, with real MuJoCo and ONNX inference. All completed without an early stop or non-finite state.
@@ -17,4 +17,4 @@ No trained policy is run, no model is trained, and no physical robot is tested. 
 
 ## Publishing
 
-Repository: `ajaycyril/supermimicdemo`. Source and captures are prepared for the included GitHub Actions / Pages workflow. Remote deployment status is recorded in the delivery message; local checks above are already complete.
+Repository: `ajaycyril/supermimicdemo`. The first GitHub Actions build and Pages deployment succeeded on 15 November 2026. The published site loaded both engines and completed the four-second comparison in Chrome. The article and demo were checked at desktop and 390-pixel mobile widths. A mobile review caught a slider-label update selecting the label instead of its output; the selector was corrected to preserve each control's name.

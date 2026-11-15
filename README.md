@@ -2,9 +2,10 @@
 
 A browser experiment by Ajay Cyril: compare a learned robot world model with MuJoCo under the same initial state and motor commands. Change the inputs, inspect prediction drift, and export GIFs plus their evidence.
 
-**Status:** locally implemented and tested, with six recorded experiments and GIFs. GitHub Pages deployment is configured in the included workflow. See `docs/VALIDATION.md` for verification scope.
+**Live on GitHub Pages.** Six recorded experiments, seven article GIFs, and a reproducible build that verifies the released model before deployment. See `docs/VALIDATION.md` for verification scope.
 
-- Intended demo: https://ajaycyril.github.io/supermimicdemo/
+- Demo: https://ajaycyril.github.io/supermimicdemo/
+- Illustrated article: https://ajaycyril.github.io/supermimicdemo/article.html
 - Article draft: [article/substack-draft.md](article/substack-draft.md)
 - [Method and limitations](docs/METHOD.md)
 - [Project plan](docs/PLAN.md)

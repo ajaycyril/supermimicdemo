@@ -1,6 +1,6 @@
 # SuperMimic × MuJoCo
 
-A closer look at how learned dynamics can train a robot controller, and how that differs from physics simulation, imagined experience and model-based planning.
+A visual explanation of SuperMimic’s training loop, with an independent experiment measuring prediction drift against MuJoCo Warp and native MuJoCo.
 
 **[Explore the comparison](https://ajaycyril.github.io/supermimicdemo/)** · **[Read the article](https://ajaycyril.github.io/supermimicdemo/article.html)**
 
@@ -14,7 +14,7 @@ The demo compares the community learned model with MuJoCo Warp and native MuJoCo
 
 The browser comparison runs MuJoCo and the released neural dynamics model locally. Adjust motion, frequency, friction, command noise and state refresh while it runs. Pause, advance one step, slow the view to 0.1×, or replay a recorded trajectory. Recordings retain the applied control changes.
 
-The [article](article/article.md) compares SuperMimic with SONIC and differentiable physics, explains the role of MuJoCo Warp, and describes how to use matched Warp rollouts and hardware measurements to resolve the observed disagreements.
+The [article](article/article.md), “One GPU, three hours. How SuperMimic makes robots learn faster,” explains the architecture, the gradient path and the evidence behind the training claims. It includes original diagrams and a downloadable Substack package.
 
 [Study data](article/warp-horizons.json.gz) · [Methodology](docs/METHOD.md) · [Study implementation](tools/warp-study.mjs)
 

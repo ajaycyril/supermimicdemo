@@ -26,6 +26,6 @@ for block in md.strip().split('\n\n'):
             tag='th' if i==0 else 'td';out+='<tr>'+''.join(f'<{tag}>{inline(v.strip())}</{tag}>' for v in row.strip('|').split('|'))+'</tr>'
         parts.append(out+'</table>')
     else:parts.append('<p>'+inline(block.replace('\n',' '))+'</p>')
-page='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SuperMimic, SONIC and my browser experiment · Ajay Cyril</title><link rel="stylesheet" href="style.css"></head><body><header><a class="brand" href="./"><span class="mark">D</span> DIGDEEP / ARTICLES</a><nav><a href="./">Try the experiment ↗</a></nav></header><main><article class="article"><p class="eyebrow">AJAY CYRIL · PHYSICAL AI EXPERIMENTS</p>'+''.join(parts)+'</article></main></body></html>'
+page='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SuperMimic: why the gradient matters · Ajay Cyril</title><link rel="stylesheet" href="style.css"></head><body><header><a class="brand" href="./"><span class="mark">D</span> DIGDEEP / ARTICLES</a><nav><a href="./">Try the experiment ↗</a></nav></header><main><article class="article"><p class="eyebrow">AJAY CYRIL · PHYSICAL AI EXPERIMENTS</p>'+''.join(parts)+'</article></main></body></html>'
 (root/'article.html').write_text(page)
 print('Rendered article')

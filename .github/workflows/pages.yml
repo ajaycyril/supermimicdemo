@@ -1,7 +1,22 @@
-name: Prepare and deploy
+name: Publish site
 on:
   push:
     branches: [main]
+    paths:
+      - 'index.html'
+      - 'article.html'
+      - 'style.css'
+      - 'src/**'
+      - 'article/**'
+      - 'docs/METHOD.md'
+      - 'docs/licenses/**'
+      - 'package.json'
+      - 'scripts/export_model.py'
+      - 'tools/build.mjs'
+      - 'tools/build_robot.py'
+      - 'tools/upstream-g1.xml'
+      - 'tools/build_article.py'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,34 +26,68 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
-  build:
+  publish:
+    if: github.event.repository.private == false
     runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: npm install --ignore-scripts
-      - name: Prepare released dynamics model
+      - name: Restore dependencies
+        id: dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: linux-node22-dependencies-${{ hashFiles('package.json') }}
+      - if: steps.dependencies.outputs.cache-hit != 'true'
+        run: npm install --ignore-scripts
+      - name: Restore prepared model
+        id: model
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist/assets/world-model.onnx
+            dist/assets/model-manifest.json
+            dist/assets/parity-fixtures.json
+          key: dynamics-export-${{ hashFiles('scripts/export_model.py') }}
+      - if: steps.model.outputs.cache-hit != 'true'
+        name: Prepare model
         run: python3 scripts/export_model.py --download
-      - run: npm test
+      - name: Check changed files
+        id: changes
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          EVENT_NAME: ${{ github.event_name }}
+        shell: bash
+        run: |
+          if [ "$EVENT_NAME" != "push" ] || ! git cat-file -e "$BEFORE_SHA^{commit}" 2>/dev/null; then
+            echo "runtime=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$BEFORE_SHA" "$GITHUB_SHA" -- src scripts tests tools/build.mjs tools/build_robot.py tools/upstream-g1.xml tools/verify.mjs package.json; then
+            echo "runtime=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "runtime=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.changes.outputs.runtime == 'true' || steps.model.outputs.cache-hit != 'true'
+        run: npm test
       - run: npm run build
-      - name: Verify actual model and simulator
+      - if: steps.changes.outputs.runtime == 'true' || steps.model.outputs.cache-hit != 'true'
+        name: Verify model and simulator
         run: node tools/verify.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy GitHub Pages
+          retention-days: 1
+      - name: Publish
         id: deployment
         uses: actions/deploy-pages@v4

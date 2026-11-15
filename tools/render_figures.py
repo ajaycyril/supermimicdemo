@@ -1,4 +1,4 @@
-"""Render measured prediction-horizon figures from the checked-in study data."""
+"""Render measured prediction figures and the conceptual gradient illustration."""
 import json
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
@@ -52,4 +52,43 @@ for name,render in [('horizon',horizon),('state-check',subset)]:
  frames=[render(i) for i in range(5)]
  frames[-1].save(ROOT/'work'/f'{name}.png')
  frames[0].save(ROOT/'article/gifs'/f'{name}.gif',save_all=True,append_images=frames[1:],duration=[1400]*5,loop=0,optimize=False)
-print('Rendered horizon.gif and state-check.gif from measured data')
+def arrow(d,a,b,color,width=5):
+ import math
+ d.line((*a,*b),fill=color,width=width)
+ angle=math.atan2(b[1]-a[1],b[0]-a[0]);length=13
+ d.polygon([b,(b[0]-length*math.cos(angle-.5),b[1]-length*math.sin(angle-.5)),(b[0]-length*math.cos(angle+.5),b[1]-length*math.sin(angle+.5))],fill=color)
+def centered(d,x,y,s,size,color=INK):
+ d.text((x,y),s,font=font(size),fill=color,anchor='mt')
+def gradient(phase,progress):
+ im,d=base('How a consequence reaches the controller','A differentiable world model connects actions to a training objective')
+ titles=['1  Predict the consequences','2  Differentiate through the prediction','3  Update the policy']
+ text(d,(48,135),titles[phase],30,TEAL if phase==0 else ORANGE)
+ centers=[145,382,619,856];labels=['Policy','Motor command','World model','Objective']
+ details=[['Chooses actions'],['Moves the joints'],['Predicts next state'],['Scores the motion']]
+ for i,x in enumerate(centers):
+  active=phase==2 and i==0
+  d.rounded_rectangle((x-100,218,x+100,358),radius=16,fill=TEAL if active else '#ffffff',outline=TEAL if active else GRID,width=2)
+  centered(d,x,245,labels[i],25,'#ffffff' if active else INK)
+  centered(d,x,285,details[i][0],19,'#e4f0eb' if active else MUTED)
+  if i==2:centered(d,x,321,'Weights fixed here',18,ORANGE)
+ for i in range(3):arrow(d,(centers[i]+103,286),(centers[i+1]-103,286),TEAL if phase==0 else GRID,4)
+ if phase==0:
+  x=145+711*progress;d.ellipse((x-7,198,x+7,212),fill=TEAL)
+  centered(d,500,431,'Repeat across a short imagined trajectory.',26)
+  centered(d,500,475,'The model predicts what the policy would cause.',24,MUTED)
+ else:
+  for x in centers:d.line((x,362,x,427),fill=ORANGE if phase==1 else GRID,width=3)
+  for i in range(3,0,-1):arrow(d,(centers[i],427),(centers[i-1],427),ORANGE if phase==1 else GRID,4)
+  arrow(d,(145,427),(145,363),ORANGE if phase==1 else GRID,4)
+  if phase==1:
+   x=856-711*progress;d.ellipse((x-8,419,x+8,435),fill=INK)
+  centered(d,500,475,'Derivatives pass through fixed model weights.' if phase==1 else 'Change the controller using that sensitivity.',26)
+  centered(d,500,520,'How would a small action change alter the objective?' if phase==1 else 'Model fitting is a separate learning step.',23,MUTED)
+ d.line((48,583,952,583),fill=GRID,width=2)
+ text(d,(48,607),'Conceptual illustration · not measured gradients',21,MUTED)
+ text(d,(48,640),'SuperMimic: policy update through learned dynamics',17,MUTED)
+ return im
+frames=[gradient(phase,i/11) for phase in range(3) for i in range(12)]
+frames[18].save(ROOT/'work/gradient-flow.png')
+frames[0].save(ROOT/'article/gifs/gradient-flow.gif',save_all=True,append_images=frames[1:],duration=240,loop=0,optimize=True)
+print('Rendered measured horizon figures and conceptual gradient-flow.gif')

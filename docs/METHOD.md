@@ -30,7 +30,16 @@ The simulation uses implicitfast integration, Newton solver, pyramidal contact c
 
 After each 0.02 s transition, compute root-position Euclidean distance in metres, joint-angle RMSE over all 29 joints in degrees, and shortest quaternion orientation angle. Plot root distance against simulated time. Stop on non-finite state or positions outside the 10 m display boundary; preserve and disclose the stopping reason.
 
-GIFs replay computed frames at half speed. Exported JSON contains every full state, action, error, settings, model provenance and timings. CSV contains errors only. Rendering and GIF encoding are excluded from engine timing. The first five transitions are excluded as warmup. These small single-browser timings cannot substantiate or refute the paper’s large-batch GPU speedup.
+New comparisons run at the selected viewing speed, defaulting to one-quarter speed; changing viewing speed does not change the physics timestep. Motion amplitude, frequency, noise, friction and refresh interval can change during a run. Each applied change is stored with its simulation step. Starting velocity, seed and duration are fixed for each run. GIF downloads use the selected viewing speed; JSON retains full state and controls; CSV contains measurements and applied controls.
+
+## Prediction-horizon study
+
+Eight reference MuJoCo trajectories use seeds 1–8, a 0.2-amplitude, 0.5 Hz shoulder script, noise standard deviation 0.05, friction 1.0 and zero initial forward velocity. Each reference is four seconds long. Prediction windows begin every 0.2 seconds from 0 through 3 seconds, giving 16 windows per trajectory and 128 total.
+
+Each window starts from its reference MuJoCo state. The learned model predicts independently for 50 transitions, using the exact saved reference commands. Root-position and joint errors are recorded at 1, 5, 10, 25 and 50 steps (20 ms to 1 second). The model is not refreshed inside the window. Reported percentiles use linear interpolation over sorted observations.
+
+The 56-window higher-root subset selects anchor states with root height above 0.6 m. This is a starting-height filter, not a test of stable standing. Windows overlap and share eight reference trajectories; they are correlated. Falls and ground contacts are included. The figures show the actual measurements in `article/horizon-study.json`; they do not measure policy performance or gradient accuracy.
+
 
 ## Reading a failure
 

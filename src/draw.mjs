@@ -18,15 +18,15 @@ export function draw(canvas,frame,parents,meta={}) {
     c.globalAlpha=1;
     const geometry=side?frame.wmGeometry:frame.simGeometry;
     if(geometry)for(const g of [...geometry].sort((a,b)=>(a.a[0]+a.a[1])-(b.a[0]+b.a[1]))){const a=project(g.a,cx),b=project(g.b,cx);c.lineWidth=Math.max(2,2*g.r*H*.43);c.strokeStyle=color;c.beginPath();c.moveTo(...a);c.lineTo(...b);c.stroke();if(Math.hypot(a[0]-b[0],a[1]-b[1])<1){c.beginPath();c.arc(a[0],a[1],c.lineWidth/2,0,Math.PI*2);c.fill();}c.strokeStyle='#ffffff35';c.lineWidth=Math.max(1,g.r*H*.12);c.beginPath();c.moveTo(a[0]-2,a[1]-2);c.lineTo(b[0]-2,b[1]-2);c.stroke();}
-  } else {c.fillStyle=palette.muted;c.font=`${W*.017}px system-ui`;c.textAlign='center';c.fillText('Load engines to begin',cx,H*.53);}
+  } else {c.fillStyle=palette.muted;c.font=`${W*.017}px system-ui`;c.textAlign='center';c.fillText('Start comparison',cx,H*.53);}
   c.restore();
   c.fillStyle=side?palette.model:palette.physics;c.font=`600 ${W*.018}px system-ui`;c.textAlign='center';c.fillText(side?'WORLD MODEL':'MUJOCO PHYSICS',cx,top+H*.035);
  });
  c.textAlign='left';c.strokeStyle=palette.grid;c.beginPath();c.moveTo(W*.5,top+H*.07);c.lineTo(W*.5,H*.82);c.stroke();
  c.fillStyle=palette.ink;c.font=`500 ${W*.017}px system-ui`;
  const e=frame?.error;c.fillText(`t = ${(frame?.t||0).toFixed(2)} s`,W*.035,H*.9);
- c.fillText(e?`Root gap ${(e.root*100).toFixed(1)} cm · Joint error ${e.joint.toFixed(1)}°`:'Real model outputs appear here after loading.',W*.21,H*.9);
- c.font=`${W*.012}px system-ui`;c.fillStyle=palette.muted;c.fillText('SuperMimic Prediction Lab · community checkpoint · schematic body frames',W*.035,H*.96);
+ c.fillText(e?`Root gap ${(e.root*100).toFixed(1)} cm · Joint error ${e.joint.toFixed(1)}°`:'Same starting state, independent predictions.',W*.21,H*.9);
+ c.font=`${W*.012}px system-ui`;c.fillStyle=palette.muted;c.fillText('SuperMimic × MuJoCo · learned dynamics / simulated physics',W*.035,H*.96);
  if(frame?.corrected){c.fillStyle=palette.model;c.textAlign='right';c.fillText('State refreshed from MuJoCo',W*.965,H*.96);c.textAlign='left';}
 }
 export function chart(canvas,frames,at=frames.length-1){

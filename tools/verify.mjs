@@ -31,3 +31,26 @@ for(const [name,correction,friction,noise,push] of [['one-step',1,1,0,0],['drift
 }
 await writeFile('docs/validation-results.json',JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));data.delete();model.delete();await net.release();
+
+// Exercise the same engine used by the browser with controls changed mid-run.
+const originalFetch=globalThis.fetch;
+try{
+ globalThis.fetch=async(url,options)=>typeof url==='string'&&url.startsWith('assets/')?new Response(await readFile('dist/'+url)):originalFetch(url,options);
+ const {LabEngine}=await import('../dist/src/engine.mjs');
+ const engine=new LabEngine();await engine.load();
+ const cfg={lesson:'live-control-check',title:'Live controls',seed:42,duration:.12,amplitude:.2,noise:0,frequency:.5,friction:1,push:0,correction:0};
+ const live=await engine.run(cfg,()=>{},()=>false,{controls:k=>k>=3?{friction:.3,amplitude:.7,frequency:1,correction:1}:{}});
+ assert.equal(live.frames.length,7);
+ assert.equal(live.controlChanges.length,2);
+ assert.equal(live.controlChanges[1].step,3);
+ assert.equal(live.frames[3].controls.friction,1);
+ assert.equal(live.frames[4].controls.friction,.3);
+ assert.equal(live.frames[4].corrected,true);
+ const expectedAction=actionAt(3,engine.robot.joints,.7,0,seededRandom(42),1);
+ assert.deepEqual(live.frames[4].action,Array.from(expectedAction));
+ for(let i=0;i<engine.model.ngeom;i++)if(engine.model.geom_priority[i]===1)assert.ok(Math.abs(engine.model.geom_friction[i*3]-.3)<1e-6);
+ const stopped=await engine.run(cfg,()=>{},()=>true);
+ assert.equal(stopped.frames.length,1);assert.equal(stopped.stopReason,'Stopped by user');
+ engine.data.delete();engine.visual.delete();engine.model.delete();await engine.session.release();
+ console.log('Browser engine: live settings, per-frame recording, shared commands and cancellation verified.');
+}finally{globalThis.fetch=originalFetch;}

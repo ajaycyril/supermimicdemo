@@ -35,8 +35,8 @@ export function errors(a,b) {
 }
 export function seededRandom(seed=42){let n=seed>>>0;return()=>{n=(1664525*n+1013904223)>>>0;return(n+.5)/4294967296;};}
 export function gaussian(rng){return Math.sqrt(-2*Math.log(rng()))*Math.cos(2*Math.PI*rng());}
-export function actionAt(step,joints,amplitude,noise,rng) {
+export function actionAt(step,joints,amplitude,noise,rng,frequency=.5) {
   // A deliberately simple probe, not a trained policy. Both engines get identical samples.
-  const wave=Math.sin(2*Math.PI*.5*step*DT);
+  const wave=Math.sin(2*Math.PI*frequency*step*DT);
   return Float32Array.from(joints.map(j=>(j.name.includes('shoulder_pitch')?amplitude*wave:0)+noise*gaussian(rng)));
 }

@@ -1,0 +1,5842 @@
+{
+  "schema": 1,
+  "checkpoint": "0527bab674556f48eaa7d3a27d650d1d14986019fc982d8acecbf6da75bc5ea6",
+  "onnxSha256": "388cef8e5e7591a9cd1caf2e3883c8ab4782d2dcb908fe23c95be4ce4247a1f1",
+  "method": "Each window starts from a MuJoCo state. The world model independently predicts the next 1–50 transitions using the identical saved commands. Errors are measured against MuJoCo at each horizon; no state refresh occurs inside a window.",
+  "settings": {
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "referenceSeconds": 4,
+    "anchorIntervalSeconds": 0.2,
+    "anchorRangeSeconds": [
+      0,
+      3
+    ],
+    "amplitude": 0.2,
+    "frequency": 0.5,
+    "noise": 0.05,
+    "friction": 1
+  },
+  "limits": [
+    "Scripted shoulder movement, not a trained policy.",
+    "128 overlapping windows from 8 seeded trajectories, not 128 independent trials.",
+    "Reference trajectories include falling and ground-contact states. High-root subset means anchor root height >0.6 m; it does not guarantee stable standing.",
+    "Native MuJoCo WASM differs from the training Warp backend.",
+    "No training, throughput, SONIC-policy or physical-robot benchmark."
+  ],
+  "summary": {
+    "all": [
+      {
+        "steps": 1,
+        "seconds": 0.02,
+        "count": 128,
+        "medianRootCm": 0.11887790128975514,
+        "p10RootCm": 0.061573253868516004,
+        "p90RootCm": 0.20069305360695303,
+        "maxRootCm": 0.34203112142699416,
+        "meanRootCm": 0.13084767448558754,
+        "medianJointDeg": 0.20442757049870458
+      },
+      {
+        "steps": 5,
+        "seconds": 0.1,
+        "count": 128,
+        "medianRootCm": 1.0199115153995577,
+        "p10RootCm": 0.10372279079146472,
+        "p90RootCm": 1.2627479813183184,
+        "maxRootCm": 1.8361749022851352,
+        "meanRootCm": 0.7493704340016695,
+        "medianJointDeg": 1.0609543474675256
+      },
+      {
+        "steps": 10,
+        "seconds": 0.2,
+        "count": 128,
+        "medianRootCm": 1.863227429041617,
+        "p10RootCm": 0.22307716637946548,
+        "p90RootCm": 2.767897986074048,
+        "maxRootCm": 6.587571589254498,
+        "meanRootCm": 1.6587019958640319,
+        "medianJointDeg": 1.7347592175830484
+      },
+      {
+        "steps": 25,
+        "seconds": 0.5,
+        "count": 128,
+        "medianRootCm": 3.748468123160219,
+        "p10RootCm": 0.8413464051792424,
+        "p90RootCm": 7.797492272025113,
+        "maxRootCm": 14.753464782615428,
+        "meanRootCm": 4.151472921168944,
+        "medianJointDeg": 2.2811243270394597
+      },
+      {
+        "steps": 50,
+        "seconds": 1,
+        "count": 128,
+        "medianRootCm": 8.121474101890577,
+        "p10RootCm": 3.8331029951256896,
+        "p90RootCm": 14.394064370709511,
+        "maxRootCm": 16.671035827159734,
+        "meanRootCm": 8.371824122184147,
+        "medianJointDeg": 2.4797851372512234
+      }
+    ],
+    "highRoot": [
+      {
+        "steps": 1,
+        "seconds": 0.02,
+        "count": 56,
+        "medianRootCm": 0.08065048429676747,
+        "p10RootCm": 0.04953193470469705,
+        "p90RootCm": 0.10503149109886337,
+        "maxRootCm": 0.14183866430709047,
+        "meanRootCm": 0.07923776937435703,
+        "medianJointDeg": 0.04536503745507002
+      },
+      {
+        "steps": 5,
+        "seconds": 0.1,
+        "count": 56,
+        "medianRootCm": 0.11824967486643019,
+        "p10RootCm": 0.09738443179210313,
+        "p90RootCm": 0.6231564554617381,
+        "maxRootCm": 0.9016393650224978,
+        "meanRootCm": 0.2285009882167919,
+        "medianJointDeg": 0.15552168804057387
+      },
+      {
+        "steps": 10,
+        "seconds": 0.2,
+        "count": 56,
+        "medianRootCm": 0.28326055255136207,
+        "p10RootCm": 0.21207786621499208,
+        "p90RootCm": 1.8160396177497393,
+        "maxRootCm": 2.0096951053465024,
+        "meanRootCm": 0.6904383766605573,
+        "medianJointDeg": 0.3426106795920561
+      },
+      {
+        "steps": 25,
+        "seconds": 0.5,
+        "count": 56,
+        "medianRootCm": 1.1361228867559334,
+        "p10RootCm": 0.739269277623915,
+        "p90RootCm": 13.678673658166277,
+        "maxRootCm": 14.753464782615428,
+        "meanRootCm": 3.7651886791759996,
+        "medianJointDeg": 1.9860519354130592
+      },
+      {
+        "steps": 50,
+        "seconds": 1,
+        "count": 56,
+        "medianRootCm": 7.554024746050409,
+        "p10RootCm": 3.3544650478380413,
+        "p90RootCm": 15.22510275796061,
+        "maxRootCm": 16.671035827159734,
+        "meanRootCm": 8.72466410086764,
+        "medianJointDeg": 3.668167104406247
+      }
+    ],
+    "lowRoot": [
+      {
+        "steps": 1,
+        "seconds": 0.02,
+        "count": 72,
+        "medianRootCm": 0.16025741661867188,
+        "p10RootCm": 0.11688709858390826,
+        "p90RootCm": 0.26036517591949293,
+        "maxRootCm": 0.34203112142699416,
+        "meanRootCm": 0.1709887117943224,
+        "medianJointDeg": 0.2201390922831784
+      },
+      {
+        "steps": 5,
+        "seconds": 0.1,
+        "count": 72,
+        "medianRootCm": 1.169170001147715,
+        "p10RootCm": 1.0045700587155613,
+        "p90RootCm": 1.492357155374708,
+        "maxRootCm": 1.8361749022851352,
+        "meanRootCm": 1.1544911140565743,
+        "medianJointDeg": 1.2208488538293853
+      },
+      {
+        "steps": 10,
+        "seconds": 0.2,
+        "count": 72,
+        "medianRootCm": 1.980435258002749,
+        "p10RootCm": 1.7534920854469114,
+        "p90RootCm": 5.125600311243025,
+        "maxRootCm": 6.587571589254498,
+        "meanRootCm": 2.41179592191118,
+        "medianJointDeg": 1.9704806083343407
+      },
+      {
+        "steps": 25,
+        "seconds": 0.5,
+        "count": 72,
+        "medianRootCm": 4.115935331302465,
+        "p10RootCm": 2.9341715974946263,
+        "p90RootCm": 6.256478879743578,
+        "maxRootCm": 10.367953224119793,
+        "meanRootCm": 4.451916220496792,
+        "medianJointDeg": 2.33463978140416
+      },
+      {
+        "steps": 50,
+        "seconds": 1,
+        "count": 72,
+        "medianRootCm": 8.310786135133586,
+        "p10RootCm": 6.125273899443411,
+        "p90RootCm": 9.778455237355983,
+        "maxRootCm": 10.643535443984554,
+        "meanRootCm": 8.09739302765254,
+        "medianJointDeg": 2.370214560541448
+      }
+    ]
+  },
+  "windows": [
+    {
+      "seed": 1,
+      "anchorStep": 0,
+      "anchorSeconds": 0,
+      "rootHeightM": 0.76,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.10220125830031862,
+          "jointDeg": 0.14989760564104312,
+          "orientationDeg": 0.06402162686611892
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11538083484804518,
+          "jointDeg": 0.16625565889599764,
+          "orientationDeg": 0.13196554011577155
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.26758883087283714,
+          "jointDeg": 0.21039830265256085,
+          "orientationDeg": 0.09010686809509884
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.120944683964037,
+          "jointDeg": 0.4885138059922911,
+          "orientationDeg": 0.8226223061156999
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.8408132278435323,
+          "jointDeg": 2.1479827472671817,
+          "orientationDeg": 6.091005910180408
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 10,
+      "anchorSeconds": 0.2,
+      "rootHeightM": 0.737096544827379,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.05940154332642777,
+          "jointDeg": 0.037675492952217025,
+          "orientationDeg": 0.01722957256386339
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.10233093373606278,
+          "jointDeg": 0.10868026121041911,
+          "orientationDeg": 0.07671328519646599
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.26265837044097534,
+          "jointDeg": 0.17954026184752722,
+          "orientationDeg": 0.25575578682755284
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.0437821768237676,
+          "jointDeg": 0.5733757387961037,
+          "orientationDeg": 1.3625009620560085
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.655286892024946,
+          "jointDeg": 3.4668563806985744,
+          "orientationDeg": 9.489380928899944
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 20,
+      "anchorSeconds": 0.4,
+      "rootHeightM": 0.7366511080279383,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.04900128014228587,
+          "jointDeg": 0.03350624825715483,
+          "orientationDeg": 0.03358645916398371
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.10636720635652515,
+          "jointDeg": 0.11287907316766843,
+          "orientationDeg": 0.07112613972284522
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2235409646519001,
+          "jointDeg": 0.1875695467917304,
+          "orientationDeg": 0.26083848990284203
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.7848150086912954,
+          "jointDeg": 1.0627984170344615,
+          "orientationDeg": 1.6658184327974008
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.336456880781403,
+          "jointDeg": 3.6919256466288872,
+          "orientationDeg": 10.122978399857233
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 30,
+      "anchorSeconds": 0.6,
+      "rootHeightM": 0.7286892771410672,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06998561526391547,
+          "jointDeg": 0.029978406515652593,
+          "orientationDeg": 0.017994430479515086
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.1026292866361814,
+          "jointDeg": 0.11873132079242885,
+          "orientationDeg": 0.11894020330572307
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.21574962827323163,
+          "jointDeg": 0.32224088457861216,
+          "orientationDeg": 0.3895744382257621
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.758697547393462,
+          "jointDeg": 1.9904553744823172,
+          "orientationDeg": 3.5785655148364883
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 5.741213620329923,
+          "jointDeg": 21.155351753181066,
+          "orientationDeg": 4.420485847873414
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 40,
+      "anchorSeconds": 0.8,
+      "rootHeightM": 0.7151699334791579,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.07411852215783987,
+          "jointDeg": 0.047720218571678345,
+          "orientationDeg": 0.0477665015701791
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.12123045329847486,
+          "jointDeg": 0.233429518209952,
+          "orientationDeg": 0.09594096683911238
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.38960792457644283,
+          "jointDeg": 0.6314200872647935,
+          "orientationDeg": 0.6226732253073551
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.503696573420704,
+          "jointDeg": 2.957009422230625,
+          "orientationDeg": 4.639363446367274
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 14.850864684271242,
+          "jointDeg": 21.516656339353588,
+          "orientationDeg": 21.040432596910076
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 50,
+      "anchorSeconds": 1,
+      "rootHeightM": 0.687524012553263,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08928666201113308,
+          "jointDeg": 0.11793593120362078,
+          "orientationDeg": 0.04940998468399386
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.4891593766898933,
+          "jointDeg": 0.49267764837902495,
+          "orientationDeg": 0.82431212951784
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.6591706788572216,
+          "jointDeg": 1.071564637294478,
+          "orientationDeg": 1.4292934262071746
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 6.545439989370787,
+          "jointDeg": 9.173701292683138,
+          "orientationDeg": 9.399511016791333
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 14.876227459639052,
+          "jointDeg": 7.989298643640721,
+          "orientationDeg": 8.054684991052541
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 60,
+      "anchorSeconds": 1.2,
+      "rootHeightM": 0.6380721634474855,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.0835371732074891,
+          "jointDeg": 0.3323451520104058,
+          "orientationDeg": 0.08870213616001783
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.3034457415245352,
+          "jointDeg": 0.6900190682194486,
+          "orientationDeg": 0.8420114754752694
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.5437888307670244,
+          "jointDeg": 1.4085299124595412,
+          "orientationDeg": 2.362032168995316
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 14.294832048806363,
+          "jointDeg": 17.63548151795337,
+          "orientationDeg": 10.14379668632553
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 13.115256480570881,
+          "jointDeg": 2.81706959705422,
+          "orientationDeg": 9.715762068026287
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 70,
+      "anchorSeconds": 1.4000000000000001,
+      "rootHeightM": 0.4782282248676084,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.26416723175937673,
+          "jointDeg": 0.6344646327925749,
+          "orientationDeg": 0.23009741738899925
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.5465007332775675,
+          "jointDeg": 8.411471110368575,
+          "orientationDeg": 3.9434591151624914
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 5.448773237063433,
+          "jointDeg": 18.011215226547954,
+          "orientationDeg": 3.310687526787577
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 9.943574296531727,
+          "jointDeg": 6.6989612332773385,
+          "orientationDeg": 8.783825678952601
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.596091986477976,
+          "jointDeg": 2.63478893677498,
+          "orientationDeg": 10.488941365904477
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 80,
+      "anchorSeconds": 1.6,
+      "rootHeightM": 0.10763469100492758,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.2882709759653007,
+          "jointDeg": 1.6806843601218113,
+          "orientationDeg": 1.0556398316133067
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1868311329007706,
+          "jointDeg": 3.546679156199352,
+          "orientationDeg": 1.5993240644623405
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.917720913509476,
+          "jointDeg": 3.125714588137016,
+          "orientationDeg": 4.347741498795119
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.4675913117877317,
+          "jointDeg": 2.3143995660154877,
+          "orientationDeg": 6.580507364129679
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.759211645561594,
+          "jointDeg": 2.612788194893296,
+          "orientationDeg": 5.116705201172043
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 90,
+      "anchorSeconds": 1.8,
+      "rootHeightM": 0.13237269513083139,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06162977604963407,
+          "jointDeg": 0.350706392015298,
+          "orientationDeg": 0.9476518556714849
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.0709739689602604,
+          "jointDeg": 1.4591474610597277,
+          "orientationDeg": 3.0411979038156387
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.6787626626264935,
+          "jointDeg": 1.9194873900093468,
+          "orientationDeg": 6.404797683112295
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 5.442100773893363,
+          "jointDeg": 2.5444356205729433,
+          "orientationDeg": 5.247750029541219
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 10.503206190272879,
+          "jointDeg": 2.5039108829365624,
+          "orientationDeg": 5.090072829483873
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 100,
+      "anchorSeconds": 2,
+      "rootHeightM": 0.13292422763515924,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.14323042122770674,
+          "jointDeg": 0.19985512155277213,
+          "orientationDeg": 0.13703114859581722
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.159539019679352,
+          "jointDeg": 1.056233564265423,
+          "orientationDeg": 1.6635705024302734
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9031231777845021,
+          "jointDeg": 1.9319867093848073,
+          "orientationDeg": 4.193266727549558
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.497448255661653,
+          "jointDeg": 2.478662397557844,
+          "orientationDeg": 5.494090985673674
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.374786269312882,
+          "jointDeg": 2.56024433339083,
+          "orientationDeg": 4.920479674441676
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 110,
+      "anchorSeconds": 2.2,
+      "rootHeightM": 0.1332863116160821,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.17225865238405833,
+          "jointDeg": 0.22646125871577644,
+          "orientationDeg": 0.21164759726267848
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.219688788179315,
+          "jointDeg": 1.2492341695712588,
+          "orientationDeg": 1.4355316089801786
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9893246817128674,
+          "jointDeg": 2.1051290540391645,
+          "orientationDeg": 4.2299978310349005
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.881023681577419,
+          "jointDeg": 2.390569095839894,
+          "orientationDeg": 6.594875514079536
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.858606977191574,
+          "jointDeg": 2.4585689796201593,
+          "orientationDeg": 4.733860775488322
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 120,
+      "anchorSeconds": 2.4,
+      "rootHeightM": 0.13285723463467944,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1603823424992757,
+          "jointDeg": 0.22570195903904663,
+          "orientationDeg": 0.11388862333304223
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.0831089518140726,
+          "jointDeg": 1.2205433217682748,
+          "orientationDeg": 1.626852385674009
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9713261690425448,
+          "jointDeg": 1.9765663707106749,
+          "orientationDeg": 4.192450034018148
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 5.13425125881303,
+          "jointDeg": 3.5573271994915676,
+          "orientationDeg": 4.3471401041603555
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.057768696353206,
+          "jointDeg": 2.21150998453568,
+          "orientationDeg": 4.504404424691011
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 130,
+      "anchorSeconds": 2.6,
+      "rootHeightM": 0.13269164831981323,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1676308619759665,
+          "jointDeg": 0.20658037134368265,
+          "orientationDeg": 0.1709976149863363
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.19740911594962,
+          "jointDeg": 1.1881272121236433,
+          "orientationDeg": 1.785065564673635
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.8645665105854299,
+          "jointDeg": 2.025736767269487,
+          "orientationDeg": 4.232334603001681
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.7089935239914786,
+          "jointDeg": 2.217533658023231,
+          "orientationDeg": 5.250347944393672
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.324807690860125,
+          "jointDeg": 2.3674561214602607,
+          "orientationDeg": 4.444663455630216
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 140,
+      "anchorSeconds": 2.8000000000000003,
+      "rootHeightM": 0.1329614921804849,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1548256821734163,
+          "jointDeg": 0.19737729887199512,
+          "orientationDeg": 0.09428087974211084
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1902733167266997,
+          "jointDeg": 1.065675130669628,
+          "orientationDeg": 1.527166599979118
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9515328805339798,
+          "jointDeg": 1.7473514409141258,
+          "orientationDeg": 4.592279453062575
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.259654944706289,
+          "jointDeg": 2.127964692962596,
+          "orientationDeg": 4.612389269007769
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.875115136782199,
+          "jointDeg": 2.4361720645825464,
+          "orientationDeg": 4.439842801604344
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "anchorStep": 150,
+      "anchorSeconds": 3,
+      "rootHeightM": 0.13318850146638211,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.15470566377258735,
+          "jointDeg": 0.19213701904682395,
+          "orientationDeg": 0.1520914093308319
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1703180019287158,
+          "jointDeg": 1.0370267944285136,
+          "orientationDeg": 1.9235402400464339
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9591893445399202,
+          "jointDeg": 1.7475448167269356,
+          "orientationDeg": 4.66867240464049
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.9010483501651776,
+          "jointDeg": 2.082446719340233,
+          "orientationDeg": 5.974610979492044
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.656731775123253,
+          "jointDeg": 2.647137643785941,
+          "orientationDeg": 5.189522339472945
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 0,
+      "anchorSeconds": 0,
+      "rootHeightM": 0.76,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.10500559556026852,
+          "jointDeg": 0.13187651649112164,
+          "orientationDeg": 0.0776256134761072
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11268633992767679,
+          "jointDeg": 0.13808762852389392,
+          "orientationDeg": 0.26645921798592304
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2728958682145951,
+          "jointDeg": 0.1461782255938464,
+          "orientationDeg": 0.20899959298742146
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.1349798645914546,
+          "jointDeg": 0.45847099723020696,
+          "orientationDeg": 0.8799595521655738
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.8151124521173903,
+          "jointDeg": 2.246075299762659,
+          "orientationDeg": 6.445215086864479
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 10,
+      "anchorSeconds": 0.2,
+      "rootHeightM": 0.7382994464254921,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.0540517092660454,
+          "jointDeg": 0.04134812904889111,
+          "orientationDeg": 0.03151192650821623
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.1211172593267233,
+          "jointDeg": 0.11989992635805818,
+          "orientationDeg": 0.08288654843490255
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.28175880064706177,
+          "jointDeg": 0.18898007649071621,
+          "orientationDeg": 0.21159956078485084
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.0237449332384645,
+          "jointDeg": 0.5953943288939488,
+          "orientationDeg": 1.2000050873705324
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.131919272271614,
+          "jointDeg": 3.5564455168028206,
+          "orientationDeg": 8.71846091771091
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 20,
+      "anchorSeconds": 0.4,
+      "rootHeightM": 0.7358115550419709,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.04212140680148462,
+          "jointDeg": 0.03069410422909801,
+          "orientationDeg": 0.02369752635730643
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.12139014833637571,
+          "jointDeg": 0.11340250325538793,
+          "orientationDeg": 0.08784102965449156
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.22735440371816218,
+          "jointDeg": 0.19018389048035608,
+          "orientationDeg": 0.28666060685312494
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.8517525586117243,
+          "jointDeg": 1.0888053410733718,
+          "orientationDeg": 1.736399969874746
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.6751668351778255,
+          "jointDeg": 3.107444425903781,
+          "orientationDeg": 9.88870885431662
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 30,
+      "anchorSeconds": 0.6,
+      "rootHeightM": 0.7288825769055087,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.07623619669425065,
+          "jointDeg": 0.031741819723666055,
+          "orientationDeg": 0.011323042362311011
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11926842086345145,
+          "jointDeg": 0.12365605818355295,
+          "orientationDeg": 0.13328538040358318
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2120045346013781,
+          "jointDeg": 0.3268930642851101,
+          "orientationDeg": 0.32091748801768893
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.7789604559818266,
+          "jointDeg": 2.117636756810455,
+          "orientationDeg": 3.8198594143457365
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.476349193374947,
+          "jointDeg": 24.233500049658467,
+          "orientationDeg": 4.401496990788612
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 40,
+      "anchorSeconds": 0.8,
+      "rootHeightM": 0.714000424297222,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08715625029490537,
+          "jointDeg": 0.04351275919307538,
+          "orientationDeg": 0.034747936857462414
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.09799989112398626,
+          "jointDeg": 0.2124933065186658,
+          "orientationDeg": 0.1818134855716442
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.29746964902596157,
+          "jointDeg": 0.6579413307771311,
+          "orientationDeg": 0.8681014870666424
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.21524393266656,
+          "jointDeg": 2.652837375822842,
+          "orientationDeg": 5.234773897210115
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 16.256302271044156,
+          "jointDeg": 19.121292490858476,
+          "orientationDeg": 19.812257507716314
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 50,
+      "anchorSeconds": 1,
+      "rootHeightM": 0.6811215418993859,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.11306448247796934,
+          "jointDeg": 0.16528089843747748,
+          "orientationDeg": 0.11434743017242752
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.6822478834838189,
+          "jointDeg": 0.6631485118543446,
+          "orientationDeg": 1.3010106041731289
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.8278719606648115,
+          "jointDeg": 1.0904352099003947,
+          "orientationDeg": 1.5457872754704536
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 6.675532995529659,
+          "jointDeg": 12.421185423360916,
+          "orientationDeg": 8.072065642960645
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 14.671307498604943,
+          "jointDeg": 9.00420063729721,
+          "orientationDeg": 8.335290658339702
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 60,
+      "anchorSeconds": 1.2,
+      "rootHeightM": 0.6271952971718427,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06501921488213942,
+          "jointDeg": 0.32409266313435225,
+          "orientationDeg": 0.09646260215033041
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.36142613352184033,
+          "jointDeg": 0.8309848356969496,
+          "orientationDeg": 0.7393063685578859
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.799304927359188,
+          "jointDeg": 1.957912806342468,
+          "orientationDeg": 2.4011088949244557
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 14.753464782615428,
+          "jointDeg": 15.718921065749448,
+          "orientationDeg": 6.496651608109392
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 12.575658582265739,
+          "jointDeg": 2.6160294484629043,
+          "orientationDeg": 10.435955860684018
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 70,
+      "anchorSeconds": 1.4000000000000001,
+      "rootHeightM": 0.439209659937267,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.31854553612414926,
+          "jointDeg": 1.1440208152330429,
+          "orientationDeg": 0.4650176803442465
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1586733440456356,
+          "jointDeg": 9.452475740267886,
+          "orientationDeg": 4.396525471426299
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 6.587571589254498,
+          "jointDeg": 19.065647656650786,
+          "orientationDeg": 5.876057662280877
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 7.668620967395695,
+          "jointDeg": 5.648876024716712,
+          "orientationDeg": 7.459283968043905
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 5.876978515049418,
+          "jointDeg": 2.444772651500886,
+          "orientationDeg": 8.984475352523571
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 80,
+      "anchorSeconds": 1.6,
+      "rootHeightM": 0.11853076104735934,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.23003648769585391,
+          "jointDeg": 0.2670872174202184,
+          "orientationDeg": 0.3759085898462358
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.7439773772502789,
+          "jointDeg": 1.2003079673586872,
+          "orientationDeg": 2.3537723510943684
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.1037900107234797,
+          "jointDeg": 2.162363660606175,
+          "orientationDeg": 5.477766343768993
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.459453422573499,
+          "jointDeg": 1.7736254585421762,
+          "orientationDeg": 5.122575384475195
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 6.933113635545444,
+          "jointDeg": 2.474740010081588,
+          "orientationDeg": 5.516508053319192
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 90,
+      "anchorSeconds": 1.8,
+      "rootHeightM": 0.13051935142945453,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.061441368779240516,
+          "jointDeg": 0.41888299370299664,
+          "orientationDeg": 1.3452726698653716
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.4795025804101176,
+          "jointDeg": 1.2923576608515075,
+          "orientationDeg": 4.181317025409831
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.7275252864019497,
+          "jointDeg": 1.5041354121939587,
+          "orientationDeg": 5.89553407768861
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.736966605517692,
+          "jointDeg": 2.1603951883551815,
+          "orientationDeg": 4.9273349674222
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.711835032177476,
+          "jointDeg": 2.5653816702874037,
+          "orientationDeg": 5.035267981915226
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 100,
+      "anchorSeconds": 2,
+      "rootHeightM": 0.13307519951202174,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.11686508212393591,
+          "jointDeg": 0.20213486522218627,
+          "orientationDeg": 0.05231518399402246
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.125076492841545,
+          "jointDeg": 1.124975310465982,
+          "orientationDeg": 1.7662659990983098
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.967891919151785,
+          "jointDeg": 1.9080304933150591,
+          "orientationDeg": 4.489254601360502
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.735963500234934,
+          "jointDeg": 2.2196662292122555,
+          "orientationDeg": 5.996399209541806
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.878346361301412,
+          "jointDeg": 2.385332921905313,
+          "orientationDeg": 4.5262858662445415
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 110,
+      "anchorSeconds": 2.2,
+      "rootHeightM": 0.13297739540035755,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.15561645686176873,
+          "jointDeg": 0.219956385206766,
+          "orientationDeg": 0.11938888037948711
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.2001812810909847,
+          "jointDeg": 1.2393322856577516,
+          "orientationDeg": 1.4949510076251034
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.148831822469551,
+          "jointDeg": 2.0702707566681364,
+          "orientationDeg": 4.529676669629916
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.317054188967629,
+          "jointDeg": 2.5850163911838293,
+          "orientationDeg": 3.8137942184161813
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.915029956277553,
+          "jointDeg": 2.21921044281678,
+          "orientationDeg": 4.518471375879446
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 120,
+      "anchorSeconds": 2.4,
+      "rootHeightM": 0.1329698116505159,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.15900928967497063,
+          "jointDeg": 0.2417181786346302,
+          "orientationDeg": 0.20022627360534168
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1642513058961934,
+          "jointDeg": 1.2861263634794458,
+          "orientationDeg": 1.7906154575831978
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.817175597863854,
+          "jointDeg": 2.159553796855243,
+          "orientationDeg": 4.7856263525766245
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.149914007422337,
+          "jointDeg": 2.0967343905131135,
+          "orientationDeg": 5.402188801619628
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.076286054216421,
+          "jointDeg": 2.2508825732920106,
+          "orientationDeg": 5.291142048120722
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 130,
+      "anchorSeconds": 2.6,
+      "rootHeightM": 0.13294354558403798,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.16283446268646098,
+          "jointDeg": 0.2203861991941976,
+          "orientationDeg": 0.11190184792367433
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1745421820568362,
+          "jointDeg": 1.2100695366658947,
+          "orientationDeg": 1.7460197261754236
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.88896923165728,
+          "jointDeg": 2.0437459443707757,
+          "orientationDeg": 4.852276001221932
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.670399322256668,
+          "jointDeg": 2.008351581558311,
+          "orientationDeg": 5.345915642792839
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.21822983304674,
+          "jointDeg": 2.407939326790147,
+          "orientationDeg": 4.484979389036338
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 140,
+      "anchorSeconds": 2.8000000000000003,
+      "rootHeightM": 0.133381096247192,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1485966690399848,
+          "jointDeg": 0.15968104077742865,
+          "orientationDeg": 0.0165145403654075
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1771261635540562,
+          "jointDeg": 1.0758839295889393,
+          "orientationDeg": 1.4872448636540858
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.12288376771573,
+          "jointDeg": 1.7641443287242642,
+          "orientationDeg": 4.466300825414373
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.256592996400592,
+          "jointDeg": 1.889992775709452,
+          "orientationDeg": 5.278851954134275
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.0098767343386,
+          "jointDeg": 2.326196357678946,
+          "orientationDeg": 4.8271880469395105
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "anchorStep": 150,
+      "anchorSeconds": 3,
+      "rootHeightM": 0.13317199827753531,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.14799738201622514,
+          "jointDeg": 0.1975713867783809,
+          "orientationDeg": 0.07508336952065638
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1852441738785089,
+          "jointDeg": 1.1055962762099303,
+          "orientationDeg": 1.5452383095425228
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.032865245603373,
+          "jointDeg": 1.7023283200524482,
+          "orientationDeg": 4.365729033056165
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.2691392875780885,
+          "jointDeg": 2.13660758058796,
+          "orientationDeg": 4.001597162414829
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.650434130726973,
+          "jointDeg": 2.38646393412027,
+          "orientationDeg": 4.6722944375225515
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 0,
+      "anchorSeconds": 0,
+      "rootHeightM": 0.76,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1050573866374582,
+          "jointDeg": 0.12252199816777423,
+          "orientationDeg": 0.08045844415121502
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11888783645406226,
+          "jointDeg": 0.14530094857592704,
+          "orientationDeg": 0.12728249434136502
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2590422865061197,
+          "jointDeg": 0.1459885689551069,
+          "orientationDeg": 0.13712613332011483
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.2093385641998184,
+          "jointDeg": 0.4825811741940465,
+          "orientationDeg": 0.9144325121944392
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.209934311800344,
+          "jointDeg": 2.248223215457148,
+          "orientationDeg": 6.805084018986116
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 10,
+      "anchorSeconds": 0.2,
+      "rootHeightM": 0.7374196387369997,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08285633506281662,
+          "jointDeg": 0.06480170091354757,
+          "orientationDeg": 0.023367625836759536
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11184288747425948,
+          "jointDeg": 0.11980070379486996,
+          "orientationDeg": 0.10113875794072222
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.30566596022029113,
+          "jointDeg": 0.18183259722212064,
+          "orientationDeg": 0.25348304379835446
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.1372659089204125,
+          "jointDeg": 0.6777048426356368,
+          "orientationDeg": 1.2265818811912077
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.3821198995196746,
+          "jointDeg": 3.4293780208645135,
+          "orientationDeg": 9.054899973803664
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 20,
+      "anchorSeconds": 0.4,
+      "rootHeightM": 0.7352546003212751,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06282349077251734,
+          "jointDeg": 0.03352296269691104,
+          "orientationDeg": 0.03160092616848203
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.10396637237790379,
+          "jointDeg": 0.11658107093627751,
+          "orientationDeg": 0.11260848662996696
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.21215119782860606,
+          "jointDeg": 0.19459529597449218,
+          "orientationDeg": 0.3051076086839194
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.8939904379828321,
+          "jointDeg": 1.2621373498807609,
+          "orientationDeg": 1.7959888064866387
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.6027813607436023,
+          "jointDeg": 3.791522588287457,
+          "orientationDeg": 10.584100609548265
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 30,
+      "anchorSeconds": 0.6,
+      "rootHeightM": 0.7289378367091441,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06466953366121869,
+          "jointDeg": 0.03342255780763814,
+          "orientationDeg": 0.022942764827530538
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.08994987926671694,
+          "jointDeg": 0.14161028299078482,
+          "orientationDeg": 0.09357870562329068
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.28330246294633415,
+          "jointDeg": 0.40296389935950333,
+          "orientationDeg": 0.24523702614210285
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.8529244817064586,
+          "jointDeg": 2.0210171258692307,
+          "orientationDeg": 3.461786983977481
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 5.407059371971101,
+          "jointDeg": 21.498205375279202,
+          "orientationDeg": 3.711487809542909
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 40,
+      "anchorSeconds": 0.8,
+      "rootHeightM": 0.7154453290319874,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08962404298826893,
+          "jointDeg": 0.043033463626474415,
+          "orientationDeg": 0.04319094743692405
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11761151327879812,
+          "jointDeg": 0.2564045430328357,
+          "orientationDeg": 0.23914192541991228
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.363843773797929,
+          "jointDeg": 0.6796959962013436,
+          "orientationDeg": 0.697685674512551
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.619676163001412,
+          "jointDeg": 3.174475633855959,
+          "orientationDeg": 4.992615208833723
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 14.640197808677883,
+          "jointDeg": 21.069062583265094,
+          "orientationDeg": 19.816834983237005
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 50,
+      "anchorSeconds": 1,
+      "rootHeightM": 0.6866334849154448,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08344837344072552,
+          "jointDeg": 0.1553604555509759,
+          "orientationDeg": 0.09641974176627092
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.5904878455121612,
+          "jointDeg": 0.47268141692239113,
+          "orientationDeg": 0.8135042538996784
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.7601182265116384,
+          "jointDeg": 1.1262527786485508,
+          "orientationDeg": 1.526817597439823
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 6.311608621318619,
+          "jointDeg": 9.32194808504986,
+          "orientationDeg": 9.791162183087499
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 16.671035827159734,
+          "jointDeg": 10.25476476746764,
+          "orientationDeg": 11.639105717593944
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 60,
+      "anchorSeconds": 1.2,
+      "rootHeightM": 0.6380315542480163,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08891003063973858,
+          "jointDeg": 0.30055509934176494,
+          "orientationDeg": 0.08495692164182497
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.3186242700891374,
+          "jointDeg": 0.7052755009237897,
+          "orientationDeg": 0.7755083114393293
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.5608254816827256,
+          "jointDeg": 1.3663182116684436,
+          "orientationDeg": 2.2264641739009488
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 14.208613785318208,
+          "jointDeg": 17.959659417720026,
+          "orientationDeg": 9.275509096156124
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 12.94742043071084,
+          "jointDeg": 2.606222961699948,
+          "orientationDeg": 9.764614326289188
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 70,
+      "anchorSeconds": 1.4000000000000001,
+      "rootHeightM": 0.4817054197683602,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.24076687390595405,
+          "jointDeg": 0.6244556536102609,
+          "orientationDeg": 0.2950882819668858
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.5979700272335498,
+          "jointDeg": 8.615114849371324,
+          "orientationDeg": 3.962134444255849
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 5.315106413523569,
+          "jointDeg": 18.228330927997803,
+          "orientationDeg": 3.2805768675739615
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 10.367953224119793,
+          "jointDeg": 6.078693751279332,
+          "orientationDeg": 6.738056572049998
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.16796978073827,
+          "jointDeg": 3.224531437121705,
+          "orientationDeg": 7.022293273593161
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 80,
+      "anchorSeconds": 1.6,
+      "rootHeightM": 0.11187614380408989,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.24179910143604252,
+          "jointDeg": 1.4877919716341548,
+          "orientationDeg": 1.0288055707382697
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.4709256673049264,
+          "jointDeg": 3.245135574554204,
+          "orientationDeg": 1.1314159089495168
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.0172788927112706,
+          "jointDeg": 2.902783905174215,
+          "orientationDeg": 3.960707408708844
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.914909775114347,
+          "jointDeg": 2.3226502910413824,
+          "orientationDeg": 6.483325240537085
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 6.554339333682992,
+          "jointDeg": 2.5219153468042204,
+          "orientationDeg": 4.645183225087439
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 90,
+      "anchorSeconds": 1.8,
+      "rootHeightM": 0.13076423235278303,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.11491645141991176,
+          "jointDeg": 0.3479831083515459,
+          "orientationDeg": 1.0121490422764616
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.2039327103811666,
+          "jointDeg": 1.4899027440020558,
+          "orientationDeg": 3.4188466553056807
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.7168896570207908,
+          "jointDeg": 1.9934324717171692,
+          "orientationDeg": 6.792518225077594
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.160802338835683,
+          "jointDeg": 2.459000450395201,
+          "orientationDeg": 6.408890166048207
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.375835390778963,
+          "jointDeg": 2.5457462238133752,
+          "orientationDeg": 5.417289753449758
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 100,
+      "anchorSeconds": 2,
+      "rootHeightM": 0.1331894496175631,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.11514443414624813,
+          "jointDeg": 0.19228107740340192,
+          "orientationDeg": 0.11421774775211661
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1444583819175553,
+          "jointDeg": 1.0732070529662792,
+          "orientationDeg": 1.7729425828217404
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9797316683412038,
+          "jointDeg": 1.959237956456428,
+          "orientationDeg": 4.074528282768444
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.309934319166276,
+          "jointDeg": 2.3753479004909486,
+          "orientationDeg": 5.648746340621937
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.407324660820395,
+          "jointDeg": 2.3685707235839173,
+          "orientationDeg": 5.174214272536984
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 110,
+      "anchorSeconds": 2.2,
+      "rootHeightM": 0.13325954945126273,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.18037707510459913,
+          "jointDeg": 0.21319565985210726,
+          "orientationDeg": 0.10458922695569435
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.0390883362545535,
+          "jointDeg": 1.301751103296866,
+          "orientationDeg": 1.6141347724661184
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9887975057624363,
+          "jointDeg": 2.0539213660139573,
+          "orientationDeg": 4.262855233590377
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.940543168755746,
+          "jointDeg": 3.264692681934024,
+          "orientationDeg": 5.240055299183106
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.966140897050762,
+          "jointDeg": 2.25067732736491,
+          "orientationDeg": 4.135771818394722
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 120,
+      "anchorSeconds": 2.4,
+      "rootHeightM": 0.13333439318971513,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.11708524672365939,
+          "jointDeg": 0.23087933841650538,
+          "orientationDeg": 0.12474283790935753
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.043206073600875,
+          "jointDeg": 1.1432998703411925,
+          "orientationDeg": 1.637637105849529
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.957963355592288,
+          "jointDeg": 1.9425541369916788,
+          "orientationDeg": 4.224535345386832
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.5523479003401284,
+          "jointDeg": 2.5957669444813165,
+          "orientationDeg": 4.334773887944362
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.692367780616635,
+          "jointDeg": 2.235148617133871,
+          "orientationDeg": 4.9478228207745785
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 130,
+      "anchorSeconds": 2.6,
+      "rootHeightM": 0.13312817575814978,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.15722352521922187,
+          "jointDeg": 0.21054272960170944,
+          "orientationDeg": 0.10186450823658819
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.077034078880243,
+          "jointDeg": 1.2344222362594433,
+          "orientationDeg": 1.7541597912226297
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.933853313014679,
+          "jointDeg": 1.9820050858087466,
+          "orientationDeg": 4.154609461156308
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.06375696335222,
+          "jointDeg": 2.1904941602611636,
+          "orientationDeg": 5.862903616863125
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.766425650725191,
+          "jointDeg": 2.4225399519241746,
+          "orientationDeg": 4.707047111147191
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 140,
+      "anchorSeconds": 2.8000000000000003,
+      "rootHeightM": 0.133046502153866,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.14770898783348654,
+          "jointDeg": 0.197763825327605,
+          "orientationDeg": 0.12087224688385297
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1772792123628015,
+          "jointDeg": 1.0286888784133172,
+          "orientationDeg": 1.5002277406299944
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9270855793570363,
+          "jointDeg": 1.7794126112590816,
+          "orientationDeg": 4.0355266540082955
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.066898232805891,
+          "jointDeg": 3.159480543535646,
+          "orientationDeg": 4.5884753974471675
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 6.8126229978927,
+          "jointDeg": 2.198932190094342,
+          "orientationDeg": 4.958909991782635
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "anchorStep": 150,
+      "anchorSeconds": 3,
+      "rootHeightM": 0.13303039957746257,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.18755899808463838,
+          "jointDeg": 0.19419364177241227,
+          "orientationDeg": 0.13941965313505755
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1850029297721147,
+          "jointDeg": 1.0144985830327744,
+          "orientationDeg": 1.7103769172243264
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.030681696699067,
+          "jointDeg": 1.6696094984263252,
+          "orientationDeg": 4.386566571411174
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.276914066188215,
+          "jointDeg": 2.3333866005971373,
+          "orientationDeg": 4.245062680256039
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.084011947526084,
+          "jointDeg": 2.32163422154327,
+          "orientationDeg": 4.412727640042546
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 0,
+      "anchorSeconds": 0,
+      "rootHeightM": 0.76,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.10381443268747438,
+          "jointDeg": 0.13454400910565908,
+          "orientationDeg": 0.09602296511349077
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.13182056376802392,
+          "jointDeg": 0.1461789336840714,
+          "orientationDeg": 0.2609389119599367
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2868096829221298,
+          "jointDeg": 0.17412652473553172,
+          "orientationDeg": 0.2775287300296723
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.124579371156815,
+          "jointDeg": 0.47316631474471876,
+          "orientationDeg": 0.9113427800383952
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.722916826046703,
+          "jointDeg": 2.1921090519954793,
+          "orientationDeg": 6.9143882036730435
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 10,
+      "anchorSeconds": 0.2,
+      "rootHeightM": 0.7384580839564231,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06171824834311106,
+          "jointDeg": 0.04247959164740036,
+          "orientationDeg": 0.02040069339763133
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.1357196706881655,
+          "jointDeg": 0.12231730087743586,
+          "orientationDeg": 0.08312623989436932
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2835785737873562,
+          "jointDeg": 0.1863774892748025,
+          "orientationDeg": 0.24172555288058226
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.0248027775891666,
+          "jointDeg": 0.6253433849949074,
+          "orientationDeg": 1.2468567940874327
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.372473214894679,
+          "jointDeg": 3.4048731876877447,
+          "orientationDeg": 9.110372802510447
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 20,
+      "anchorSeconds": 0.4,
+      "rootHeightM": 0.7347452801384033,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.05124906244675626,
+          "jointDeg": 0.035971715318377825,
+          "orientationDeg": 0.02138723872790208
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.09952072966000593,
+          "jointDeg": 0.1127565508634071,
+          "orientationDeg": 0.11094751287278178
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.1940093419597641,
+          "jointDeg": 0.18948432972833337,
+          "orientationDeg": 0.2728020899458174
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.7336317901921159,
+          "jointDeg": 1.184259694413322,
+          "orientationDeg": 1.8075788964368737
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.667207044696833,
+          "jointDeg": 3.5148510164192763,
+          "orientationDeg": 10.507547294664528
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 30,
+      "anchorSeconds": 0.6,
+      "rootHeightM": 0.7292126256417797,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.04555167032311224,
+          "jointDeg": 0.031003741580591677,
+          "orientationDeg": 0.014612360483719737
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.10424239712810135,
+          "jointDeg": 0.13590972668935508,
+          "orientationDeg": 0.11210789820610187
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.21422391002869795,
+          "jointDeg": 0.35917222098336193,
+          "orientationDeg": 0.34029317884528365
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.7449067650557142,
+          "jointDeg": 1.9635052049954902,
+          "orientationDeg": 3.893094353639445
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.3080770414149345,
+          "jointDeg": 23.77225603853095,
+          "orientationDeg": 3.883071329387532
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 40,
+      "anchorSeconds": 0.8,
+      "rootHeightM": 0.7141689666215482,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08552093355296828,
+          "jointDeg": 0.04227205706394465,
+          "orientationDeg": 0.051566974101355294
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.12044651945018274,
+          "jointDeg": 0.25238253586777276,
+          "orientationDeg": 0.20860904888022508
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.3622917298821027,
+          "jointDeg": 0.711811018101271,
+          "orientationDeg": 0.8914507729049955
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.7192888155725057,
+          "jointDeg": 3.1638362140421967,
+          "orientationDeg": 4.642424973550889
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 14.686169377790717,
+          "jointDeg": 19.320295728336703,
+          "orientationDeg": 20.26450076778788
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 50,
+      "anchorSeconds": 1,
+      "rootHeightM": 0.6802718916992864,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.14183866430709047,
+          "jointDeg": 0.19320761221338673,
+          "orientationDeg": 0.1478173816774059
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.9016393650224978,
+          "jointDeg": 0.5130882678825666,
+          "orientationDeg": 0.6949814598558506
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.0096951053465024,
+          "jointDeg": 1.1650575630458664,
+          "orientationDeg": 0.9387216696159555
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 6.159580766855954,
+          "jointDeg": 11.4380489689162,
+          "orientationDeg": 6.282582351737976
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 15.175347197456537,
+          "jointDeg": 9.482533748803354,
+          "orientationDeg": 7.628805820926561
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 60,
+      "anchorSeconds": 1.2,
+      "rootHeightM": 0.6286042394304768,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.0772027866775404,
+          "jointDeg": 0.3388535313875908,
+          "orientationDeg": 0.09775981557415579
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.3399159057897597,
+          "jointDeg": 0.8244578643793803,
+          "orientationDeg": 0.7970592491249909
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.6664857470598222,
+          "jointDeg": 1.654469364488599,
+          "orientationDeg": 2.2083562055747814
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 13.701705895536174,
+          "jointDeg": 18.54252952190316,
+          "orientationDeg": 9.395454859200765
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 11.184757079408152,
+          "jointDeg": 3.8012219827060307,
+          "orientationDeg": 9.008700914064063
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 70,
+      "anchorSeconds": 1.4000000000000001,
+      "rootHeightM": 0.4511028885940988,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.26938799847370715,
+          "jointDeg": 0.9348015731009537,
+          "orientationDeg": 0.4248484305374998
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.4794262537650338,
+          "jointDeg": 9.16599536833325,
+          "orientationDeg": 4.9178836629814136
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 5.923637256231746,
+          "jointDeg": 19.453146196474425,
+          "orientationDeg": 6.097830891088812
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 8.000899162634537,
+          "jointDeg": 5.479541162130786,
+          "orientationDeg": 6.510809356364597
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 5.502866641501291,
+          "jointDeg": 2.517988738684847,
+          "orientationDeg": 6.690116383226835
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 80,
+      "anchorSeconds": 1.6,
+      "rootHeightM": 0.12118184578759085,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.19410258130534175,
+          "jointDeg": 0.49076306641566103,
+          "orientationDeg": 0.12829328331271941
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.377849772692772,
+          "jointDeg": 1.3050633541927634,
+          "orientationDeg": 2.5692770655887673
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.29393594275851864,
+          "jointDeg": 2.066346054660267,
+          "orientationDeg": 4.2255096158581775
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.7401978393821427,
+          "jointDeg": 1.6666894933846705,
+          "orientationDeg": 5.013099634924371
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.181817616815074,
+          "jointDeg": 2.3714874062362914,
+          "orientationDeg": 4.4138719514001385
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 90,
+      "anchorSeconds": 1.8,
+      "rootHeightM": 0.1272703469496037,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.045037556376463464,
+          "jointDeg": 0.24446675059116904,
+          "orientationDeg": 0.11191812725233184
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.506160606623816,
+          "jointDeg": 1.2698904799987074,
+          "orientationDeg": 3.686606956995261
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.862100951975611,
+          "jointDeg": 1.5002073453192784,
+          "orientationDeg": 6.463008084018435
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.5553427662587613,
+          "jointDeg": 2.244326305546774,
+          "orientationDeg": 3.5428690254627804
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 6.856808732286339,
+          "jointDeg": 2.257243005833608,
+          "orientationDeg": 5.44945829064042
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 100,
+      "anchorSeconds": 2,
+      "rootHeightM": 0.13279177870173367,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.10660356889460564,
+          "jointDeg": 0.21833933525298707,
+          "orientationDeg": 0.07316428967341584
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.0499797618828053,
+          "jointDeg": 1.0904659498518854,
+          "orientationDeg": 1.716683645389337
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.0077806748455918,
+          "jointDeg": 1.855889481876476,
+          "orientationDeg": 4.741329175987915
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.107527998917136,
+          "jointDeg": 2.5433196143111054,
+          "orientationDeg": 4.252358929904941
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.673780854099739,
+          "jointDeg": 2.4129293026542973,
+          "orientationDeg": 4.518294503880001
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 110,
+      "anchorSeconds": 2.2,
+      "rootHeightM": 0.13299389565222153,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1843414357912556,
+          "jointDeg": 0.22683584405768975,
+          "orientationDeg": 0.17155000801446416
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1866606356515987,
+          "jointDeg": 1.240675279118236,
+          "orientationDeg": 1.624753451434187
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.019007326171882,
+          "jointDeg": 2.1109219635677046,
+          "orientationDeg": 4.840718307776048
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.0995104136112595,
+          "jointDeg": 2.086118737758243,
+          "orientationDeg": 5.637360041036513
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.931911414799703,
+          "jointDeg": 2.305915790846878,
+          "orientationDeg": 4.8773023881081095
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 120,
+      "anchorSeconds": 2.4,
+      "rootHeightM": 0.13294800593201278,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.15549859778110145,
+          "jointDeg": 0.20663218137311717,
+          "orientationDeg": 0.08100188660689124
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.2068398812241323,
+          "jointDeg": 1.2496241169203086,
+          "orientationDeg": 1.7678380012260748
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9938971853172263,
+          "jointDeg": 2.049100013634371,
+          "orientationDeg": 4.591610661820365
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.593309368968304,
+          "jointDeg": 2.0422238712202385,
+          "orientationDeg": 5.295758716639502
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.429341926660928,
+          "jointDeg": 2.2901586873759636,
+          "orientationDeg": 5.031927437068176
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 130,
+      "anchorSeconds": 2.6,
+      "rootHeightM": 0.1328378394048765,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1735747997674308,
+          "jointDeg": 0.2117573366749772,
+          "orientationDeg": 0.1310347175192923
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1594124489985635,
+          "jointDeg": 1.1361342473654776,
+          "orientationDeg": 1.3101684039591395
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.0307679198716144,
+          "jointDeg": 1.8739017156206081,
+          "orientationDeg": 4.461137852164505
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.009238680163152,
+          "jointDeg": 1.952176046859037,
+          "orientationDeg": 4.561010008719171
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.475261571329636,
+          "jointDeg": 2.296470625055527,
+          "orientationDeg": 4.763103844655659
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 140,
+      "anchorSeconds": 2.8000000000000003,
+      "rootHeightM": 0.13284747643495595,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.14822459090072831,
+          "jointDeg": 0.20677187340716768,
+          "orientationDeg": 0.06308721571033003
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1619792407268184,
+          "jointDeg": 1.1325238856284698,
+          "orientationDeg": 1.4153165630839477
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.0797737055378187,
+          "jointDeg": 1.7603126212154607,
+          "orientationDeg": 4.638476886942953
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.649875100446389,
+          "jointDeg": 2.8267748130351924,
+          "orientationDeg": 4.634865337661129
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 6.938006657363485,
+          "jointDeg": 2.157501124048701,
+          "orientationDeg": 4.15914203392479
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "anchorStep": 150,
+      "anchorSeconds": 3,
+      "rootHeightM": 0.13322833564323508,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.12790755389894767,
+          "jointDeg": 0.20551562668288162,
+          "orientationDeg": 0.09652818398115146
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.187672170591622,
+          "jointDeg": 1.053844608019574,
+          "orientationDeg": 1.6223084350922212
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9029469664802907,
+          "jointDeg": 1.8608021314315646,
+          "orientationDeg": 4.596741153978362
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.1254245803282545,
+          "jointDeg": 3.0963382358983984,
+          "orientationDeg": 4.196604141529866
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.386478915380279,
+          "jointDeg": 2.2176206008256223,
+          "orientationDeg": 4.915736855573634
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 0,
+      "anchorSeconds": 0,
+      "rootHeightM": 0.76,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.10316382871000353,
+          "jointDeg": 0.12688778004040277,
+          "orientationDeg": 0.05822373978257427
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.09708992478165289,
+          "jointDeg": 0.14752890575294614,
+          "orientationDeg": 0.1282998959195892
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.26633060710820716,
+          "jointDeg": 0.16608248678365944,
+          "orientationDeg": 0.15401898242583167
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.1872450033269009,
+          "jointDeg": 0.48527621738414506,
+          "orientationDeg": 0.955808111078813
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.035718596562971,
+          "jointDeg": 2.2547981787416287,
+          "orientationDeg": 6.572108842434267
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 10,
+      "anchorSeconds": 0.2,
+      "rootHeightM": 0.7386140279881865,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.050062589267108236,
+          "jointDeg": 0.0437289986170573,
+          "orientationDeg": 0.0341111090990173
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.12844017975430058,
+          "jointDeg": 0.10927138292776689,
+          "orientationDeg": 0.07287982417908413
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.30318728100898895,
+          "jointDeg": 0.1882032649793291,
+          "orientationDeg": 0.20877555351660587
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.058569017190809,
+          "jointDeg": 0.5897266752315706,
+          "orientationDeg": 1.1753331207140194
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 2.696230076663011,
+          "jointDeg": 3.5871602230581794,
+          "orientationDeg": 8.582448081528337
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 20,
+      "anchorSeconds": 0.4,
+      "rootHeightM": 0.7360170736607622,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.07325137221869778,
+          "jointDeg": 0.03533842958730544,
+          "orientationDeg": 0.026250495459968624
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11162996710455252,
+          "jointDeg": 0.11743296152358719,
+          "orientationDeg": 0.11134700331260955
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.21395616284727711,
+          "jointDeg": 0.19461375859967986,
+          "orientationDeg": 0.32466387402101876
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.7158151276223698,
+          "jointDeg": 1.078995602265953,
+          "orientationDeg": 1.8019157725971704
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.44023903547614,
+          "jointDeg": 3.555907414792499,
+          "orientationDeg": 10.621588844322526
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 30,
+      "anchorSeconds": 0.6,
+      "rootHeightM": 0.729569640829358,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06555462069418376,
+          "jointDeg": 0.0319982421155673,
+          "orientationDeg": 0.017094926361963504
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.09781659460381023,
+          "jointDeg": 0.1179977107540975,
+          "orientationDeg": 0.06298971279675196
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.21557815822178406,
+          "jointDeg": 0.3203101361835242,
+          "orientationDeg": 0.29185664364419855
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.8170653805034511,
+          "jointDeg": 1.9313588350093662,
+          "orientationDeg": 3.5850479000342355
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.941072821641725,
+          "jointDeg": 24.416551617314692,
+          "orientationDeg": 4.495766254277166
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 40,
+      "anchorSeconds": 0.8,
+      "rootHeightM": 0.7142828529499656,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.09469815726343857,
+          "jointDeg": 0.040561480411269224,
+          "orientationDeg": 0.04894123267745336
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.07216307307201128,
+          "jointDeg": 0.2052749423821582,
+          "orientationDeg": 0.1691186140204679
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.25922178463448586,
+          "jointDeg": 0.6130248835333907,
+          "orientationDeg": 0.8537194356251019
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.328029791972603,
+          "jointDeg": 2.8244160534840552,
+          "orientationDeg": 4.985489945072409
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 15.274858318464682,
+          "jointDeg": 18.404920279225813,
+          "orientationDeg": 19.835891501981486
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 50,
+      "anchorSeconds": 1,
+      "rootHeightM": 0.6824201513343744,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.0945921168515685,
+          "jointDeg": 0.17429536253475578,
+          "orientationDeg": 0.07694008029555673
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.8276504948369477,
+          "jointDeg": 0.5544955167525211,
+          "orientationDeg": 0.8377720234154881
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.855915972310508,
+          "jointDeg": 1.1182998528266144,
+          "orientationDeg": 1.3893129949445986
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 5.756596836862413,
+          "jointDeg": 10.90477419061313,
+          "orientationDeg": 5.962988645716216
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 16.656517302602445,
+          "jointDeg": 9.323288927591404,
+          "orientationDeg": 7.369368034134594
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 60,
+      "anchorSeconds": 1.2,
+      "rootHeightM": 0.6290560515808014,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.07822726194421639,
+          "jointDeg": 0.33377316701443893,
+          "orientationDeg": 0.09298864876311674
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.2881084333328106,
+          "jointDeg": 0.8044918857878968,
+          "orientationDeg": 0.6505510316044673
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.5897694699931064,
+          "jointDeg": 1.6896115887233716,
+          "orientationDeg": 1.9535421994095956
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 13.65564142079638,
+          "jointDeg": 18.47556095293613,
+          "orientationDeg": 9.002636438999462
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 11.91345655988314,
+          "jointDeg": 3.8505817803504425,
+          "orientationDeg": 7.298815997933542
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 70,
+      "anchorSeconds": 1.4000000000000001,
+      "rootHeightM": 0.4492717207395141,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.26189517214850344,
+          "jointDeg": 0.9075806424261159,
+          "orientationDeg": 0.401984289539533
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.4538739463306187,
+          "jointDeg": 9.34222805783047,
+          "orientationDeg": 4.707867987265155
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 5.753819997257329,
+          "jointDeg": 20.0311008992757,
+          "orientationDeg": 5.676730494714638
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 7.710317890335361,
+          "jointDeg": 5.612481004270327,
+          "orientationDeg": 7.429119071039405
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.655425147560414,
+          "jointDeg": 3.742467716888037,
+          "orientationDeg": 3.484562153388805
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 80,
+      "anchorSeconds": 1.6,
+      "rootHeightM": 0.12159334818177121,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.20991711140502062,
+          "jointDeg": 0.4564458753852789,
+          "orientationDeg": 0.2423694195559305
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.19075126464141204,
+          "jointDeg": 1.3378548947492417,
+          "orientationDeg": 2.7540667296710146
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.5971505057471881,
+          "jointDeg": 2.126087617773077,
+          "orientationDeg": 2.8255533486454865
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.106446082276674,
+          "jointDeg": 2.810163689972694,
+          "orientationDeg": 3.595740574870698
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.378960321398057,
+          "jointDeg": 2.4769668502637883,
+          "orientationDeg": 5.648219147020205
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 90,
+      "anchorSeconds": 1.8,
+      "rootHeightM": 0.12658075922075998,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.12067055585585089,
+          "jointDeg": 0.3799175988531538,
+          "orientationDeg": 1.088165301798453
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.4937854414818847,
+          "jointDeg": 1.3624004698089391,
+          "orientationDeg": 3.9114737953398118
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 3.1528521496523827,
+          "jointDeg": 1.719113421072952,
+          "orientationDeg": 6.343426699046672
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 5.594059232489811,
+          "jointDeg": 2.3358929622111835,
+          "orientationDeg": 5.628025827673143
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.59257616639265,
+          "jointDeg": 2.285979790993686,
+          "orientationDeg": 4.320492169973707
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 100,
+      "anchorSeconds": 2,
+      "rootHeightM": 0.13323297387275682,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.13615908580306738,
+          "jointDeg": 0.20333951431452751,
+          "orientationDeg": 0.0998014385743824
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.0704161295431063,
+          "jointDeg": 1.0771708784357956,
+          "orientationDeg": 1.605343487295187
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.8618883474978045,
+          "jointDeg": 1.9108965439552998,
+          "orientationDeg": 4.642922310361773
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.631318354069122,
+          "jointDeg": 2.21009508141631,
+          "orientationDeg": 6.100466087135644
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.851191166995115,
+          "jointDeg": 2.449156091644321,
+          "orientationDeg": 4.519423306101675
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 110,
+      "anchorSeconds": 2.2,
+      "rootHeightM": 0.13341837745642166,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.13777827300308257,
+          "jointDeg": 0.21842968536199023,
+          "orientationDeg": 0.10573833496606001
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1385649851286566,
+          "jointDeg": 1.2047088692105972,
+          "orientationDeg": 1.4254063939202548
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9847555418737723,
+          "jointDeg": 2.0145463669214267,
+          "orientationDeg": 4.541212756462121
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.742588616145076,
+          "jointDeg": 2.185735652639149,
+          "orientationDeg": 5.95780015272324
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.858437099363233,
+          "jointDeg": 2.3145331164127247,
+          "orientationDeg": 4.750064796749603
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 120,
+      "anchorSeconds": 2.4,
+      "rootHeightM": 0.1333024508968098,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1378288802400949,
+          "jointDeg": 0.2342408723187659,
+          "orientationDeg": 0.10305587876470272
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1789701948225695,
+          "jointDeg": 1.261090524096933,
+          "orientationDeg": 1.7078530755859358
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.920918021732404,
+          "jointDeg": 2.158087032424678,
+          "orientationDeg": 4.627163620720846
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.347349631301961,
+          "jointDeg": 2.128754594968772,
+          "orientationDeg": 5.513694586638205
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.231124389505132,
+          "jointDeg": 2.3381219524488923,
+          "orientationDeg": 4.604195195701377
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 130,
+      "anchorSeconds": 2.6,
+      "rootHeightM": 0.13292982258348046,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.17544300557686468,
+          "jointDeg": 0.21335339711563892,
+          "orientationDeg": 0.09240414825505969
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1589853391645517,
+          "jointDeg": 1.1847153756006814,
+          "orientationDeg": 1.2947609244155474
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.061552039476088,
+          "jointDeg": 1.8322901946031445,
+          "orientationDeg": 4.250803849121713
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.220288266653415,
+          "jointDeg": 1.9331554502588721,
+          "orientationDeg": 5.105263526869577
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.129556344270027,
+          "jointDeg": 2.423291546891953,
+          "orientationDeg": 4.807040196893884
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 140,
+      "anchorSeconds": 2.8000000000000003,
+      "rootHeightM": 0.1328411085129408,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.16105019145566232,
+          "jointDeg": 0.21205776352947253,
+          "orientationDeg": 0.08460035400082483
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1390197208300903,
+          "jointDeg": 1.1025081051196557,
+          "orientationDeg": 1.694943199584446
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.960021024268889,
+          "jointDeg": 1.7835217049894405,
+          "orientationDeg": 4.695486654463047
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.102546273515931,
+          "jointDeg": 3.063174178724148,
+          "orientationDeg": 3.885996209863186
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 6.7470285716286185,
+          "jointDeg": 2.208095410472519,
+          "orientationDeg": 4.458969765758817
+        }
+      ]
+    },
+    {
+      "seed": 5,
+      "anchorStep": 150,
+      "anchorSeconds": 3,
+      "rootHeightM": 0.1333366395048374,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1500300343017552,
+          "jointDeg": 0.20330335354950285,
+          "orientationDeg": 0.085033468952351
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1680220003667146,
+          "jointDeg": 1.0523519668343078,
+          "orientationDeg": 1.7397491686462323
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9681926412505129,
+          "jointDeg": 1.7463370107006497,
+          "orientationDeg": 4.373144101624685
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.851021107263063,
+          "jointDeg": 3.128550049849612,
+          "orientationDeg": 4.989134871962651
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.05556308286516,
+          "jointDeg": 2.343537039183634,
+          "orientationDeg": 4.499901422992413
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 0,
+      "anchorSeconds": 0,
+      "rootHeightM": 0.76,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1042293657495752,
+          "jointDeg": 0.11951576880445927,
+          "orientationDeg": 0.05384666615178217
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.10315443375644023,
+          "jointDeg": 0.16814779509803568,
+          "orientationDeg": 0.2250145566116943
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.25277581709923813,
+          "jointDeg": 0.15300592074904054,
+          "orientationDeg": 0.2582863308497553
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.0969924814298495,
+          "jointDeg": 0.46728784671873697,
+          "orientationDeg": 1.036568508850833
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.9467924986884735,
+          "jointDeg": 2.320607271041987,
+          "orientationDeg": 7.234989451391566
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 10,
+      "anchorSeconds": 0.2,
+      "rootHeightM": 0.7380693248509217,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06872821672541815,
+          "jointDeg": 0.04400876819567925,
+          "orientationDeg": 0.030310647259414215
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.10433462176591174,
+          "jointDeg": 0.1068241534064242,
+          "orientationDeg": 0.056870461811440884
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2681639159763069,
+          "jointDeg": 0.18647975519395046,
+          "orientationDeg": 0.20884321717210874
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.0006353278107574,
+          "jointDeg": 0.6149196257398419,
+          "orientationDeg": 1.1875380269890188
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 2.8104288581622674,
+          "jointDeg": 3.5551254157783623,
+          "orientationDeg": 8.917110443488236
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 20,
+      "anchorSeconds": 0.4,
+      "rootHeightM": 0.7345795200824756,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.043169742922639955,
+          "jointDeg": 0.034820216318512835,
+          "orientationDeg": 0.021162021826690393
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.10500935810043847,
+          "jointDeg": 0.11244173763560315,
+          "orientationDeg": 0.09744064240061551
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.20846363619619027,
+          "jointDeg": 0.18974294452697632,
+          "orientationDeg": 0.288022801765711
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.6017253007235983,
+          "jointDeg": 1.1585609392812273,
+          "orientationDeg": 1.8731677515973906
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 5.2609444840065684,
+          "jointDeg": 3.1504865512993447,
+          "orientationDeg": 11.63144124172417
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 30,
+      "anchorSeconds": 0.6,
+      "rootHeightM": 0.7291489547040317,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06930709788520226,
+          "jointDeg": 0.03266733028764486,
+          "orientationDeg": 0.022604172755927042
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.09767893880255338,
+          "jointDeg": 0.12838273232187639,
+          "orientationDeg": 0.10011477329550743
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.16646330493082276,
+          "jointDeg": 0.33244034519769733,
+          "orientationDeg": 0.3486117295042204
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.6175031045934952,
+          "jointDeg": 1.981648496343801,
+          "orientationDeg": 3.8942441912514236
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.4510403674612,
+          "jointDeg": 25.356880937428148,
+          "orientationDeg": 6.355980425037946
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 40,
+      "anchorSeconds": 0.8,
+      "rootHeightM": 0.7135593193904384,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08614946430326988,
+          "jointDeg": 0.0467213067144608,
+          "orientationDeg": 0.03073288216846092
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.09544691654511261,
+          "jointDeg": 0.22818845754030198,
+          "orientationDeg": 0.15568710555408632
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.29314243875807805,
+          "jointDeg": 0.6462973861626881,
+          "orientationDeg": 0.8427477428969121
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.6509430317179183,
+          "jointDeg": 2.7276808709918017,
+          "orientationDeg": 5.952435090958514
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 13.680582800630267,
+          "jointDeg": 18.28180077452269,
+          "orientationDeg": 22.557610708407264
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 50,
+      "anchorSeconds": 1,
+      "rootHeightM": 0.6800102491726885,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.11645898856441489,
+          "jointDeg": 0.196104079253527,
+          "orientationDeg": 0.11703564390333608
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.8608692695603021,
+          "jointDeg": 0.5275195580703983,
+          "orientationDeg": 0.828434747725867
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.896076747747296,
+          "jointDeg": 1.1138193925553366,
+          "orientationDeg": 1.573225232312982
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 5.62553387076673,
+          "jointDeg": 13.13576477884406,
+          "orientationDeg": 7.1444882927067335
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 13.818139795890714,
+          "jointDeg": 9.93030592252153,
+          "orientationDeg": 9.080302300389182
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 60,
+      "anchorSeconds": 1.2,
+      "rootHeightM": 0.6221564848986649,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06642646842737333,
+          "jointDeg": 0.3145949157995555,
+          "orientationDeg": 0.10041606196385655
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.3897460971706589,
+          "jointDeg": 0.8551888505662134,
+          "orientationDeg": 0.7737002156948175
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9831136994983587,
+          "jointDeg": 2.4392901439852626,
+          "orientationDeg": 2.6462534763954673
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 12.56700519871976,
+          "jointDeg": 15.968110387104966,
+          "orientationDeg": 10.226736127161622
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 10.189149332139454,
+          "jointDeg": 2.949673883398988,
+          "orientationDeg": 8.73945452409543
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 70,
+      "anchorSeconds": 1.4000000000000001,
+      "rootHeightM": 0.4231709033339983,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.31759027314590577,
+          "jointDeg": 1.2524671820588573,
+          "orientationDeg": 0.49889007148757725
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.8274719731251797,
+          "jointDeg": 9.321797180069373,
+          "orientationDeg": 4.362559735303155
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 6.187858060262523,
+          "jointDeg": 18.24477369193178,
+          "orientationDeg": 5.263005823847853
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 6.311656999983143,
+          "jointDeg": 5.579724962466539,
+          "orientationDeg": 4.497696183184297
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.9490750312008127,
+          "jointDeg": 2.4051707396045963,
+          "orientationDeg": 7.27543716111579
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 80,
+      "anchorSeconds": 1.6,
+      "rootHeightM": 0.12200307162301767,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.16898334585201458,
+          "jointDeg": 0.2420365548040098,
+          "orientationDeg": 0.3665817530800867
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.565887882061507,
+          "jointDeg": 1.3434203396010722,
+          "orientationDeg": 1.5875377317442056
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.6500852509174496,
+          "jointDeg": 2.0897112449602075,
+          "orientationDeg": 2.7428024429064046
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.141833267757256,
+          "jointDeg": 2.134785192604421,
+          "orientationDeg": 4.899327310164333
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 5.909322918434067,
+          "jointDeg": 2.5243344349054473,
+          "orientationDeg": 4.694985663553432
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 90,
+      "anchorSeconds": 1.8,
+      "rootHeightM": 0.12778068305532092,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.28747490627997563,
+          "jointDeg": 0.5947829755748137,
+          "orientationDeg": 1.5072044176990387
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.8361749022851352,
+          "jointDeg": 1.534913420969157,
+          "orientationDeg": 4.851925182637346
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 3.3986981366039197,
+          "jointDeg": 1.8660181239229547,
+          "orientationDeg": 6.20693853810115
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 5.036915166816158,
+          "jointDeg": 2.4295571699529512,
+          "orientationDeg": 3.4748059271203267
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.785857482375818,
+          "jointDeg": 2.3622769164889426,
+          "orientationDeg": 4.590309750997906
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 100,
+      "anchorSeconds": 2,
+      "rootHeightM": 0.13175043170238565,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1601324907380681,
+          "jointDeg": 0.20752052815867053,
+          "orientationDeg": 0.0839778258469801
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1314634555500622,
+          "jointDeg": 1.1146940776790597,
+          "orientationDeg": 1.6811049483807095
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.008363282001812,
+          "jointDeg": 1.9060076650651379,
+          "orientationDeg": 4.56630105173494
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.4782661081108563,
+          "jointDeg": 2.6430248702485613,
+          "orientationDeg": 4.699185095524002
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.796235213962433,
+          "jointDeg": 2.474605582552841,
+          "orientationDeg": 4.456657998898813
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 110,
+      "anchorSeconds": 2.2,
+      "rootHeightM": 0.13256678335116406,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1783946859024838,
+          "jointDeg": 0.1913262984378099,
+          "orientationDeg": 0.07103870404142892
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.2201195974912622,
+          "jointDeg": 1.2583966471772547,
+          "orientationDeg": 1.7209422408645079
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9450164377047472,
+          "jointDeg": 2.0833291735176083,
+          "orientationDeg": 4.481391785808054
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.580753761503882,
+          "jointDeg": 2.3833590983677158,
+          "orientationDeg": 4.2209751469161985
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.40347849218096,
+          "jointDeg": 2.3240140061034325,
+          "orientationDeg": 5.053022930686127
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 120,
+      "anchorSeconds": 2.4,
+      "rootHeightM": 0.1325945105382226,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1394915804777879,
+          "jointDeg": 0.2203217993595908,
+          "orientationDeg": 0.14764184094487162
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1529081213968349,
+          "jointDeg": 1.2569769532882604,
+          "orientationDeg": 1.6272221431022769
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.874031972809987,
+          "jointDeg": 2.048193686289595,
+          "orientationDeg": 4.902326706738888
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.937974561667008,
+          "jointDeg": 3.5237136105463565,
+          "orientationDeg": 4.474745198983132
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.526536714023395,
+          "jointDeg": 2.1277403525642105,
+          "orientationDeg": 4.592947257604579
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 130,
+      "anchorSeconds": 2.6,
+      "rootHeightM": 0.13321072747986953,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.15098275229266087,
+          "jointDeg": 0.2273668268878586,
+          "orientationDeg": 0.12403168126066544
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1105537094427973,
+          "jointDeg": 1.243308523384675,
+          "orientationDeg": 1.7417182706117587
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.7464161396228066,
+          "jointDeg": 2.0528530411162556,
+          "orientationDeg": 4.084691023830099
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.725339170594909,
+          "jointDeg": 2.165326951191813,
+          "orientationDeg": 5.401585320235076
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.310768482452723,
+          "jointDeg": 2.3011757664500756,
+          "orientationDeg": 4.739088909694259
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 140,
+      "anchorSeconds": 2.8000000000000003,
+      "rootHeightM": 0.13301568400096156,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1596153345325482,
+          "jointDeg": 0.2376668296103932,
+          "orientationDeg": 0.16884838775216968
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1232253637668772,
+          "jointDeg": 1.188811027631306,
+          "orientationDeg": 1.5529250699203767
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9049824064927174,
+          "jointDeg": 1.8918326821752909,
+          "orientationDeg": 4.257928872125557
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.869354791546959,
+          "jointDeg": 2.2559480002480665,
+          "orientationDeg": 3.6563620871026163
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 6.574214910492122,
+          "jointDeg": 2.2256939555802404,
+          "orientationDeg": 4.912153437731654
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "anchorStep": 150,
+      "anchorSeconds": 3,
+      "rootHeightM": 0.13312389274870048,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.15188814382770743,
+          "jointDeg": 0.21901790025971718,
+          "orientationDeg": 0.10835183814431205
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1014572264709723,
+          "jointDeg": 1.0746211736118503,
+          "orientationDeg": 1.6967143049486333
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.0348267745214113,
+          "jointDeg": 1.7204784085038407,
+          "orientationDeg": 4.78978876308929
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.5250773662782575,
+          "jointDeg": 2.4970341336609017,
+          "orientationDeg": 3.9247312104318035
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 6.07759996230568,
+          "jointDeg": 2.4515494651079055,
+          "orientationDeg": 4.508998615238758
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 0,
+      "anchorSeconds": 0,
+      "rootHeightM": 0.76,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.11057756079545245,
+          "jointDeg": 0.1472651077918952,
+          "orientationDeg": 0.06280555882047896
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11170929885210784,
+          "jointDeg": 0.17238673428037163,
+          "orientationDeg": 0.06677252845978258
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2610763161037588,
+          "jointDeg": 0.17690480359960473,
+          "orientationDeg": 0.22662225333784586
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.1578393942447893,
+          "jointDeg": 0.48883812119588266,
+          "orientationDeg": 1.0420803041830764
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.114575608378702,
+          "jointDeg": 2.3108253667471352,
+          "orientationDeg": 7.03903557608387
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 10,
+      "anchorSeconds": 0.2,
+      "rootHeightM": 0.7378323365227033,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.05433547826714137,
+          "jointDeg": 0.03970515685821099,
+          "orientationDeg": 0.010789445073081364
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.12018096032198856,
+          "jointDeg": 0.11931725983631707,
+          "orientationDeg": 0.0683290413742502
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2584586339529831,
+          "jointDeg": 0.1891224862896092,
+          "orientationDeg": 0.2132090064101512
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.9419949125920153,
+          "jointDeg": 0.6842799477730102,
+          "orientationDeg": 1.1217748927707354
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 2.5034001728142026,
+          "jointDeg": 3.340953495017239,
+          "orientationDeg": 8.435496739650626
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 20,
+      "anchorSeconds": 0.4,
+      "rootHeightM": 0.733855677781813,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08175773192826465,
+          "jointDeg": 0.03757889900466229,
+          "orientationDeg": 0.031665011004851217
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.1048216096974571,
+          "jointDeg": 0.1064427974011611,
+          "orientationDeg": 0.10850484765521737
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.21558747253238592,
+          "jointDeg": 0.20362284442288484,
+          "orientationDeg": 0.28151243953331423
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.7976699127335514,
+          "jointDeg": 1.2550143605534612,
+          "orientationDeg": 1.7632931140164882
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.151270185855319,
+          "jointDeg": 3.268645508870552,
+          "orientationDeg": 9.694263987052476
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 30,
+      "anchorSeconds": 0.6,
+      "rootHeightM": 0.7293187350120134,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.07219979051513012,
+          "jointDeg": 0.02961126397701276,
+          "orientationDeg": 0.028455827115762135
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.07763301870110428,
+          "jointDeg": 0.1349116240232709,
+          "orientationDeg": 0.09403478538085933
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2219949704104514,
+          "jointDeg": 0.38539587920203505,
+          "orientationDeg": 0.259063105913059
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.7792803831701697,
+          "jointDeg": 2.0163072526168353,
+          "orientationDeg": 3.6789787385743167
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.241226362551501,
+          "jointDeg": 21.81770513913589,
+          "orientationDeg": 1.378003429665284
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 40,
+      "anchorSeconds": 0.8,
+      "rootHeightM": 0.7141696440133698,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08105632756122762,
+          "jointDeg": 0.04693618513054555,
+          "orientationDeg": 0.03871744260180714
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.1364046443054773,
+          "jointDeg": 0.25664726256634574,
+          "orientationDeg": 0.10631863850945943
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.3945406459453753,
+          "jointDeg": 0.7129554287834843,
+          "orientationDeg": 0.7285992727485139
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.764230609607205,
+          "jointDeg": 2.928903576406688,
+          "orientationDeg": 4.276323308050682
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 16.30047877053228,
+          "jointDeg": 19.615473838125684,
+          "orientationDeg": 18.194457298255124
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 50,
+      "anchorSeconds": 1,
+      "rootHeightM": 0.6852668980817432,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08791598854855817,
+          "jointDeg": 0.15004801428233672,
+          "orientationDeg": 0.04627466782023772
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.655825065411315,
+          "jointDeg": 0.5130339665889394,
+          "orientationDeg": 0.8492183583718972
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.804207274834667,
+          "jointDeg": 1.0853050997038585,
+          "orientationDeg": 0.9459836947670511
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 6.606816577664203,
+          "jointDeg": 10.01063071703003,
+          "orientationDeg": 6.4964968505736165
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 14.89096765737875,
+          "jointDeg": 9.910730724168314,
+          "orientationDeg": 8.030674736612353
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 60,
+      "anchorSeconds": 1.2,
+      "rootHeightM": 0.636663125348695,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.0982601166834943,
+          "jointDeg": 0.35676002190295525,
+          "orientationDeg": 0.1251649197455097
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.35154013218390584,
+          "jointDeg": 0.730950029186462,
+          "orientationDeg": 0.7324858528605878
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.6700397660261552,
+          "jointDeg": 1.4570147954335884,
+          "orientationDeg": 2.1170768222447993
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 14.259357184126022,
+          "jointDeg": 18.792766362980537,
+          "orientationDeg": 7.199579310326638
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 12.294186536991084,
+          "jointDeg": 3.567202925658432,
+          "orientationDeg": 7.688219538776382
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 70,
+      "anchorSeconds": 1.4000000000000001,
+      "rootHeightM": 0.47287056492284957,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.24659520985839856,
+          "jointDeg": 0.7043337009385564,
+          "orientationDeg": 0.2889267283979093
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.5167323218492588,
+          "jointDeg": 8.908697319992484,
+          "orientationDeg": 4.118764209403837
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 5.479461864273282,
+          "jointDeg": 19.275231576960334,
+          "orientationDeg": 3.9416633664251273
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 8.820350708862183,
+          "jointDeg": 6.411888854855566,
+          "orientationDeg": 8.946487231177825
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.3861163754894115,
+          "jointDeg": 2.4418972189576347,
+          "orientationDeg": 6.954002210373244
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 80,
+      "anchorSeconds": 1.6,
+      "rootHeightM": 0.1075190370330093,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1637819799714633,
+          "jointDeg": 1.260905797684016,
+          "orientationDeg": 0.45168161076405305
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.000734694544562,
+          "jointDeg": 2.7536714258053903,
+          "orientationDeg": 2.820106623876712
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.4925729025800927,
+          "jointDeg": 2.7551588554131357,
+          "orientationDeg": 5.348709793940112
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.0422221069788034,
+          "jointDeg": 1.87733316310054,
+          "orientationDeg": 6.134247363038412
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.757028455817144,
+          "jointDeg": 2.54335273349047,
+          "orientationDeg": 5.737612671652444
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 90,
+      "anchorSeconds": 1.8,
+      "rootHeightM": 0.13322267192545276,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08745302530008743,
+          "jointDeg": 0.3196749563369928,
+          "orientationDeg": 0.8678247227722978
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.735210559055705,
+          "jointDeg": 1.5078049840092418,
+          "orientationDeg": 2.398099726872057
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 3.272105181604712,
+          "jointDeg": 1.6384359868254836,
+          "orientationDeg": 6.637151433339558
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 5.759875797587507,
+          "jointDeg": 2.6386960859156483,
+          "orientationDeg": 2.472032552351558
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 10.643535443984554,
+          "jointDeg": 2.2627221019596924,
+          "orientationDeg": 5.029779633491412
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 100,
+      "anchorSeconds": 2,
+      "rootHeightM": 0.1318123578950628,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1731659264738588,
+          "jointDeg": 0.16758198286495396,
+          "orientationDeg": 0.06204943366539592
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1252864678422252,
+          "jointDeg": 1.1031776209124204,
+          "orientationDeg": 1.8520067842297145
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9964555031054592,
+          "jointDeg": 1.8773697584654325,
+          "orientationDeg": 4.65933488985417
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.42452625251194,
+          "jointDeg": 2.212787137714415,
+          "orientationDeg": 6.161692140095527
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.434581702238964,
+          "jointDeg": 2.4266556465675273,
+          "orientationDeg": 4.939187953768789
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 110,
+      "anchorSeconds": 2.2,
+      "rootHeightM": 0.13232966404876223,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.18635654330879342,
+          "jointDeg": 0.2055248688227933,
+          "orientationDeg": 0.13361302957585164
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.133551315292224,
+          "jointDeg": 1.2211543858904959,
+          "orientationDeg": 1.6121440179952622
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9734824618717106,
+          "jointDeg": 1.9817208290547772,
+          "orientationDeg": 4.511640778516775
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.331374081762009,
+          "jointDeg": 2.4809785830757964,
+          "orientationDeg": 4.416889143997227
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.093504382931831,
+          "jointDeg": 2.171917824088063,
+          "orientationDeg": 4.8396934252231665
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 120,
+      "anchorSeconds": 2.4,
+      "rootHeightM": 0.13263516362956998,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.18152630698026798,
+          "jointDeg": 0.22207867647815274,
+          "orientationDeg": 0.0847781988785669
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.2723546040347617,
+          "jointDeg": 1.204895606913751,
+          "orientationDeg": 1.6300187957328522
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.1120442085223416,
+          "jointDeg": 2.0357549116664893,
+          "orientationDeg": 4.596167355696622
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.713384792124371,
+          "jointDeg": 3.187207016103822,
+          "orientationDeg": 4.001702584635891
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.467665251770231,
+          "jointDeg": 2.0894870920865287,
+          "orientationDeg": 4.756815470135615
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 130,
+      "anchorSeconds": 2.6,
+      "rootHeightM": 0.13268070662888712,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.16080551203022145,
+          "jointDeg": 0.20239893215449484,
+          "orientationDeg": 0.11650145982737442
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.2189437797667162,
+          "jointDeg": 1.2236072219082932,
+          "orientationDeg": 1.632509130610861
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.966098254689028,
+          "jointDeg": 1.9608534587492452,
+          "orientationDeg": 4.583967509692718
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.039469499401382,
+          "jointDeg": 2.4493806469618873,
+          "orientationDeg": 4.481489173433264
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.656264456605541,
+          "jointDeg": 2.2857940118003186,
+          "orientationDeg": 4.754790319572582
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 140,
+      "anchorSeconds": 2.8000000000000003,
+      "rootHeightM": 0.13269287366250584,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.17336156348760456,
+          "jointDeg": 0.21012460637658026,
+          "orientationDeg": 0.10297868253711694
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1931703290373863,
+          "jointDeg": 1.1717836402355462,
+          "orientationDeg": 1.5986617597298443
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9212550555501153,
+          "jointDeg": 1.905551189096024,
+          "orientationDeg": 4.534290514609634
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.4640658990260302,
+          "jointDeg": 2.086534536275787,
+          "orientationDeg": 4.889977712685221
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.803078408987648,
+          "jointDeg": 2.368941714846605,
+          "orientationDeg": 4.975940785368491
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "anchorStep": 150,
+      "anchorSeconds": 3,
+      "rootHeightM": 0.13300407046090404,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1618129304326907,
+          "jointDeg": 0.19133872224026247,
+          "orientationDeg": 0.0814098041268957
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.2586308572969855,
+          "jointDeg": 0.9791618938882772,
+          "orientationDeg": 1.2764288488109647
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9811388476642944,
+          "jointDeg": 1.7068279934567865,
+          "orientationDeg": 4.416559707463602
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.9010464110761673,
+          "jointDeg": 1.8856133512843738,
+          "orientationDeg": 5.643115008216571
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.719894728379519,
+          "jointDeg": 2.4826034242386585,
+          "orientationDeg": 5.377267389448455
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 0,
+      "anchorSeconds": 0,
+      "rootHeightM": 0.76,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.11678831502608034,
+          "jointDeg": 0.14189290155140136,
+          "orientationDeg": 0.047810140460119006
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.12161994816408302,
+          "jointDeg": 0.16351447032820157,
+          "orientationDeg": 0.26679861333097127
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.2836209276220364,
+          "jointDeg": 0.1675740141181537,
+          "orientationDeg": 0.3453078211205335
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 1.1301521693820842,
+          "jointDeg": 0.4647309258796439,
+          "orientationDeg": 1.0767299566161959
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.060048575324815,
+          "jointDeg": 2.286893854854498,
+          "orientationDeg": 7.185934357068501
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 10,
+      "anchorSeconds": 0.2,
+      "rootHeightM": 0.7374121066901206,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.036757339826258874,
+          "jointDeg": 0.04108861403147383,
+          "orientationDeg": 0.035672838853473325
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11151123669257614,
+          "jointDeg": 0.11220796831642331,
+          "orientationDeg": 0.08151790038740674
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.28321864215639003,
+          "jointDeg": 0.182670806567127,
+          "orientationDeg": 0.23020107451002392
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.9772223024764113,
+          "jointDeg": 0.5875755842078089,
+          "orientationDeg": 1.2728848731737172
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 3.1668199338583842,
+          "jointDeg": 3.644408562183607,
+          "orientationDeg": 9.361603465664949
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 20,
+      "anchorSeconds": 0.4,
+      "rootHeightM": 0.7342850036482995,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.03878156591415451,
+          "jointDeg": 0.03602212697722719,
+          "orientationDeg": 0.03415265898763688
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.10677242370285256,
+          "jointDeg": 0.11524179062388633,
+          "orientationDeg": 0.08295167362179906
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.20321863096959633,
+          "jointDeg": 0.18800766108867314,
+          "orientationDeg": 0.2839696864935965
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.668697805192705,
+          "jointDeg": 1.1094213777430533,
+          "orientationDeg": 1.8294618397717601
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 4.541036091279518,
+          "jointDeg": 3.278960527467843,
+          "orientationDeg": 10.639469354805021
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 30,
+      "anchorSeconds": 0.6,
+      "rootHeightM": 0.7291058408875417,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08024464103230732,
+          "jointDeg": 0.030881672420025527,
+          "orientationDeg": 0.026755358506046874
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.11507893715526968,
+          "jointDeg": 0.12097711430217163,
+          "orientationDeg": 0.11624568784544079
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.19728273770940113,
+          "jointDeg": 0.35278101398641487,
+          "orientationDeg": 0.36325916916403944
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 0.6607301543433556,
+          "jointDeg": 1.9597509863697458,
+          "orientationDeg": 3.772350313872346
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.799972450685883,
+          "jointDeg": 24.37502954166448,
+          "orientationDeg": 4.794064514802315
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 40,
+      "anchorSeconds": 0.8,
+      "rootHeightM": 0.7138085308711227,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.09587264110304916,
+          "jointDeg": 0.0405967709008602,
+          "orientationDeg": 0.035551288549834845
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.08595908150969274,
+          "jointDeg": 0.20921347331108736,
+          "orientationDeg": 0.1495798682252505
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.26273037443312225,
+          "jointDeg": 0.6037866583304894,
+          "orientationDeg": 0.7903088341106023
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 2.071354314956219,
+          "jointDeg": 2.594006326400919,
+          "orientationDeg": 4.7783234516564255
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 15.284206595682287,
+          "jointDeg": 18.938298715235995,
+          "orientationDeg": 21.773136760501885
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 50,
+      "anchorSeconds": 1,
+      "rootHeightM": 0.6838509088580724,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.08678570168474335,
+          "jointDeg": 0.15642708348585826,
+          "orientationDeg": 0.08749590262326175
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.7359504868701591,
+          "jointDeg": 0.47469111069398695,
+          "orientationDeg": 0.8246949297155636
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.8496833517608786,
+          "jointDeg": 1.0709777656000576,
+          "orientationDeg": 1.0928154488404798
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 6.373244046563214,
+          "jointDeg": 12.053854142771227,
+          "orientationDeg": 7.6009255583435955
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 14.28857861158021,
+          "jointDeg": 7.9760452566644355,
+          "orientationDeg": 6.563786177012049
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 60,
+      "anchorSeconds": 1.2,
+      "rootHeightM": 0.6297027221414058,
+      "highRoot": true,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.06749069262375022,
+          "jointDeg": 0.3028955778169592,
+          "orientationDeg": 0.09187160621887516
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.34055452775148454,
+          "jointDeg": 0.8042239475464232,
+          "orientationDeg": 0.8354923014725318
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.7439214990525365,
+          "jointDeg": 1.8262169434216637,
+          "orientationDeg": 2.5169465355543146
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 14.0548736766553,
+          "jointDeg": 17.072452287506596,
+          "orientationDeg": 10.279936364764755
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 12.833819104792688,
+          "jointDeg": 2.6849361553151363,
+          "orientationDeg": 10.006734981552007
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 70,
+      "anchorSeconds": 1.4000000000000001,
+      "rootHeightM": 0.4461332669136144,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.34203112142699416,
+          "jointDeg": 0.970830104390059,
+          "orientationDeg": 0.4116654835305359
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.3191917468607002,
+          "jointDeg": 9.545381982992424,
+          "orientationDeg": 4.6772824901914625
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 6.359993614221188,
+          "jointDeg": 19.53873975377928,
+          "orientationDeg": 6.354656409610607
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 8.061766015000767,
+          "jointDeg": 5.559225259413326,
+          "orientationDeg": 6.5159316744933875
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 6.7187088724103585,
+          "jointDeg": 2.584466072576092,
+          "orientationDeg": 6.162706010487038
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 80,
+      "anchorSeconds": 1.6,
+      "rootHeightM": 0.12514264070555853,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.19673988597920983,
+          "jointDeg": 0.31902180510616823,
+          "orientationDeg": 0.3472672169336942
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 0.23329736799494616,
+          "jointDeg": 1.117743420370779,
+          "orientationDeg": 2.0395208518253645
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 0.863949131658138,
+          "jointDeg": 1.7826441323133944,
+          "orientationDeg": 3.44367672732153
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.7715970757255293,
+          "jointDeg": 2.306300653830853,
+          "orientationDeg": 4.827357804181916
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 10.109165330842607,
+          "jointDeg": 2.571634155909984,
+          "orientationDeg": 4.591168143550174
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 90,
+      "anchorSeconds": 1.8,
+      "rootHeightM": 0.12451061709204238,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.18030476022689412,
+          "jointDeg": 0.5018345398059433,
+          "orientationDeg": 1.3619220293566385
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.636007298361089,
+          "jointDeg": 1.3358649252908024,
+          "orientationDeg": 4.479535401005321
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 3.4200453907181467,
+          "jointDeg": 1.6554537965024378,
+          "orientationDeg": 5.549131617903241
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.382169747469247,
+          "jointDeg": 2.5283948314150586,
+          "orientationDeg": 3.7583399623950577
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 9.317798709615351,
+          "jointDeg": 2.432537129854973,
+          "orientationDeg": 3.773065988523118
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 100,
+      "anchorSeconds": 2,
+      "rootHeightM": 0.13286778979747982,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.12988249184952172,
+          "jointDeg": 0.20986233342814095,
+          "orientationDeg": 0.15322614163135456
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.0938544580244816,
+          "jointDeg": 1.0861900450849113,
+          "orientationDeg": 1.8454202729345468
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.8199030134709053,
+          "jointDeg": 1.9697608422658728,
+          "orientationDeg": 4.511034166593498
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.165966490014566,
+          "jointDeg": 2.7132868634264034,
+          "orientationDeg": 4.022543029049978
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.630917251281237,
+          "jointDeg": 2.2485888078932605,
+          "orientationDeg": 5.076140537004018
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 110,
+      "anchorSeconds": 2.2,
+      "rootHeightM": 0.1331608194379108,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1288803339652685,
+          "jointDeg": 0.21733936749051694,
+          "orientationDeg": 0.11219485567209983
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1604587907609032,
+          "jointDeg": 1.2255078774577006,
+          "orientationDeg": 1.437476538298374
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9826539863542936,
+          "jointDeg": 1.9851327735413666,
+          "orientationDeg": 4.39416393512906
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.1854664480587545,
+          "jointDeg": 2.0829119388751813,
+          "orientationDeg": 4.829913528239504
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.958500195451338,
+          "jointDeg": 2.235335107191716,
+          "orientationDeg": 4.914801556586883
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 120,
+      "anchorSeconds": 2.4,
+      "rootHeightM": 0.13300431584773095,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.16346513974722213,
+          "jointDeg": 0.22277557754531987,
+          "orientationDeg": 0.16199598068339827
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1892300795453965,
+          "jointDeg": 1.2048958597807617,
+          "orientationDeg": 1.6871373791659885
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.8682472219875623,
+          "jointDeg": 1.9991403993508798,
+          "orientationDeg": 4.675010275698049
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.680391317303618,
+          "jointDeg": 2.121974750193455,
+          "orientationDeg": 6.30157096882424
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.613551589351019,
+          "jointDeg": 2.1808703071974533,
+          "orientationDeg": 5.135038452680444
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 130,
+      "anchorSeconds": 2.6,
+      "rootHeightM": 0.13303722926995157,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.1461329326272683,
+          "jointDeg": 0.20724423979375298,
+          "orientationDeg": 0.05674983149393583
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.0865135897577234,
+          "jointDeg": 1.135877281006467,
+          "orientationDeg": 1.4232550116055767
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.9608941448742905,
+          "jointDeg": 1.9712003744028086,
+          "orientationDeg": 3.8217216109727197
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 4.235038423696372,
+          "jointDeg": 2.071455186040189,
+          "orientationDeg": 5.866721787799549
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.310803787814452,
+          "jointDeg": 2.25446232972625,
+          "orientationDeg": 4.447974421096702
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 140,
+      "anchorSeconds": 2.8000000000000003,
+      "rootHeightM": 0.13267361385396287,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.15915297018009192,
+          "jointDeg": 0.1964291226792112,
+          "orientationDeg": 0.0841156783257237
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.1827176653914078,
+          "jointDeg": 1.0425477241004815,
+          "orientationDeg": 1.3836232381732603
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 2.1309150101577434,
+          "jointDeg": 1.6866661911611902,
+          "orientationDeg": 4.269489761856634
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.946251516761862,
+          "jointDeg": 1.880698638546731,
+          "orientationDeg": 5.78677358088528
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 7.929018339071707,
+          "jointDeg": 2.284982086623938,
+          "orientationDeg": 5.029697616238847
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "anchorStep": 150,
+      "anchorSeconds": 3,
+      "rootHeightM": 0.1327716445619715,
+      "highRoot": false,
+      "samples": [
+        {
+          "steps": 1,
+          "seconds": 0.02,
+          "rootCm": 0.14910907263304907,
+          "jointDeg": 0.21657011097535395,
+          "orientationDeg": 0.15427234209764173
+        },
+        {
+          "steps": 5,
+          "seconds": 0.1,
+          "rootCm": 1.2177269124511656,
+          "jointDeg": 1.1060553613090782,
+          "orientationDeg": 1.6031541421102093
+        },
+        {
+          "steps": 10,
+          "seconds": 0.2,
+          "rootCm": 1.973601795155158,
+          "jointDeg": 1.7231814244654469,
+          "orientationDeg": 4.419128975694443
+        },
+        {
+          "steps": 25,
+          "seconds": 0.5,
+          "rootCm": 3.664722049235812,
+          "jointDeg": 1.8129674184936915,
+          "orientationDeg": 5.893216211742179
+        },
+        {
+          "steps": 50,
+          "seconds": 1,
+          "rootCm": 8.149443820849323,
+          "jointDeg": 2.388485887588089,
+          "orientationDeg": 5.5314506552364575
+        }
+      ]
+    }
+  ]
+}

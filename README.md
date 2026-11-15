@@ -1,41 +1,29 @@
-# SuperMimic vs Physics
+# SuperMimic × MuJoCo
 
-A browser experiment by Ajay Cyril: compare a learned robot world model with MuJoCo under the same initial state and motor commands. Change the inputs, inspect prediction drift, and export GIFs plus their evidence.
+How does a learned world model's prediction error change with the length of its rollout?
 
-**Live on GitHub Pages.** Six recorded experiments, seven article GIFs, and a reproducible build that verifies the released model before deployment. See `docs/VALIDATION.md` for verification scope.
+**[Explore the comparison](https://ajaycyril.github.io/supermimicdemo/)** · **[Read the article](https://ajaycyril.github.io/supermimicdemo/article.html)**
 
-- Demo: https://ajaycyril.github.io/supermimicdemo/
-- Illustrated article: https://ajaycyril.github.io/supermimicdemo/article.html
-- Article draft: [article/substack-draft.md](article/substack-draft.md)
-- [Method and limitations](docs/METHOD.md)
-- [Project plan](docs/PLAN.md)
+![Measured prediction error across five horizons](article/gifs/horizon.gif)
 
-## Run locally
+## Findings
 
-Node 22+ and Python 3.12+. In a normal network-enabled environment:
+Across 128 overlapping prediction windows from eight seeded MuJoCo trajectories, the community world model's median root-position error was 0.12 cm at 20 ms, 3.75 cm at 500 ms and 8.12 cm at one second. The 56 windows starting with a root height above 0.6 m showed the same broad increase.
 
-```sh
-npm install --ignore-scripts
-python3 scripts/export_model.py --download
-npm test
-npm run build
-npm run serve
-```
+These are measurements of prediction disagreement in a limited scripted experiment. The trajectories include falls. This is not a balance-policy evaluation, a training-speed benchmark, or a claim that SuperMimic outperforms SONIC.
 
-Open http://127.0.0.1:8765. Load the engines, run a comparison, replay it, then export a GIF and JSON. No API keys, server, CUDA or Three.js are required. Python is used only to prepare the static model and robot files, not by visitors.
+## Explore
 
-## Publish with GitHub Pages
+The browser comparison runs MuJoCo and the released neural dynamics model locally. Adjust motion, frequency, friction, command noise and state refresh while it runs. Pause, advance one step, slow the view to 0.1×, or replay a recorded trajectory. Recordings retain the applied control changes.
 
-The source is hosted in `ajaycyril/supermimicdemo`. In **Settings → Pages → Build and deployment**, select **GitHub Actions**. The included workflow prepares assets, validates the model, uploads the static `dist/` site and deploys Pages. The article lives at `/article.html`. Commit further changes to `main` to redeploy.
+The [article](article/article.md) explains SONIC's feedback loop, SuperMimic's differentiable world model, what the reported speedups measure, and what this prediction study establishes.
 
-The model is downloaded from a pinned release and verified by SHA-256 during preparation. Large checkpoints, npm packages and generated ONNX files are excluded from source control. The static deployment includes the exported dynamics model.
+[Study data](article/horizon-study.json) · [Methodology](docs/METHOD.md) · [Study implementation](tools/benchmark.mjs)
 
-## What this is
+## Sources
 
-Real MuJoCo 3.16 WASM + a real released community dynamics checkpoint + ONNX Runtime Web. Six experiment presets, seven article GIFs, deterministic command noise, root/joint error plots, replay, GIF export, JSON and CSV. Schematic rendering uses the robot's actual forward kinematics.
+The pretrained dynamics checkpoint comes from [CuboiLeo's independent reproduction](https://github.com/CuboiLeo/SuperMimic-Reproduced). The original research is [SuperMimic](https://supermimic.github.io/); the earlier controller comparison is [SONIC](https://nvlabs.github.io/GEAR-SONIC/).
 
-It is an independent comparison project, **not an official SuperMimic fork or a reproduction of the paper’s benchmark**. It uses simple scripted commands rather than the released tracking policy. See the method before interpreting a fall or extrapolating a speed result.
+The project uses [mjlab](https://github.com/mujocolab/mjlab) robot parameters, [MuJoCo](https://github.com/google-deepmind/mujoco), [ONNX Runtime](https://github.com/microsoft/onnxruntime), and [gifenc](https://github.com/mattdesl/gifenc). Source notices and model provenance are retained with the project.
 
-## Credits
-
-[SuperMimic authors](https://supermimic.github.io/), [CuboiLeo’s reproduction](https://github.com/CuboiLeo/SuperMimic-Reproduced), [mjlab](https://github.com/mujocolab/mjlab), [MuJoCo](https://github.com/google-deepmind/mujoco), [ONNX Runtime](https://github.com/microsoft/onnxruntime), and [gifenc](https://github.com/mattdesl/gifenc). Third-party notices are retained in `docs/licenses/`.
+By Ajay Cyril · [DigDeepTech](https://digdeeptech.com/)

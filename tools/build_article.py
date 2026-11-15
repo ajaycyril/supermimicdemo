@@ -1,7 +1,6 @@
-"""Render the article and prepare a portable Substack editing package."""
+"""Render the standalone article from its Markdown source."""
 import html
 import re
-import zipfile
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
@@ -55,33 +54,8 @@ head = ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
 page = (head + '<link rel="stylesheet" href="style.css"></head><body class="story-page">'
         '<header><a class="brand" href="./"><span class="mark">D</span> DIGDEEP / ARTICLES</a>'
         '<nav><a href="./">Try the experiment ↗</a></nav></header>'
-        '<main><div class="article-actions"><button id="copy-article" type="button">Copy article for Substack</button>'
-        '<a href="article/substack/SuperMimic-Substack.zip" download>Download article &amp; visuals</a>'
-        '<span id="copy-status" role="status"></span></div>'
-        '<article class="article" id="article-content">' + body + '</article></main>'
-        '<script type="module" src="src/article.mjs"></script></body></html>')
+        '<main><article class="article" id="article-content">' + body + '</article></main>'
+        '</body></html>')
 (root / "article.html").write_text(page)
 
-bundle_dir = root / "article/substack"
-bundle_dir.mkdir(exist_ok=True)
-portable = (head + '<style>' + (root / "style.css").read_text() +
-            '</style></head><body class="story-page"><main><article class="article">' +
-            body.replace('src="article/visuals/', 'src="visuals/') + '</article></main></body></html>')
-instructions = (
-    "SUBSTACK PUBLISHING\n\n"
-    f"Title\n{title}\n\nSubtitle\n{subtitle}\n\n"
-    "The published article has a Copy article for Substack button. Paste into a new draft, "
-    "then move the title and subtitle into Substack's separate fields. "
-    "Check the three image placements in the draft and upload the included files wherever needed.\n\n"
-    "This package also includes a standalone HTML article and Markdown source. "
-    "The PNG version of gradient-path is available for a static replacement.\n\n"
-    "All diagrams are original explanatory visuals. The prediction chart uses the linked demo's measurements. "
-    "The article contains source credits and links to the demo, code, research and method.\n"
-)
-with zipfile.ZipFile(bundle_dir / "SuperMimic-Substack.zip", "w", zipfile.ZIP_DEFLATED) as bundle:
-    bundle.writestr("SuperMimic-Article.md", source)
-    bundle.writestr("SuperMimic-Article.html", portable)
-    bundle.writestr("Publishing.txt", instructions)
-    for image in sorted((root / "article/visuals").iterdir()):
-        bundle.write(image, "visuals/" + image.name)
-print("Rendered article and Substack package")
+print("Rendered standalone article")

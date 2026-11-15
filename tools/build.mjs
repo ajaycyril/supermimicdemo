@@ -13,7 +13,7 @@ const sourceHash=createHash('sha256');for(const file of sourceFiles)sourceHash.u
 const appVersion=sourceHash.digest('hex').slice(0,12),replayVersion=appVersion;
 for(const file of sourceFiles){let code=await readFile(`src/${file}`,'utf8');for(const dep of sourceFiles)code=code.replaceAll(`'./${dep}'`,`'./${dep}?v=${appVersion}'`);await writeFile(`dist/src/${file}`,code);}
 const styleVersion=createHash('sha256').update(await readFile('style.css')).digest('hex').slice(0,12);
-for(const page of ['index.html','article.html'])await writeFile(`dist/${page}`,(await readFile(`dist/${page}`,'utf8')).replace('href="style.css"',`href="style.css?v=${styleVersion}"`).replace('src="src/article.mjs"',`src="src/article.mjs?v=${appVersion}"`));
+for(const page of ['index.html','article.html'])await writeFile(`dist/${page}`,(await readFile(`dist/${page}`,'utf8')).replace('href="style.css"',`href="style.css?v=${styleVersion}"`));
 await writeFile('dist/index.html',(await readFile('dist/index.html','utf8')).replace('src="src/app.mjs"',`src="src/app.mjs?v=${appVersion}"`).replace('src="src/warp-replay.mjs"',`src="src/warp-replay.mjs?v=${replayVersion}"`));
 await rm('dist/article',{recursive:true,force:true});
 await cp('article','dist/article',{recursive:true,filter:source=>!source.endsWith('.json')||!source.includes('/runs/')});

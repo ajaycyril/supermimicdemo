@@ -14,7 +14,7 @@ The demo compares the community learned model with MuJoCo Warp and native MuJoCo
 
 The browser comparison runs MuJoCo and the released neural dynamics model locally. Adjust motion, frequency, friction, command noise and state refresh while it runs. Pause, advance one step, slow the view to 0.1×, or replay a recorded trajectory. Recordings retain the applied control changes.
 
-The [article](article/article.md), “One GPU, three hours. How SuperMimic makes robots learn faster,” explains the architecture, the gradient path and the evidence behind the training claims. It includes original diagrams and a downloadable Substack package.
+The [article](article/article.md), “One GPU, three hours. How SuperMimic makes robots learn faster,” explains the architecture, the gradient path and the evidence behind the training claims. It includes original diagrams, an animation, and links to the research and experiment methodology.
 
 [Study data](article/warp-horizons.json.gz) · [Methodology](docs/METHOD.md) · [Study implementation](tools/warp-study.mjs)
 

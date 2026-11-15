@@ -51,8 +51,6 @@
 .story-page .article figure { margin:32px 0; }
 .story-page .article img { width:100%; height:auto; display:block; border-radius:10px; }
 .story-page .article figcaption { font-size:14px; line-height:1.6; color:#53646b; padding:12px 4px; }
-.article-actions { max-width:800px; margin:30px auto 0; display:flex; gap:12px 18px; flex-wrap:wrap; align-items:center; font:13px 'DM Sans',sans-serif; }
-.article-actions #copy-status { flex-basis:100%; }
 .article-table { overflow-x:auto; }
 .story-page .article td, .story-page .article th { min-width:150px; padding:12px; font-size:15px; line-height:1.5; }
 @media (max-width:600px) { .story-page .article p { font-size:18px; } .story-page nav { gap:10px; } }

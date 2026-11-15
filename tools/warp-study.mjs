@@ -7,60 +7,67 @@ globalThis.fetch = async url => new Response(await readFile('dist/' + url));
 const { LabEngine } = await import('../dist/src/engine.mjs');
 const engine = new LabEngine();
 await engine.load();
-const friction = 1;
-const initial = Array.from(engine.reset({friction, push: 0}));
-const rng = seededRandom(42);
-const actions = Array.from({length: 150}, (_, k) =>
-  Array.from(actionAt(k, engine.robot.joints, .2, .05, rng, .5)));
-const capture = spawnSync(process.env.WARP_PYTHON || 'python3',
-  ['tools/warp_capture.py', process.argv[2] || 'cpu'],
-  {input: JSON.stringify({friction, initial, actions}), stdio: ['pipe', 'inherit', 'inherit']});
-if (capture.status !== 0) throw capture.error || new Error('Warp capture failed');
-
-const trace = JSON.parse(await readFile('dist/warp-states.json', 'utf8'));
 const pairs = (native, warp, learned) => [
   errors(warp, learned).root * 100,
   errors(native, learned).root * 100,
   errors(warp, native).root * 100,
 ];
-const pack = (state) => Array.from(engine.bodies(Float64Array.from(state)), v => +v.toFixed(5));
-const cases = [];
-for (const anchor of [0, 25, 50, 75, 100]) {
-  let learned = Float64Array.from(trace.warp[anchor]);
-  // An identical starting state for all engines requires re-running native MuJoCo from this anchor.
-  engine.reset({friction, push: 0});
-  engine.write(engine.data, learned);
-  const frames = [];
-  for (let k = 0; k <= 50; k++) {
-    const warp = trace.warp[anchor + k];
-    const native = k ? engine.step(actions[anchor + k - 1]) : learned;
-    if (k) learned = await engine.predict(learned, actions[anchor + k - 1], friction);
-    const gaps = pairs(native, warp, learned);
-    if (![...learned, ...native, ...warp, ...gaps].every(Number.isFinite)) throw new Error('Non-finite replay');
-    frames.push({t: k * DT, gaps, bodies: [pack(warp), pack(native), pack(learned)]});
+const pack = (state) => Array.from(engine.bodies(Float64Array.from(state)), v => +v.toFixed(3));
+const seeds = [17, 42, 73, 101];
+const frictions = [1, .35];
+const anchors = [0, 25, 50, 75, 100];
+const horizons = [1, 5, 10, 25, 50];
+const median = values => {
+  const sorted = [...values].sort((a,b) => a-b);
+  return (sorted[Math.floor((sorted.length-1)/2)] + sorted[Math.ceil((sorted.length-1)/2)]) / 2;
+};
+const conditions = [];
+let versions, device;
+for (const friction of frictions) {
+  const windows = [];
+  let example;
+  for (const seed of seeds) {
+    const initial = Array.from(engine.reset({friction, push: 0}));
+    const rng = seededRandom(seed);
+    const actions = Array.from({length: 150}, (_, k) =>
+      Array.from(actionAt(k, engine.robot.joints, .2, .05, rng, .5)));
+    const capture = spawnSync(process.env.WARP_PYTHON || 'python3',
+      ['tools/warp_capture.py', process.argv[2] || 'cpu'],
+      {input: JSON.stringify({friction, initial, actions}), stdio: ['pipe', 'inherit', 'inherit']});
+    if (capture.status !== 0) throw capture.error || new Error('Warp capture failed');
+    const trace = JSON.parse(await readFile('dist/warp-states.json', 'utf8'));
+    ({versions, device} = trace);
+    for (const anchor of anchors) {
+      let learned = Float64Array.from(trace.warp[anchor]);
+      engine.reset({friction, push: 0});
+      engine.write(engine.data, learned);
+      const samples = [], frames = [];
+      const record = seed === 42 && anchor === 25;
+      for (let k = 0; k <= 50; k++) {
+        const warp = trace.warp[anchor + k];
+        const native = k ? engine.step(actions[anchor + k - 1]) : learned;
+        if (k) learned = await engine.predict(learned, actions[anchor + k - 1], friction);
+        const gaps = pairs(native, warp, learned);
+        if (![...learned, ...native, ...warp, ...gaps].every(Number.isFinite)) throw new Error('Non-finite replay');
+        if (horizons.includes(k)) samples.push(gaps);
+        if (record && k % 2 === 0) frames.push({t: k * DT, gaps, bodies: [pack(warp), pack(native), pack(learned)]});
+      }
+      if (record) example = {anchor, seed, frames};
+      windows.push({seed, anchor, samples});
+    }
   }
-  cases.push({anchor, height: trace.warp[anchor][2], frames});
+  const summary = horizons.map((steps, h) => ({
+    seconds: steps * DT,
+    medianCm: [0, 1, 2].map(pair => median(windows.map(w => w.samples[h][pair]))),
+    perSeedCm: seeds.map(seed => [0, 1, 2].map(pair =>
+      median(windows.filter(w => w.seed === seed).map(w => w.samples[h][pair])))),
+  }));
+  conditions.push({friction, windows, summary, example});
+  console.log(friction, JSON.stringify(summary));
 }
-const oneStep = [];
-for (let k = 0; k < actions.length; k++) {
-  const state = Float64Array.from(trace.warp[k]);
-  engine.reset({friction, push: 0});
-  engine.write(engine.data, state);
-  oneStep.push(pairs(engine.step(actions[k]), trace.warp[k + 1], await engine.predict(state, actions[k], friction)));
-}
-const median = xs => {
-  const sorted = [...xs].sort((a,b) => a-b);
-  return (sorted[Math.floor((xs.length-1)/2)] + sorted[Math.ceil((xs.length-1)/2)]) / 2;
-};
-const report = {
-  schema: 1, device: trace.device, versions: trace.versions, onnxSha256: engine.manifest.onnx_sha256,
-  seed: 42, friction, amplitude: .2, frequencyHz: .5, noiseStd: .05, timestep: DT,
-  parents: engine.parents, initial, actions, cases, oneStep,
-  medianOneStep: [0,1,2].map(i => median(oneStep.map(gaps => gaps[i]))),
-  medianOneSecond: [0,1,2].map(i => median(cases.map(c => c.frames.at(-1).gaps[i]))),
-};
-await writeFile('article/warp-study.json.gz', gzipSync(JSON.stringify(report)));
-console.log(JSON.stringify({medianOneStep: report.medianOneStep, medianOneSecond: report.medianOneSecond}));
+const report = {schema: 2, device, versions, onnxSha256: engine.manifest.onnx_sha256,
+  timestep: DT, seeds, anchors, parents: engine.parents, conditions, amplitude: .2, frequencyHz: .5, noiseStd: .05};
+await writeFile('article/warp-horizons.json.gz', gzipSync(JSON.stringify(report)));
 engine.data.delete();
 engine.visual.delete();
 engine.model.delete();

@@ -49,7 +49,9 @@ A scripted pose command is not a balance policy. Falling does not establish that
 
 MuJoCo Warp 3.16.0 with Warp 1.19.0 runs on CPU using the demo's G1 XML, one world, 35 candidate contacts per world and 250 constraint rows. Native MuJoCo WASM also uses this XML. This is a matched demo configuration rather than the checkpoint's full mjlab training environment. CPU execution measures dynamics only. The capture makes no GPU throughput claim.
 
-The 150 commands use seed 42, shoulder amplitude 0.2, frequency 0.5 Hz, command noise standard deviation 0.05 and foot friction 1.0. For the five free trajectories, the browser's reference implementation is initialized from Warp's joint positions and velocities at steps 0, 25, 50, 75 and 100. The learned model starts from those same states. Warp continues its recorded trajectory. The native model does not inherit Warp solver warm starts. For the one-step comparison, native and learned predictions start from each of the 150 saved Warp states. All gap statistics are pairwise root-position distances.
+Four deterministic command seeds (17, 42, 73 and 101) are repeated at foot friction 1.0 and 0.35. Each seed uses 150 commands at 50 Hz, a shoulder amplitude of 0.2, frequency of 0.5 Hz and command noise standard deviation of 0.05. For each seed and friction, native MuJoCo and the learned model initialize from Warp joint/base positions and velocities at steps 0, 25, 50, 75 and 100. Warp continues its recorded trajectory, and native MuJoCo starts without Warp solver warm starts. Warp logged 18 line-search iteration-limit messages and one solver iteration-limit message. There were no reported contact or constraint buffer overflows.
+
+Each of the same 20 windows per friction is measured at all five horizons: 20, 100, 200 and 500 ms, and one second. Statistics are pairwise root-position distances. The range is the minimum and maximum of the four seed medians. Windows from the same trajectory overlap. Friction changes the reference trajectory and its later starting states, so the friction comparison covers the complete scripted protocol.
 
 Reproduce with the standard build and model assets prepared, then run:
 
@@ -59,7 +61,7 @@ node tools/warp-study.mjs cpu
 python3 tools/render_warp.py
 ```
 
-The replay data include the commands, plotted positions, control timestep, exact package versions and checkpoint hash. The static deployment plays back these measured frames. The separate live comparison runs both of its engines in the browser.
+The published data include the pairwise measurements for each window, per-seed medians, sampled body positions for the seed 42 example, exact package versions, and checkpoint hash. The static site replays the recorded example. The separate live comparison computes native MuJoCo and learned dynamics in the browser.
 
 ## How to attribute a disagreement
 

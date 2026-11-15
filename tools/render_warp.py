@@ -1,70 +1,55 @@
-"""Animate measured Warp, native MuJoCo and learned-model body positions."""
+"""Render one animated figure from the aggregate Warp horizon study."""
 import gzip
 import json
-import math
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
 article = Path("article")
-with gzip.open(article / "warp-study.json.gz", "rt") as source:
+with gzip.open(article / "warp-horizons.json.gz", "rt") as source:
     data = json.load(source)
-colors = ("#5947a4", "#116d79", "#b84d23")
-engines = ("MuJoCo Warp", "Native MuJoCo", "Learned dynamics")
-pairs = ("Learned / Warp", "Learned / native", "Native / Warp")
 font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+colors = ("#a64024", "#5947a4")
+ink = "#142d32"
+muted = "#485e61"
+steps = ("20 ms", "100 ms", "200 ms", "500 ms", "1 s")
 
 
-def label(draw, position, value, size=22, fill="#142d32", anchor=None):
+def label(draw, position, value, size=24, fill=ink, anchor=None):
     draw.text(position, value, font=ImageFont.truetype(font_path, size), fill=fill, anchor=anchor)
 
 
-def render(case, i):
-    image = Image.new("P", (900, 556))
-    palette = ["#f8f7f3", "#142d32", "#526668", "#dbe3df", *colors, "#ffffff"]
-    image.putpalette([int(c[j:j+2], 16) for c in palette for j in (1, 3, 5)])
+def render(active):
+    image = Image.new("RGB", (860, 480), "#f8f7f3")
     draw = ImageDraw.Draw(image)
-    frame = case["frames"][i]
-    label(draw, (25, 19), "Same commands. Three predictions.", 33, 1)
-    label(draw, (25, 66), f"Recorded G1 models   |   Warp starting state at {case['anchor'] * data['timestep']:.2f} s", 17, 2)
-    label(draw, (875, 68), f"{frame['t']:.2f} s", 19, 1, "ra")
-    origin_x, origin_y = case["frames"][0]["bodies"][0][3:5]
-    for side, bodies in enumerate(frame["bodies"]):
-        center = 150 + 300 * side
-        color = 4 + side
-        label(draw, (center, 118), engines[side], 23, color, "ma")
-        draw.line((center-120, 330, center+120, 330), fill=3, width=2)
-        def point(j):
-            x, y, z = bodies[j*3:j*3+3]
-            return center + 150 * (y-origin_y + .65*(x-origin_x)), 330 - 180*z
-        for j, parent in enumerate(data["parents"]):
-            if j and parent:
-                a, b = point(parent), point(j)
-                draw.line((*a, *b), fill=color, width=5)
-                draw.ellipse((b[0]-3, b[1]-3, b[0]+3, b[1]+3), fill=color)
-    draw.line((25, 357, 875, 357), fill=3, width=2)
-    top, bottom = 408, 508
-    max_gap = max(gap for sample in case["frames"] for gap in sample["gaps"])
-    scale = max(1, math.ceil(max_gap / 5) * 5)
-    for value in (0, scale/2, scale):
-        y = bottom - (bottom-top) * value / scale
-        draw.line((86, y, 507, y), fill=3, width=1)
-        label(draw, (76, y), f"{value:g}", 14, 2, "rm")
-    label(draw, (25, 375), "Root-position gap (cm)", 19, 1)
-    for j, (pair, color) in enumerate(zip(pairs, (6, 5, 4))):
-        points = [(86 + 421*k/50, bottom-(bottom-top)*f["gaps"][j]/scale) for k, f in enumerate(case["frames"][:i+1])]
-        if j == 1:
-            for k in range(0, len(points)-1, 4):
-                draw.line(points[k:k+3], fill=color, width=2)
-        elif len(points) > 1:
-            draw.line(points, fill=color, width=3)
-        label(draw, (543, 408+j*35), pair, 17, color)
-        label(draw, (875, 408+j*35), f"{frame['gaps'][j]:.{4 if frame['gaps'][j] < .01 else 2}f} cm", 17, color, "ra")
-    label(draw, (25, 531), "Numerical comparison. Physical G1 measurements would provide a real-world reference.", 15, 2)
+    label(draw, (34, 28), "How far ahead can the model predict?", 35)
+    label(draw, (34, 79), "Median root-position gap to MuJoCo Warp", 23, muted)
+    label(draw, (34, 126), "Standard friction · 1.00", 21, colors[0])
+    label(draw, (398, 126), "Lower friction · 0.35", 21, colors[1])
+    limits = [0, 2, 4, 6, 8, 10]
+    bottom, top = 366, 164
+    y = lambda gap: bottom - gap * (bottom - top) / limits[-1]
+    for gap in limits:
+        draw.line((89, y(gap), 818, y(gap)), fill="#d9e0dc")
+        label(draw, (78, y(gap)), f"{gap:g}", 16, muted, "rm")
+    label(draw, (29, 164), "cm", 16, muted)
+    for i, step in enumerate(steps):
+        x = 131 + 161 * i
+        label(draw, (x + 24, 384), step, 18, muted, "ma")
+        if i > active:
+            continue
+        for c, condition in enumerate(data["conditions"]):
+            value = condition["summary"][i]["medianCm"][0]
+            bar_x = x + 29 * c
+            draw.rectangle((bar_x, y(value), bar_x + 21, bottom), fill=colors[c])
+            if i == active:
+                offset = -6 if c == 0 else 8
+                label(draw, (bar_x + 10 + offset, y(value) - 5 - 22 * (1-c)), f"{value:.2f}", 17, colors[c], "ms")
+    baseline = [c["summary"][active]["medianCm"][2] for c in data["conditions"]]
+    label(draw, (34, 428), f"Native MuJoCo vs. Warp at {steps[active]}: {baseline[0]:.2g} cm and {baseline[1]:.2g} cm", 20, muted)
     return image
 
 
-for name, case in (("warp-start", data["cases"][0]), ("warp-contact", min(data["cases"], key=lambda x:x["height"]))):
-    frames = [render(case, i) for i in range(0, len(case["frames"]), 2)]
-    frames[0].save(article / "gifs" / (name + ".gif"), save_all=True, append_images=frames[1:],
-                   duration=[550]+[85]*(len(frames)-2)+[1250], loop=0, optimize=True)
+frames = [render(i) for i in range(len(steps))]
+frames[0].save(article / "gifs" / "forecast-horizon.gif", save_all=True,
+               append_images=frames[1:], duration=[900, 700, 700, 850, 4200], loop=0, optimize=True)

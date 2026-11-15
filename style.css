@@ -24,3 +24,20 @@
 .warp-table table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .warp-table caption { text-align: left; font-weight: 650; }
 .warp-table th, .warp-table td { padding: .55rem; text-align: left; border-bottom: 1px solid #d9e0dc; }
+
+.experiment-hero { grid-template-columns: 1fr; }
+.forecast-legend { display:flex; flex-wrap:wrap; gap:.5rem 1.2rem; margin:1.2rem 0; }
+.forecast-legend span::before { content:''; display:inline-block; width:.7rem; height:.7rem; border-radius:2px; background:#b84d23; margin-right:.45rem; }
+.forecast-legend span + span::before { background:#116d79; }
+.forecast-chart { display:grid; gap:.65rem; }
+.forecast-row { display:grid; grid-template-columns:4.4rem minmax(0,1fr); grid-template-rows:repeat(2,1.15rem); gap:.15rem .65rem; }
+.forecast-row > strong { grid-row:span 2; align-self:center; font-size:.9rem; }
+.forecast-lane { grid-column:2; display:flex; align-items:center; gap:.55rem; font-variant-numeric:tabular-nums; }
+.forecast-lane i { display:block; width:calc((100% - 6.3rem) * var(--bar-ratio)); min-width:2px; height:.34rem; border-radius:2px; background:#b84d23; }
+.forecast-lane.native i { background:#116d79; }
+.forecast-lane b { white-space:nowrap; font-size:.82rem; }
+.forecast-outcome { padding:.8rem 1rem; margin:1.1rem 0; border-left:3px solid #b84d23; background:#fff; line-height:1.5; }
+.experiment-detail { padding:.55rem 0; border-top:1px solid #d9e0dc; }
+.experiment-detail summary,.live-lab > summary { cursor:pointer; font-weight:650; }
+.live-lab { margin:1.6rem 0 2.4rem; }
+.live-lab > summary { padding:.85rem 1rem; border:1px solid #d9e0dc; border-radius:.6rem; }

@@ -1,5 +1,6 @@
 const colors = ['#5947a4', '#116d79', '#b84d23'];
-const formatGap = cm => cm > 0 && cm < .001 ? cm.toExponential(2) : cm.toFixed(3);
+const formatGap = cm => cm > 0 && cm < .001 ? cm.toExponential(2) : cm.toFixed(cm < 1 ? 3 : 2);
+const labelTime = seconds => seconds === 1 ? '1 s' : `${Math.round(seconds * 1000)} ms`;
 const labels = ['MuJoCo Warp', 'Native MuJoCo WASM', 'Community world model'];
 const panel = document.getElementById('warp-replay');
 if (panel) loadReplay().catch(() => {
@@ -7,30 +8,65 @@ if (panel) loadReplay().catch(() => {
 });
 
 async function loadReplay() {
-  const response = await fetch('article/warp-study.json.gz');
+  const response = await fetch('article/warp-horizons.json.gz');
   if (!response.ok) throw new Error('Missing Warp replay');
   const raw = response.body.pipeThrough(new DecompressionStream('gzip'));
   const data = await new Response(raw).json();
   const select = panel.querySelector('select');
+  const chart = panel.querySelector('#forecast-chart');
+  const tbody = panel.querySelector('tbody');
+  const outcome = panel.querySelector('#forecast-outcome');
   const scrub = panel.querySelector('input');
   const canvas = panel.querySelector('canvas');
   const button = panel.querySelector('button');
   const c = canvas.getContext('2d');
-  const values = panel.querySelectorAll('[data-gap]');
-  const median = panel.querySelectorAll('[data-summary]');
   const time = panel.querySelector('output');
+  const maxGap = Math.max(...data.conditions.flatMap(condition =>
+    condition.summary.flatMap(row => row.medianCm)));
   let timer = null;
+  const condition = () => data.conditions[Number(select.value)];
 
-  for (const [i, run] of data.cases.entries()) {
-    select.add(new Option(`Warp at ${(run.anchor * data.timestep).toFixed(2)} s · base ${run.height.toFixed(2)} m`, i));
-  }
-  for (const [i, value] of median.entries()) {
-    const numbers = i % 2 === 0 ? data.medianOneStep : data.medianOneSecond;
-    value.textContent = formatGap(numbers[Math.floor(i / 2)]);
+  function summarize() {
+    const rows = condition().summary;
+    chart.replaceChildren();
+    tbody.replaceChildren();
+    for (const row of rows) {
+      const key = labelTime(row.seconds);
+      const group = document.createElement('div');
+      group.className = 'forecast-row';
+      const title = document.createElement('strong');
+      title.textContent = key;
+      group.append(title);
+      for (const pair of [0, 2]) {
+        const lane = document.createElement('span');
+        lane.className = pair === 0 ? 'forecast-lane learned' : 'forecast-lane native';
+        const bar = document.createElement('i');
+        bar.style.setProperty('--bar-ratio', String(row.medianCm[pair] / maxGap));
+        const value = document.createElement('b');
+        value.textContent = `${formatGap(row.medianCm[pair])} cm`;
+        lane.setAttribute('aria-label', `${pair === 0 ? 'Learned model' : 'Native MuJoCo'} vs. Warp: ${value.textContent}`);
+        value.setAttribute('aria-hidden', 'true');
+        lane.append(bar, value);
+        group.append(lane);
+      }
+      chart.append(group);
+      const tr = tbody.insertRow();
+      const th = document.createElement('th');
+      th.scope = 'row';
+      th.textContent = key;
+      tr.append(th);
+      for (let pair = 0; pair < row.medianCm.length; pair++) {
+        const values = row.perSeedCm.map(seed => seed[pair]);
+        const cell = tr.insertCell();
+        cell.textContent = `${formatGap(row.medianCm[pair])} (${formatGap(Math.min(...values))} to ${formatGap(Math.max(...values))})`;
+      }
+    }
+    const first = rows[0].medianCm, last = rows.at(-1).medianCm;
+    outcome.textContent = `The learned model’s median gap to Warp rose from ${formatGap(first[0])} cm at 20 ms to ${formatGap(last[0])} cm at 1 s. Native MuJoCo differed from Warp by ${formatGap(last[2])} cm at 1 s.`;
   }
 
   function draw() {
-    const run = data.cases[Number(select.value)];
+    const run = condition().example;
     const frame = run.frames[Number(scrub.value)];
     c.fillStyle = '#f8f7f3';
     c.fillRect(0, 0, canvas.width, canvas.height);
@@ -63,7 +99,7 @@ async function loadReplay() {
       }
     }
     time.value = `${frame.t.toFixed(2)} s`;
-    for (const [i, value] of values.entries()) value.textContent = formatGap(frame.gaps[i]);
+
   }
 
   function stop() {
@@ -72,9 +108,10 @@ async function loadReplay() {
     button.textContent = 'Play replay';
   }
 
-  scrub.max = data.cases[0].frames.length - 1;
-  select.onchange = () => { stop(); scrub.value = 0; draw(); };
+  scrub.max = condition().example.frames.length - 1;
+  select.onchange = () => { stop(); scrub.value = 0; summarize(); draw(); };
   scrub.oninput = () => { stop(); draw(); };
+  canvas.closest('details').ontoggle = event => { if (!event.currentTarget.open) stop(); };
   button.onclick = () => {
     if (timer !== null) { stop(); return; }
     if (scrub.value === scrub.max) scrub.value = 0;
@@ -83,10 +120,12 @@ async function loadReplay() {
       scrub.stepUp();
       draw();
       if (scrub.value === scrub.max) stop();
-    }, 55);
+    }, 110);
   };
+  select.disabled = false;
   panel.querySelector('fieldset').disabled = false;
+  summarize();
   panel.querySelector('[role=status]').textContent =
-    `Recorded with MuJoCo Warp ${data.versions['mujoco-warp']} on ${data.device.toUpperCase()}. Playback is slowed for inspection.`;
+    `Four seeded trajectories per friction setting, five overlapping windows per trajectory. Warp ${data.versions['mujoco-warp']} ran on ${data.device.toUpperCase()}.`;
   draw();
 }

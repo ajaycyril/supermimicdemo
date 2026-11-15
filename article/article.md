@@ -12,10 +12,6 @@ Imagine a Unitree G1 landing a jump and pitching forward. Its policy turns obser
 
 The world model predicts a few steps ahead. The optimizer works backward from the tracking objective through those predictions to the policy that chose the commands. If the model thinks a small change in hip torque would improve the landing, the optimizer can use that information to update the policy. The model stays fixed during that policy update. Its weights are fitted separately using simulator transitions. [SuperMimic paper](https://arxiv.org/abs/2610.28480)
 
-![The forward prediction and backward gradient paths](gifs/gradient-flow.gif)
-
-*This schematic shows where the gradient flows. The browser runs forward predictions.*
-
 ## Why use a world model when you already have Warp?
 
 SuperMimic **already uses MuJoCo Warp** to generate the physics transitions its world model learns from. MuJoCo Warp is the GPU implementation of MuJoCo. It can run many physics environments in parallel. The learned model gives the authors a second way to generate short trajectories, with a differentiable path back to the policy. The project reports over 10× rollout throughput relative to MuJoCo Warp at its training batch sizes on an H100. That measures throughput for the reported setup. [SuperMimic results](https://supermimic.github.io/) · [MuJoCo Warp](https://github.com/google-deepmind/mujoco_warp)
@@ -30,41 +26,24 @@ The SuperMimic team reports beating the released SONIC checkpoint's tracking ret
 
 Physics solvers can provide gradients too. MuJoCo Warp's current documentation lists differentiation as unavailable. ∇Mimic, a separate project, uses its own differentiable solver and reports reaching SuperMimic's published LAFAN1 tracking score in roughly 20 minutes versus 1.2 hours. That comparison uses separately reported runs on different GPUs. The ∇Mimic result covers simulated G1 tracking on flat ground. It gives me a reason to compare differentiable physics directly when asking which training approach works best. [MuJoCo Warp compatibility](https://github.com/google-deepmind/mujoco_warp#user-content-mujoco-api-compatibility) · [∇Mimic paper](https://arxiv.org/abs/2610.41654)
 
-![Comparing simulator-based and learned-dynamics training loops](gifs/architecture.gif)
+## What changes when I ask it to predict further ahead?
 
-*The engine that generates a trajectory and the method that updates the policy are separate choices.*
+I picked a narrower question for the [browser experiment](https://ajaycyril.github.io/supermimicdemo/). If I start all three models from the same state and give them the same commands, does the learned prediction stay close to Warp? And how much of the gap could come from choosing a different MuJoCo backend?
 
-## What my demo actually runs
+I used the same G1 geometry and motor settings for both physics engines. Each comparison starts from a recorded Warp pose and velocity. Native MuJoCo and the learned model then predict forward without a reset. I tried four seeds at two friction settings, with five starting points per trajectory. Lower friction is a setting I supply to all three engines. The commands come from a script, so a fall here tells us little about the quality of a trained controller.
 
-The [browser demo](https://ajaycyril.github.io/supermimicdemo/) steps native MuJoCo compiled to WebAssembly on one side. On the other, ONNX Runtime runs weights exported from CuboiLeo's independent SuperMimic reproduction. The robots start in the same state and take the same scripted joint commands, with the same selected foot friction. The visual uses computed body poses. The live comparison uses scripted commands. The Warp comparison below replays a separate recorded experiment. [Checkpoint and code](https://github.com/CuboiLeo/SuperMimic-Reproduced) · [Demo method](https://github.com/ajaycyril/supermimicdemo/blob/main/docs/METHOD.md)
+![Measured root-position gaps across five prediction horizons and two friction settings](gifs/forecast-horizon.gif)
 
-Try **One step** to start each learned prediction from the current MuJoCo state. Every 20 ms the model gets a fresh starting point. In **Free rollout**, it has to use the state it predicted on the previous step. That lets a small mismatch affect every step that follows.
+*Each bar is the median of 20 overlapping prediction windows at its friction setting. The animation advances the look-ahead time. The bottom line reports how much the two physics engines differed at that horizon.*
 
-![Measured root-position gap as the forecast horizon grows](gifs/horizon.gif)
+| Foot friction | Learned ↔ Warp at 20 ms | Learned ↔ Warp at 1 s | Native ↔ Warp at 1 s |
+| --- | --- | --- | --- |
+| Standard, 1.00 | 0.105 cm | 6.37 cm | 0.00022 cm |
+| Lower, 0.35 | 0.131 cm | 8.76 cm | 0.0020 cm |
 
-*In 128 overlapping windows from eight scripted trajectories, the median root-position gap grew from 0.12 cm at 20 ms to 8.12 cm at one second. The windows include falls and share trajectories. The GIF records a comparison with native MuJoCo.*
+Three things stood out. At one step the median learned-to-Warp gap was about a millimetre. At one second the gap was several centimetres. The two physics engines stayed much closer in this setup, so the choice of MuJoCo backend explains little of the gap. The median one-second gap was also larger on the lower-friction setting for each of the four seeds. Changing friction changes the motion and the states encountered, so I'd treat that as a result for this script and floor setup.
 
-## What changed when I ran MuJoCo Warp?
-
-I ran MuJoCo Warp 3.16.0 on CPU and captured a scripted G1 trajectory. I then started the native browser engine and the learned checkpoint from states on that trajectory and replayed the same commands. All three use the same joint and root starting state. The two physics engines use the same adapted G1 XML. This setup lets me measure the native–Warp gap directly, although it still differs from the reproduction's full training environment.
-
-![A one-second replay from the initial standing pose across all three engines](gifs/warp-start.gif)
-
-*Recorded body positions and root-position gaps starting from the initial pose. Playback is slowed.*
-
-| Pair of predictions | Median gap at 20 ms | Median gap at 1 s |
-| --- | --- | --- |
-| Learned model and MuJoCo Warp | 0.122 cm | 6.06 cm |
-| Learned model and native MuJoCo | 0.122 cm | 6.08 cm |
-| Native MuJoCo and MuJoCo Warp | <0.00001 cm | 0.00020 cm |
-
-The one-step column uses 150 predictions refreshed from one Warp trajectory. The one-second column uses five overlapping free rollouts from that same trajectory. On this probe the learned model was similarly far from both physics engines, while their median gap was tiny by comparison. That weakens the explanation that the learned model diverged mainly because I chose native MuJoCo. Other contact conditions and simulator settings could change the result.
-
-![A replay from a low starting pose showing behavior around ground contact](gifs/warp-contact.gif)
-
-*The same comparison from the lowest starting pose in the recorded set. Compare the shape of the three gap curves during contact.*
-
-A position gap is symmetric. Either prediction can be closer to the behavior of a physical G1. Trajectories and measured gaps tell me what the engines did. A measured robot trajectory tells me what happened.
+The checkpoint is from [CuboiLeo's independent reproduction](https://github.com/CuboiLeo/SuperMimic-Reproduced). I ran MuJoCo Warp 3.16.0 on CPU with the demo's G1 model. The site replays those captures and offers a separate live native-MuJoCo comparison. The runs used an adapted configuration, and Warp occasionally reached the configured solver iteration limits. [Method and reproducibility](https://github.com/ajaycyril/supermimicdemo/blob/main/docs/METHOD.md)
 
 ## What would settle the disagreement?
 

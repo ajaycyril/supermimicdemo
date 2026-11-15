@@ -3,35 +3,29 @@
 <body>
 <header><a class="brand" href="./"><span class="mark">D</span> DIGDEEP <span class="brand-sub">/ EXPERIMENTS</span></a><nav><a href="article.html">Read the article ↗</a><a href="https://github.com/ajaycyril/supermimicdemo">GitHub ↗</a></nav></header>
 <main>
-<div class="hero"><div><p class="eyebrow">AN EXPERIMENT BY AJAY CYRIL</p><h1>Same commands.<br><em>Different futures.</em></h1><p class="intro">Run native MuJoCo WASM and a community reproduction of SuperMimic’s dynamics model side by side. The gap measures disagreement between their predictions.</p></div><a class="story-link" href="article.html"><span>THE RESEARCH & THE EXPERIMENT</span><strong>When the models disagree,<br>which one is right?</strong><span>Read the article →</span></a></div>
-<section class="evidence" aria-labelledby="evidence-heading">
-<h2 id="evidence-heading">What would tell us which prediction is right?</h2>
-<div class="evidence-grid">
-<details open><summary>Browser · Measure disagreement</summary><p>Both engines run live with the same scripted commands. This comparison uses native MuJoCo WASM and a community checkpoint. No hardware trajectory is loaded.</p></details>
-<details><summary>MuJoCo Warp · Check backend differences</summary><p>The recorded three-way run below includes native MuJoCo, MuJoCo Warp and the learned model. The next fidelity test would use the reproduction’s exact training environment.</p></details>
-<details><summary>Physical G1 · Check real-world accuracy</summary><p>Give both models the robot’s measured starting state and executed commands. Compare each prediction against the same synchronized hardware trace.</p></details>
-</div>
-</section>
+<div class="hero experiment-hero"><div><p class="eyebrow">AN EXPERIMENT BY AJAY CYRIL</p><h1>How far ahead can a<br><em>robot world model predict?</em></h1><p class="intro">I gave a learned dynamics model and two MuJoCo backends the same starting state and motor commands. Then I measured how their predictions separated.</p></div></div>
 <section id="warp-replay" class="study warp-replay" aria-labelledby="warp-heading">
-<div class="study-heading"><div><p class="eyebrow">RECORDED THREE-ENGINE EXPERIMENT</p><h2 id="warp-heading">What changes when we run Warp?</h2></div></div>
-<p>All three use the same scripted commands and start each replay from the same Warp joint and base state. The gaps compare numerical predictions.</p>
+<div class="study-heading"><h2 id="warp-heading">From one step to one second</h2><label>Foot friction <select id="surface" disabled><option value="0">Standard · 1.00</option><option value="1">Lower · 0.35</option></select></label></div>
+<p>Median root-position gap to MuJoCo Warp across 20 windows per friction setting.</p>
+<div class="forecast-legend"><span>Learned model vs. Warp</span><span>Native MuJoCo vs. Warp</span></div>
+<div class="forecast-chart" aria-label="Median root-position gap in centimetres" id="forecast-chart"></div>
+<p class="forecast-outcome" id="forecast-outcome"></p>
+<details class="experiment-detail"><summary>All comparisons and seed ranges</summary>
+<div class="warp-table"><table><caption>Median gap in cm, with the range of the four seed medians</caption><thead><tr><th>Look-ahead</th><th>Learned ↔ Warp</th><th>Learned ↔ native</th><th>Native ↔ Warp</th></tr></thead><tbody></tbody></table></div>
+</details>
+<details class="experiment-detail"><summary>Replay one measured trajectory</summary>
+<p>Three predictions from the same start, 0.5 seconds into the seed 42 run. The selected foot friction applies here too.</p>
 <fieldset disabled>
-<div class="warp-controls"><label>Starting state <select aria-label="Warp replay starting state"></select></label><button type="button">Play replay</button><label>Time <output>0.00 s</output><input type="range" min="0" max="50" value="0" aria-label="Replay time"></label></div>
-<canvas width="1080" height="320" role="img" aria-label="Recorded body positions for Warp, native MuJoCo and the community world model"></canvas>
+<div class="warp-controls"><button type="button">Play replay</button><label>Replay time <output>0.00 s</output><input type="range" min="0" max="25" value="0"></label></div>
+<canvas width="1080" height="320" role="img" aria-label="Recorded body positions for Warp, native MuJoCo and the learned model"></canvas>
 </fieldset>
-<div class="warp-table"><table><caption>Root-position gap in centimetres</caption><thead><tr><th>Compared engines</th><th>Selected frame</th><th>Median at 20 ms</th><th>Median at 1 s</th></tr></thead><tbody>
-<tr><th>Learned ↔ Warp</th><td data-gap>—</td><td data-summary>—</td><td data-summary>—</td></tr>
-<tr><th>Learned ↔ native</th><td data-gap>—</td><td data-summary>—</td><td data-summary>—</td></tr>
-<tr><th>Native ↔ Warp</th><td data-gap>—</td><td data-summary>—</td><td data-summary>—</td></tr>
-</tbody></table></div>
-<p class="study-caption">The 20 ms medians use 150 one-step predictions from one scripted trajectory. The 1 s medians use five overlapping free rollouts. Each median describes its own set of samples.</p>
-<p class="study-caption" role="status">Loading recorded Warp trajectories…</p>
-<a href="article/warp-study.json.gz">Replay data · compressed JSON</a>
+</details>
+<p class="study-caption" role="status">Loading recorded Warp measurements…</p>
+<p class="study-caption">These gaps describe simulator agreement. Physical accuracy would require a measured G1 trajectory.</p>
+<a href="article.html">Read the experiment and its limits →</a> · <a href="article/warp-horizons.json.gz">Download data</a>
 </section>
-<section class="study" aria-label="Prediction horizon study">
-<div class="study-heading"><div><p class="eyebrow">RECORDED PREDICTION STUDY</p><h2>Small next-step errors.<br>Larger gaps further ahead.</h2></div><label>Starting states<select id="study-group"><option value="all">All windows · 128</option><option value="highRoot">Root above 0.6 m · 56</option></select></label></div>
-<div class="study-layout"><div><canvas id="study-chart" width="1000" height="460" role="img" aria-label="Prediction error at five horizons"></canvas><p class="study-caption" id="study-caption">Loading measurements…</p></div><div class="study-detail"><label for="horizon">Prediction horizon <strong id="study-horizon">1 second</strong></label><input id="horizon" type="range" min="0" max="4" step="1" value="4"><div class="study-number"><b id="study-median">—</b><span>cm · median gap</span></div><div class="study-number small"><b id="study-tail">—</b><span>cm · 90th percentile</span></div><p><span id="study-count">128</span> overlapping windows from eight seeded trajectories. Native MuJoCo WASM is the reference for these recorded gaps.</p><a href="article.html">What this result means →</a></div></div>
-</section><div class="section-heading"><h2>Run a live comparison</h2><p>Slow it down, pause at a contact, or change the conditions while it runs.</p></div>
+<details class="live-lab"><summary>Run your own browser comparison</summary>
+<p>Change the scripted motion or foot friction and rerun native MuJoCo against the learned model.</p>
 <section class="lab" aria-label="Interactive physics comparison">
 <div class="lab-top"><strong>NATIVE MUJOCO WASM × COMMUNITY WORLD MODEL</strong><span class="activity"><span class="live-dot"></span><span id="activity">Ready</span></span></div>
 <div class="toolbar" id="presets" aria-label="Comparison presets"></div>
@@ -52,6 +46,6 @@
 <div class="reading"><p id="interpretation"></p><span>Joint-angle difference: <b id="joint-error">—</b>°</span></div>
 <details class="downloads"><summary>Save this comparison</summary><div><button id="gif" disabled>Animation · GIF</button><button id="csv" disabled>Measurements · CSV</button><button id="json" disabled>Full recording · JSON</button></div></details>
 </section>
-<section class="context"><div><p class="eyebrow">ABOUT THE COMPARISON</p><h2>Two predictions.<br>One set of inputs.</h2><p>The teal robot follows MuJoCo’s physics. The orange robot follows a learned dynamics model from <a href="https://github.com/CuboiLeo/SuperMimic-Reproduced">CuboiLeo’s SuperMimic reproduction</a>. Both receive the same motor commands and floor settings.</p></div><div class="facts"><div><b>Scripted commands</b><p>A repeatable arm-motion script drives this experiment. It can fall. A trained controller would choose commands from observations.</p></div><div><b>A short error can become a large drift</b><p>A free rollout reuses each predicted state. Refreshing that state from MuJoCo shows the gap when both engines regularly start from the same state.</p></div><div><b>Adjust it while it runs</b><p>Motion, frequency, friction, noise and state refresh can change live. Every change is preserved in the recording.</p></div><div><b>What agreement tells us</b><p>MuJoCo is a numerical model too. Physical accuracy requires a measured trajectory from the real robot.</p></div></div></section>
+</details>
 <footer><span>Ajay Cyril · <a href="https://digdeeptech.com">DigDeepTech</a></span><span><a href="https://supermimic.github.io/">SuperMimic research</a> · <a href="https://github.com/CuboiLeo/SuperMimic-Reproduced">Model source</a> · <a href="docs/METHOD.md">Methodology</a></span></footer>
-</main><script type="module" src="src/study.mjs"></script><script type="module" src="src/app.mjs"></script></body></html>
+</main><script type="module" src="src/warp-replay.mjs"></script><script type="module" src="src/app.mjs"></script></body></html>

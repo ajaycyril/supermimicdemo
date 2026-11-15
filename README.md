@@ -6,9 +6,15 @@ A closer look at how learned dynamics can train a robot controller, and how that
 
 ![Forward prediction and backward policy gradient](article/gifs/gradient-flow.gif)
 
-## The prediction experiment
+## Recorded Warp comparison
 
-Across 128 overlapping prediction windows from eight seeded MuJoCo trajectories, the community world model's median root-position error was 0.12 cm at 20 ms, 3.75 cm at 500 ms and 8.12 cm at one second. The 56 windows starting with a root height above 0.6 m showed the same broad increase.
+The deployed demo includes a three-way replay from MuJoCo Warp 3.16.0 on CPU, native MuJoCo WASM, and the community model. For its scripted probe, the learned model's median one-second gap was 6.06 cm against Warp and 6.08 cm against native MuJoCo. The two physics backends had a median gap of 0.00020 cm. These figures use five overlapping rollout windows from one trajectory.
+
+![Measured three-engine replay](article/gifs/warp-start.gif)
+
+## The live browser experiment
+
+Across 128 overlapping prediction windows from eight seeded MuJoCo trajectories, the community world model's median root-position gap against native MuJoCo WASM was 0.12 cm at 20 ms, 3.75 cm at 500 ms and 8.12 cm at one second. The 56 windows starting with a root height above 0.6 m showed the same broad increase.
 
 These are measurements of prediction disagreement in a limited scripted experiment. The trajectories include falls. This is not a balance-policy evaluation, a training-speed benchmark, or a claim that SuperMimic outperforms SONIC.
 
@@ -16,7 +22,7 @@ These are measurements of prediction disagreement in a limited scripted experime
 
 The browser comparison runs MuJoCo and the released neural dynamics model locally. Adjust motion, frequency, friction, command noise and state refresh while it runs. Pause, advance one step, slow the view to 0.1×, or replay a recorded trajectory. Recordings retain the applied control changes.
 
-The [article](article/article.md) focuses on the gradient path, compares SuperMimic with SONIC, SHAC, DMO and RWM, and connects the idea to Dreamer, TD-MPC2 and DayDreamer. The browser experiment measures prediction accuracy; it does not train a policy or measure policy-gradient quality.
+The [article](article/article.md) compares SuperMimic with SONIC and differentiable physics, explains the role of MuJoCo Warp, and describes how to use matched Warp rollouts and hardware measurements to resolve the observed disagreements.
 
 [Study data](article/horizon-study.json) · [Methodology](docs/METHOD.md) · [Study implementation](tools/benchmark.mjs)
 

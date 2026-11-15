@@ -1,122 +1,81 @@
-# SuperMimic: why the gradient matters
+# When SuperMimic and MuJoCo disagree, which one is right?
 
-*How learned world models change robot training, where physics simulators still fit, and how SuperMimic connects to Dreamer, SHAC and other approaches.*
+*What I learned about using a world model to train a humanoid, and what it would take to trust its predictions.*
 
-I first looked at SuperMimic because of the GPU headline. A humanoid controller reaching a strong tracking result in hours on one GPU, after earlier work used a large cluster, was enough to get my attention.
+I clicked on SuperMimic because a humanoid controller had reached a strong tracking score in three hours on one GPU. Then I put a learned model and MuJoCo side by side in my browser. I gave them the same commands, watched their trajectories separate, and realized I'd built a demo that could easily suggest a conclusion I hadn't tested. If the orange robot lands differently from the teal one, which landing should I believe?
 
-Then I watched the explanation about a world model “passing the gradient back.” That seemed more interesting than the speed comparison. What information was travelling backwards? Why couldn't a physics simulator provide it? And was this a new idea, or a new application of an existing one?
+I can measure exactly how far apart they land. To answer which is closer to reality, I'd need a third trajectory.
 
-The question I now find useful is: **what does a model let the robot learn from the consequences of an action?** A prediction tells us what might happen. A derivative can also tell an optimizer how a small change might alter that outcome.
+## The part that got me interested
 
-## A bad landing, and two ways to learn from it
+Imagine a Unitree G1 landing a jump and pitching forward. Its policy turns observations and a motion target into motor commands. A model-free method such as PPO can learn from many landings by scoring the outcomes. SuperMimic can also ask how a small change to an earlier command would affect the predicted landing. That sensitivity is a gradient.
 
-A robot's **policy** converts observations and a movement target into motor commands. Suppose the robot is trying to land a jump and finishes leaning too far forward.
-
-One route is to try many variations, score their outcomes and update the policy so actions associated with better results become more likely. PPO, used in SONIC's controller training, follows this general route. It computes a policy gradient from sampled experience; it does not need to differentiate through the simulator's dynamics.
-
-A second route asks a more local question: if an earlier command changed slightly, how would the predicted landing error change?
-
-That sensitivity is a **gradient**. It is a direction for a small adjustment, not an explanation in words and not a promise that a large adjustment will work. To use it across several moments of a movement, the training system links the derivatives through those moments using the chain rule.
-
-A differentiable world model supplies that link. The optimizer can work backwards from an objective, through predicted states and actions, to the policy parameters that produced those actions.
+The world model predicts a few steps ahead. The optimizer works backward from the tracking objective through those predictions to the policy that chose the commands. If the model thinks a small change in hip torque would improve the landing, the optimizer can use that information to update the policy. The model stays fixed during that policy update. Its weights are fitted separately using simulator transitions. [SuperMimic paper](https://arxiv.org/abs/2610.28480)
 
 ![The forward prediction and backward gradient paths](gifs/gradient-flow.gif)
 
-*An explanatory schematic. Predictions move forward; derivatives connect the objective back to the policy. The arrows do not represent a measured SuperMimic run.*
+*This schematic shows where the gradient flows. The browser runs forward predictions.*
 
-## What SuperMimic does with that path
+## Why use a world model when you already have Warp?
 
-SuperMimic learns a dynamics model from MuJoCo Warp transitions and uses it for short imagined rollouts. The policy improves through backpropagation across those rollouts, with a critic estimating value beyond the prediction window. The model is shared across the motion library rather than relearning a separate physics model for each movement. [SuperMimic method](https://arxiv.org/pdf/2610.28480).
+SuperMimic **already uses MuJoCo Warp** to generate the physics transitions its world model learns from. MuJoCo Warp is the GPU implementation of MuJoCo. It can run many physics environments in parallel. The learned model gives the authors a second way to generate short trajectories, with a differentiable path back to the policy. The project reports over 10× rollout throughput relative to MuJoCo Warp at its training batch sizes on an H100. That measures throughput for the reported setup. [SuperMimic results](https://supermimic.github.io/) · [MuJoCo Warp](https://github.com/google-deepmind/mujoco_warp)
 
-There are two different learning steps here. When fitting the world model, its predictions are compared with simulator transitions and its own weights change. During a policy update, the model's weights are held fixed, but derivatives still pass through its calculations to the policy. “Frozen weights” does not mean “no gradient through the inputs.”
-
-Think of a fixed calculator. You can ask how its output changes when you change an input without changing the calculator itself. The policy update uses that sensitivity; the next model-fitting phase can improve the calculator.
-
-This also separates training from deployment. In this approach, the world model helps train the controller. The deployed controller can then choose commands from observations and goals without running an imagined search at every step.
-
-## A world model and a physics simulator are not opposites
-
-In this setting, a learned dynamics model is itself a kind of simulator. The difference is how it produces the next state.
-
-A conventional physics engine computes motion from a specified system: masses, geometry, joints, forces and contact rules. A learned model approximates transitions from data. That data might come from a physics engine or from a physical robot.
-
-Here, “world model” also does not mean a video generator. It can predict numerical robot states or a compact internal representation used for decisions. A model need not render a realistic scene to be useful for control.
-
-| Question | Physics simulator | Learned dynamics model |
+| Training approach | Where the experience comes from | How the policy learns |
 | --- | --- | --- |
-| Where does its behavior come from? | Equations, parameters and numerical solvers | A fitted approximation to observed transitions |
-| What can go wrong? | Inaccurate physical parameters, contact assumptions and numerical effects | Missing data, prediction bias and unfamiliar states |
-| Can it provide derivatives? | Some simulators can | A differentiable network can provide derivatives of its approximation |
-| Why use it? | Structured dynamics and controlled experimentation | Efficient prediction, adaptation from data, and potentially a useful gradient path |
+| SONIC | Physics simulation | PPO estimates policy updates from sampled outcomes |
+| SuperMimic | MuJoCo Warp transitions and short learned rollouts | Backpropagation through learned dynamics |
+| ∇Mimic | A specialized differentiable physics simulator | Backpropagation through the physics solver |
 
-MuJoCo Warp accelerates physics calculations on NVIDIA GPUs. That is a different question from whether the policy optimizer uses derivatives through those calculations. mjlab supplies robotics environments and training infrastructure around the physics engine.
+The SuperMimic team reports beating the released SONIC checkpoint's tracking return after three hours on one H100. SONIC's reported training ran for seven days on 128 L40 GPUs, with different hardware and more motion data. The benchmark motions were training motions for both, so the failure counts measure coverage of known motions. In a more targeted ablation, SuperMimic reached PPO's best training return using about 64 times fewer imagined steps when both methods used the same learned model. That's evidence that the gradient path helped in that experiment. [SuperMimic results](https://supermimic.github.io/) · [SONIC](https://nvlabs.github.io/GEAR-SONIC/)
 
-The statement “only the world model passes the gradient back” describes the comparison in SuperMimic's presentation. It is not a statement that physics simulators can never be differentiated. [SHAC](https://short-horizon-actor-critic.github.io/) is a useful counterexample: it uses differentiable simulation, short learning windows and a critic to train policies. Contacts, long derivative chains and numerical instability make that route challenging.
-
-## Two choices that separate the approaches
-
-I found it easier to compare methods by asking two questions: **what generates the forward trajectory, and what supplies the policy's learning signal?**
-
-| Approach | Forward experience | How the policy improves |
-| --- | --- | --- |
-| SONIC / PPO | Physics simulation | Policy-gradient estimates from scored experience |
-| SHAC | Differentiable physics simulation | Derivatives through the simulator |
-| DMO | Physics simulation | Derivatives through a learned dynamics model |
-| Robotic World Model (RWM) | Learned neural simulation | PPO using imagined experience |
-| SuperMimic | Learned dynamics | Derivatives through the learned dynamics |
-
-[DMO](https://proceedings.mlr.press/v305/amigo25a.html) is a particularly interesting middle ground. It uses simulator trajectories for the forward pass, but a learned model for the backward pass. This reduces the problem of a learned prediction drifting further from the simulator at each forward step, while still providing a derivative when simulator gradients are unavailable. It retains the cost of generating simulator experience.
-
-[RWM](https://arxiv.org/html/2501.10100v1) makes a different point: a world model can serve as a neural training environment while PPO remains the policy optimizer. **Using a world model does not automatically mean backpropagating through its dynamics to train the policy.** That distinction is easy to lose when every approach is described as learning “in imagination.”
+Physics solvers can provide gradients too. MuJoCo Warp's current documentation lists differentiation as unavailable. ∇Mimic, a separate project, uses its own differentiable solver and reports reaching SuperMimic's published LAFAN1 tracking score in roughly 20 minutes versus 1.2 hours. That comparison uses separately reported runs on different GPUs. The ∇Mimic result covers simulated G1 tracking on flat ground. It gives me a reason to compare differentiable physics directly when asking which training approach works best. [MuJoCo Warp compatibility](https://github.com/google-deepmind/mujoco_warp#user-content-mujoco-api-compatibility) · [∇Mimic paper](https://arxiv.org/abs/2610.41654)
 
 ![Comparing simulator-based and learned-dynamics training loops](gifs/architecture.gif)
 
-*The forward engine and the feedback route are separate design choices. Both illustrated systems learn a control policy.*
+*The engine that generates a trajectory and the method that updates the policy are separate choices.*
 
-## Where Dreamer and planning fit
+## What my demo actually runs
 
-The original [Dreamer](https://danijar.com/project/dreamer/) is a close conceptual relative. It learns from images, imagines trajectories in a compact latent space, and trains behavior using analytic gradients through those trajectories. This makes it clear that differentiating through learned dynamics predates SuperMimic.
+The [browser demo](https://ajaycyril.github.io/supermimicdemo/) steps native MuJoCo compiled to WebAssembly on one side. On the other, ONNX Runtime runs weights exported from CuboiLeo's independent SuperMimic reproduction. The robots start in the same state and take the same scripted joint commands, with the same selected foot friction. The visual uses computed body poses. The live comparison uses scripted commands. The Warp comparison below replays a separate recorded experiment. [Checkpoint and code](https://github.com/CuboiLeo/SuperMimic-Reproduced) · [Demo method](https://github.com/ajaycyril/supermimicdemo/blob/main/docs/METHOD.md)
 
-The family also shows why version names matter. [DreamerV3](https://arxiv.org/pdf/2301.04104) learns an actor and critic from imagined trajectories, but its published actor update uses a REINFORCE estimator for both discrete and continuous actions. A learned world model and a direct dynamics-gradient policy update should not be treated as the same thing.
+Try **One step** to start each learned prediction from the current MuJoCo state. Every 20 ms the model gets a fresh starting point. In **Free rollout**, it has to use the state it predicted on the previous step. That lets a small mismatch affect every step that follows.
 
-[TD-MPC2](https://www.tdmpc2.com/) uses a learned latent model for local trajectory optimization. It highlights another use for a world model: planning actions at decision time. That differs from using imagined rollouts primarily to improve a policy during training.
+![Measured root-position gap as the forecast horizon grows](gifs/horizon.gif)
 
-[DayDreamer](https://danijar.com/project/daydreamer/) explores the source of the experience. It learns world models and behaviors directly on physical robots, without relying on a physics simulator for its experiments. That is a different proposition from learning a fast approximation of simulator dynamics and then transferring a controller to hardware.
+*In 128 overlapping windows from eight scripted trajectories, the median root-position gap grew from 0.12 cm at 20 ms to 8.12 cm at one second. The windows include falls and share trajectories. The GIF records a comparison with native MuJoCo.*
 
-These approaches occupy different parts of the same design space: learn from simulation or reality; represent physical state or latent state; train a policy or plan actions; use sampled returns or derivatives through dynamics. There is no single architecture hidden behind the phrase “world model.”
+## What changed when I ran MuJoCo Warp?
 
-## What makes the SuperMimic result interesting
+I ran MuJoCo Warp 3.16.0 on CPU and captured a scripted G1 trajectory. I then started the native browser engine and the learned checkpoint from states on that trajectory and replayed the same commands. All three use the same joint and root starting state. The two physics engines use the same adapted G1 XML. This setup lets me measure the native–Warp gap directly, although it still differs from the reproduction's full training environment.
 
-SuperMimic brings these ideas to large-scale humanoid motion tracking and demonstrates a deployed controller. It reports exceeding the released SONIC checkpoint's tracking return after three hours on one H100, compared with SONIC's reported seven days on 128 L40 GPUs. Hardware and training data differ, so that headline is not a matched hardware comparison. [Project results](https://supermimic.github.io/).
+![A one-second replay from the initial standing pose across all three engines](gifs/warp-start.gif)
 
-SONIC also includes a shared motion representation and interfaces for different goal inputs. The comparison concerns tracking and training efficiency, not every capability of that broader system. [SONIC](https://nvlabs.github.io/GEAR-SONIC/).
+*Recorded body positions and root-position gaps starting from the initial pose. Playback is slowed.*
 
-The evaluation motions also come from the training set, so those scores measure coverage rather than unseen-motion generalization. And the reported greater-than-10× rollout throughput over MuJoCo Warp uses large GPU batches on an H100. It does not predict the speed of one simulation in a Mac browser.
+| Pair of predictions | Median gap at 20 ms | Median gap at 1 s |
+| --- | --- | --- |
+| Learned model and MuJoCo Warp | 0.122 cm | 6.06 cm |
+| Learned model and native MuJoCo | 0.122 cm | 6.08 cm |
+| Native MuJoCo and MuJoCo Warp | <0.00001 cm | 0.00020 cm |
 
-For the gradient question, the more revealing experiment is the paper's comparison with PPO inside the same world model. It reports reaching PPO's best return with about 64 times fewer imagined steps in that setup. That comparison helps separate the learning signal from the advantage of a faster forward model. It is not a universal speedup for every robot or objective. [Analysis in the paper](https://arxiv.org/pdf/2610.28480).
+The one-step column uses 150 predictions refreshed from one Warp trajectory. The one-second column uses five overlapping free rollouts from that same trajectory. On this probe the learned model was similarly far from both physics engines, while their median gap was tiny by comparison. That weakens the explanation that the learned model diverged mainly because I chose native MuJoCo. Other contact conditions and simulator settings could change the result.
 
-## The catch: a useful prediction is not necessarily a useful derivative
+![A replay from a low starting pose showing behavior around ground contact](gifs/warp-contact.gif)
 
-A learned model may predict the next state reasonably well and still have the wrong local sensitivity to an action. Two curves can pass close to the same point while having different slopes there. An optimizer follows the slope.
+*The same comparison from the lowest starting pose in the recorded set. Compare the shape of the three gap curves during contact.*
 
-This is why prediction accuracy, derivative quality and final control performance are three different things to evaluate. A policy might exploit an error in its learned environment. A long prediction might drift. A smooth approximation might give a convenient gradient while misrepresenting a contact event.
+A position gap is symmetric. Either prediction can be closer to the behavior of a physical G1. Trajectories and measured gaps tell me what the engines did. A measured robot trajectory tells me what happened.
 
-My browser experiment investigates only the prediction part. Using [CuboiLeo's community reproduction](https://github.com/CuboiLeo/SuperMimic-Reproduced), I compared the learned model with MuJoCo over 128 overlapping windows from eight seeded, scripted trajectories. Both received the same saved commands.
+## What would settle the disagreement?
 
-![Measured prediction error as the horizon increases](gifs/horizon.gif)
+| Question | Evidence I'd use |
+| --- | --- |
+| Did the learned model reproduce the simulator it learned from? | Replay held-out starts and actions in the exact training Warp setup, starting with one-step predictions and extending across contacts. Replay the same inputs in native MuJoCo to measure backend and configuration differences. |
+| Would its advice improve the controller? | Ask the learned model for a small action or policy update. Evaluate that update in Warp on held-out motions, next to a matched update made without its gradient. Check reward and falls across seeds. |
+| Which prediction is closer to a real G1? | Record time-aligned G1 state and executed commands on a measured floor across repeated, safe trials. Start both engines from the measured state and compare each to the held-out hardware trace using joint, base and foot-contact errors. |
 
-*Median root-position error rose from 0.12 cm at 20 ms to 8.12 cm at one second. Whiskers show the 10th–90th percentile. These trajectories include falls; this is not a balance-policy evaluation.*
+The second test matters because two curves can pass near the same point and still have very different slopes. A model that predicts a plausible landing could still tell the optimizer to push harder in the wrong direction. The third test matters because even the exact training simulator models friction, actuator behavior and contact. The original paper's real-G1 demonstrations give evidence that its **policy transfers** on the motions shown. To decide which dynamics prediction was closer during a specific landing, I'd still want synchronized measurements of that landing. [Real Unitree G1 demonstrations](https://supermimic.github.io/)
 
-That makes error accumulation visible. It does not measure the quality of SuperMimic's policy gradients or reproduce its training result. The checkpoint is an independent reproduction, and the test uses native MuJoCo WASM rather than the training Warp backend. [Measurements and methodology](https://github.com/ajaycyril/supermimicdemo/blob/main/docs/METHOD.md).
+I started this project thinking about how quickly you could simulate a robot. Now the question I want to test is whether a small change suggested by the world model improves the **next landing outside the model**. The browser demo gives me a way to see where the predictions begin to split. The recorded Warp comparison checks how much my choice of simulator explains for this probe. Hardware would answer the separate question of physical accuracy.
 
-The next experiment I would trust would check whether an action change suggested by the learned model actually improves the objective when evaluated in the simulator. I would repeat that across states, contacts and held-out motions, rather than judge the idea from two robots falling together.
-
-## What this suggests for robotics
-
-World models give us several ways to reuse experience: generate more training examples, evaluate possible actions, estimate consequences, or provide derivatives that guide learning. SuperMimic is interesting because of the particular combination it uses, not because it invented all of those ingredients.
-
-I now read a world-model result by asking where the experience came from, what the model predicts, how its predictions influence decisions, and where those decisions are checked. That makes the comparison much more concrete than “AI physics versus real physics.”
-
-For robotics, the practical question is whether the model helps produce better decisions with the available data and compute, and whether those decisions survive contact with the system we actually care about.
-
-[Explore the prediction comparison](https://ajaycyril.github.io/supermimicdemo/) · [Code and measurements](https://github.com/ajaycyril/supermimicdemo)
+[Run the comparison](https://ajaycyril.github.io/supermimicdemo/) · [Download the article with GIFs and data](https://github.com/ajaycyril/supermimicdemo/tree/main/article)

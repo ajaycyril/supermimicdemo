@@ -45,6 +45,28 @@ The 56-window higher-root subset selects anchor states with root height above 0.
 
 A scripted pose command is not a balance policy. Falling does not establish that SuperMimic’s trained policy fails. Long free rollouts can enter states far from training data. Better prediction on one hand-picked example does not establish general accuracy. MuJoCo is a numerical simulator, not measured physical reality.
 
+## Recorded three-engine study
+
+MuJoCo Warp 3.16.0 with Warp 1.19.0 runs on CPU using the demo's G1 XML, one world, 35 candidate contacts per world and 250 constraint rows. Native MuJoCo WASM also uses this XML. This is a matched demo configuration rather than the checkpoint's full mjlab training environment. CPU execution measures dynamics only. The capture makes no GPU throughput claim.
+
+The 150 commands use seed 42, shoulder amplitude 0.2, frequency 0.5 Hz, command noise standard deviation 0.05 and foot friction 1.0. For the five free trajectories, the browser's reference implementation is initialized from Warp's joint positions and velocities at steps 0, 25, 50, 75 and 100. The learned model starts from those same states. Warp continues its recorded trajectory. The native model does not inherit Warp solver warm starts. For the one-step comparison, native and learned predictions start from each of the 150 saved Warp states. All gap statistics are pairwise root-position distances.
+
+Reproduce with the standard build and model assets prepared, then run:
+
+```bash
+python3 -m pip install mujoco==3.16.0 mujoco-warp==3.16.0 warp-lang==1.19.0 pillow
+node tools/warp-study.mjs cpu
+python3 tools/render_warp.py
+```
+
+The replay data include the commands, plotted positions, control timestep, exact package versions and checkpoint hash. The static deployment plays back these measured frames. The separate live comparison runs both of its engines in the browser.
+
+## How to attribute a disagreement
+
+Use the reproduction's exact MuJoCo Warp environment and held-out states and actions to measure model error against its teacher. Run native MuJoCo against that same Warp reference separately. Match robot assets, actions, timestep, friction, actuator settings, and solver and integrator options wherever supported. Record remaining configuration differences and stratify the resulting gaps by contact regime and horizon.
+
+A synchronized G1 trace supplies a physical reference for both predictors. Initialize each from measured state, replay actual executed commands with matching timing, and report joint, root and contact errors over repeated held-out trials. A separate policy-update test checks whether a change suggested by the learned gradient actually improves held-out tracking in the teacher simulator. The recorded comparison uses an adapted G1 configuration. A matched run in the full training environment and physical G1 traces remain separate experiments.
+
 ## Research links
 
 - [Official SuperMimic project](https://supermimic.github.io/)

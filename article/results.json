@@ -1,0 +1,134 @@
+{
+  "correction": {
+    "frames": 201,
+    "finalRootCm": 3.1955541467975372,
+    "peakRootCm": 6.467507870041313,
+    "finalJointDeg": 2.8192323318254084,
+    "stopped": null,
+    "settings": {
+      "lesson": "correction",
+      "title": "Periodic correction",
+      "seed": 42,
+      "duration": 4,
+      "correction": 25,
+      "amplitude": 0.2,
+      "friction": 1,
+      "noise": 0,
+      "push": 0
+    },
+    "runtimeParity": {
+      "verified": true,
+      "maxAbsError": 5.245208740234375e-06
+    }
+  },
+  "drift": {
+    "frames": 201,
+    "finalRootCm": 4.374590469989019,
+    "peakRootCm": 22.590825763770226,
+    "finalJointDeg": 7.577829100921851,
+    "stopped": null,
+    "settings": {
+      "lesson": "drift",
+      "title": "Free prediction",
+      "seed": 42,
+      "duration": 4,
+      "correction": 0,
+      "amplitude": 0.2,
+      "friction": 1,
+      "noise": 0,
+      "push": 0
+    },
+    "runtimeParity": {
+      "verified": true,
+      "maxAbsError": 5.245208740234375e-06
+    }
+  },
+  "friction": {
+    "frames": 201,
+    "finalRootCm": 8.850545865376056,
+    "peakRootCm": 25.664854220832687,
+    "finalJointDeg": 8.545770619995901,
+    "stopped": null,
+    "settings": {
+      "lesson": "friction",
+      "title": "Low-friction floor",
+      "seed": 42,
+      "duration": 4,
+      "correction": 0,
+      "amplitude": 0.2,
+      "friction": 0.3,
+      "noise": 0,
+      "push": 0
+    },
+    "runtimeParity": {
+      "verified": true,
+      "maxAbsError": 5.245208740234375e-06
+    }
+  },
+  "noise": {
+    "frames": 201,
+    "finalRootCm": 2.8252353822784855,
+    "peakRootCm": 21.470648847112525,
+    "finalJointDeg": 7.901447639717095,
+    "stopped": null,
+    "settings": {
+      "lesson": "noise",
+      "title": "Noisy motor commands",
+      "seed": 42,
+      "duration": 4,
+      "correction": 0,
+      "amplitude": 0.2,
+      "friction": 1,
+      "noise": 0.1,
+      "push": 0
+    },
+    "runtimeParity": {
+      "verified": true,
+      "maxAbsError": 5.245208740234375e-06
+    }
+  },
+  "one-step": {
+    "frames": 201,
+    "finalRootCm": 0.14793401248154348,
+    "peakRootCm": 2.7563441790071215,
+    "finalJointDeg": 0.2264059583973433,
+    "stopped": null,
+    "settings": {
+      "lesson": "one-step",
+      "title": "One-step prediction",
+      "seed": 42,
+      "duration": 4,
+      "correction": 1,
+      "amplitude": 0.2,
+      "friction": 1,
+      "noise": 0,
+      "push": 0
+    },
+    "runtimeParity": {
+      "verified": true,
+      "maxAbsError": 5.245208740234375e-06
+    }
+  },
+  "push": {
+    "frames": 201,
+    "finalRootCm": 5.626438268738913,
+    "peakRootCm": 15.267582013045983,
+    "finalJointDeg": 7.398971126303654,
+    "stopped": null,
+    "settings": {
+      "lesson": "push",
+      "title": "Initial momentum",
+      "seed": 42,
+      "duration": 4,
+      "correction": 0,
+      "amplitude": 0.2,
+      "friction": 1,
+      "noise": 0,
+      "push": 0.3
+    },
+    "runtimeParity": {
+      "verified": true,
+      "maxAbsError": 5.245208740234375e-06
+    }
+  }
+}

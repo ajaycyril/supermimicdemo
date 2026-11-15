@@ -2,7 +2,7 @@
 
 A browser experiment by Ajay Cyril: compare a learned robot world model with MuJoCo under the same initial state and motor commands. Change the inputs, inspect prediction drift, and export GIFs plus their evidence.
 
-**Status:** locally implemented and tested, with six recorded experiments and GIFs. GitHub publication is pending repository creation. See `docs/VALIDATION.md` for verification scope.
+**Status:** locally implemented and tested, with six recorded experiments and GIFs. GitHub Pages deployment is configured in the included workflow. See `docs/VALIDATION.md` for verification scope.
 
 - Intended demo: https://ajaycyril.github.io/supermimicdemo/
 - Article draft: [article/substack-draft.md](article/substack-draft.md)
@@ -25,13 +25,13 @@ Open http://127.0.0.1:8765. Load the engines, run a comparison, replay it, then 
 
 ## Publish with GitHub Pages
 
-Create a public repository named `supermimicdemo`. Push this source. In **Settings → Pages → Build and deployment**, select **GitHub Actions**. The included workflow prepares assets, validates the model, uploads the static `dist/` site and deploys Pages. The article lives at `/article.html`. Commit further changes to `main` to redeploy.
+The source is hosted in `ajaycyril/supermimicdemo`. In **Settings → Pages → Build and deployment**, select **GitHub Actions**. The included workflow prepares assets, validates the model, uploads the static `dist/` site and deploys Pages. The article lives at `/article.html`. Commit further changes to `main` to redeploy.
 
 The model is downloaded from a pinned release and verified by SHA-256 during preparation. Large checkpoints, npm packages and generated ONNX files are excluded from source control. The static deployment includes the exported dynamics model.
 
 ## What this is
 
-Real MuJoCo 3.16 WASM + a real released community dynamics checkpoint + ONNX Runtime Web. Six experiment presets, deterministic command noise, root/joint error plots, replay, GIF export, JSON and CSV. Schematic rendering uses the robot's actual forward kinematics.
+Real MuJoCo 3.16 WASM + a real released community dynamics checkpoint + ONNX Runtime Web. Six experiment presets, seven article GIFs, deterministic command noise, root/joint error plots, replay, GIF export, JSON and CSV. Schematic rendering uses the robot's actual forward kinematics.
 
 It is an independent comparison project, **not an official SuperMimic fork or a reproduction of the paper’s benchmark**. It uses simple scripted commands rather than the released tracking policy. See the method before interpreting a fall or extrapolating a speed result.
 

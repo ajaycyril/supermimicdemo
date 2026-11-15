@@ -1,0 +1,16 @@
+{
+  "name": "supermimic-prediction-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "build": "python3 tools/build_robot.py && python3 tools/build_article.py && node tools/build.mjs",
+    "serve": "python3 -m http.server 8765 --directory dist --bind 127.0.0.1"
+  },
+  "dependencies": {
+    "@mujoco/mujoco": "3.16.0",
+    "onnxruntime-web": "1.31.1",
+    "gifenc": "1.0.3"
+  }
+}

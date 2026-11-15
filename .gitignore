@@ -1,0 +1,11 @@
+node_modules/
+vendor/
+dist/vendor/
+dist/assets/*.onnx
+dist/assets/model-manifest.json
+dist/assets/parity-fixtures.json
+work/
+.openai/
+*.pt
+__pycache__/
+article/runs/*.json

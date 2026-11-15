@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {features,canonical,integrate,rotate,multiply,heading,errors,seededRandom,actionAt} from '../src/math.mjs';
+const near=(a,b,tol=1e-6)=>{assert.equal(a.length,b.length);a.forEach((v,i)=>assert.ok(Math.abs(v-b[i])<tol,`${i}: ${v} != ${b[i]}`));};
+const state=()=>{let s=new Float64Array(71);s[2]=.76;s[3]=1;return s;};
+test('canonical order and dimensions, identity rot6d',()=>{const s=state(),f=features(s,new Float32Array(29),.75);assert.equal(f.length,133);near(Array.from(f.slice(1,7)),[1,0,0,1,0,0]);assert.equal(f[100],0);});
+test('global yaw and horizontal translation do not change canonical features',()=>{const s=state();s[36]=.2;s[37]=-.1;const q=[Math.cos(.4),0,0,Math.sin(.4)];const b=Float64Array.from(s);b[0]=3;b[1]=-7;b.set(q,3);b.set(rotate(q,Array.from(s.slice(36,39))),36);near(canonical(s),canonical(b));});
+test('zero residual integrates next velocities and body angular velocity',()=>{const s=state();s[36]=2;s[41]=1;s[42]=.5;const b=integrate(s,new Float32Array(70));assert.equal(b[0],.04);assert.equal(b[7],.01);near(Array.from(b.slice(3,7)),[Math.cos(.01),0,0,Math.sin(.01)]);});
+test('delta velocity is applied before position integration',()=>{const s=state(),d=new Float32Array(70);d[0]=1;d[35]=1;const b=integrate(s,d);assert.ok(Math.abs(b[0]-.016)<1e-9);assert.equal(b[36],.3);});
+test('opposite quaternion signs represent the same orientation',()=>{let a=state(),b=state();b[3]=-1;assert.equal(errors(a,b).orientation,0);});
+test('the same seed gives the same motor probes',()=>{const j=Array.from({length:29},()=>({name:'left_shoulder_pitch_joint'}));near([...actionAt(4,j,.2,.1,seededRandom(5))],[...actionAt(4,j,.2,.1,seededRandom(5))]);});

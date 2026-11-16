@@ -24,4 +24,8 @@ The pretrained dynamics checkpoint comes from [CuboiLeo's independent reproducti
 
 The project uses [mjlab](https://github.com/mujocolab/mjlab) robot parameters, [MuJoCo](https://github.com/google-deepmind/mujoco), [ONNX Runtime](https://github.com/microsoft/onnxruntime), and [gifenc](https://github.com/mattdesl/gifenc). Source notices and model provenance are retained with the project.
 
+## Continue reading
+
+Read the companion [SuperMimic analysis on DigDeep Tech](https://digdeeptech.com/supermimic-a-better-way-to-train-robots-than-a-physics-simulator/) for the motivation, limitations and further experiments. Follow new essays on [Substack](https://digdeeptech.substack.com/) and shorter robotics notes on [X](https://x.com/ajcyril).
+
 By Ajay Cyril · [DigDeepTech](https://digdeeptech.com/)
